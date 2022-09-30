@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Sources/images/Безымянный.png</file>
+        <file>Sources/images/background1.png</file>
+        <file>Sources/images/background2.png</file>
+        <file>Sources/images/background3.png</file>
+        <file>Sources/images/background4.png</file>
+        <file>Sources/images/based.png</file>
+        <file>Sources/images/bold.png</file>
+        <file>Sources/images/bringtofront.png</file>
+        <file>Sources/images/composite.png</file>
+        <file>Sources/images/delete.png</file>
+        <file>Sources/images/execution.png</file>
+        <file>Sources/images/floodfill.png</file>
+        <file>Sources/images/italic.png</file>
+        <file>Sources/images/linecolor.png</file>
+        <file>Sources/images/linepointer.png</file>
+        <file>Sources/images/new_file.png</file>
+        <file>Sources/images/new.png</file>
+        <file>Sources/images/open.png</file>
+        <file>Sources/images/pointer.png</file>
+        <file>Sources/images/repair.png</file>
+        <file>Sources/images/save.png</file>
+        <file>Sources/images/script.png</file>
+        <file>Sources/images/sendtoback.png</file>
+        <file>Sources/images/settings.png</file>
+        <file>Sources/images/SPARQL.png</file>
+        <file>Sources/images/sparqlicon.jpg</file>
+        <file>Sources/images/textpointer.png</file>
+        <file>Sources/images/underline.png</file>
+        <file>Sources/scripts/XMLHttpRequest.js</file>
+        <file>Sources/scripts/block_logic.js</file>
+        <file>Sources/scripts/progress.js</file>
+        <file>Sources/scripts/script.js</file>
+        <file>Sources/style/project_style.qss</file>
+    </qresource>
+</RCC>

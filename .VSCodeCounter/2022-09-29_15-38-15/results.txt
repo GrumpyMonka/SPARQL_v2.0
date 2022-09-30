@@ -1,0 +1,58 @@
+Date : 2022-09-29 15:38:15
+Directory : /home/murom/QT/SPARQL_v2.0/SPARQL
+Total : 21 files,  573 codes, 27 comments, 146 blanks, all 746 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| C++        |         15 |        398 |         26 |        125 |        549 |
+| JavaScript |          4 |        108 |          1 |         19 |        128 |
+| XML        |          2 |         67 |          0 |          2 |         69 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                         | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                            |         21 |        573 |         27 |        146 |        746 |
+| DiagramItems                                                                 |          2 |         20 |          0 |          9 |         29 |
+| DiagramItems/DiagramScene                                                    |          2 |         20 |          0 |          9 |         29 |
+| MainForm                                                                     |          3 |         89 |          0 |         21 |        110 |
+| SWidgets                                                                     |         10 |        311 |         26 |         91 |        428 |
+| SWidgets/SGraphicsView                                                       |          2 |         50 |          0 |         15 |         65 |
+| SWidgets/SMenuBar                                                            |          2 |        105 |         26 |         28 |        159 |
+| SWidgets/STabWidget                                                          |          2 |         42 |          0 |         12 |         54 |
+| SWidgets/SToolBar                                                            |          2 |         78 |          0 |         21 |         99 |
+| SWidgets/SToolBox                                                            |          2 |         36 |          0 |         15 |         51 |
+| Sources                                                                      |          4 |        108 |          1 |         19 |        128 |
+| Sources/scripts                                                              |          4 |        108 |          1 |         19 |        128 |
++------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                     | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /home/murom/QT/SPARQL_v2.0/SPARQL/DiagramItems/DiagramScene/diagramscene.cpp | C++        |          5 |          0 |          3 |          8 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/DiagramItems/DiagramScene/diagramscene.h   | C++        |         15 |          0 |          6 |         21 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/MainForm/mainwindow.cpp                    | C++        |         29 |          0 |         11 |         40 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/MainForm/mainwindow.h                      | C++        |         29 |          0 |          9 |         38 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/MainForm/mainwindow.ui                     | XML        |         31 |          0 |          1 |         32 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SGraphicsView/sgraphicsview.cpp   | C++        |         26 |          0 |          7 |         33 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SGraphicsView/sgraphicsview.h     | C++        |         24 |          0 |          8 |         32 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SMenuBar/smenubar.cpp             | C++        |         72 |         26 |         19 |        117 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SMenuBar/smenubar.h               | C++        |         33 |          0 |          9 |         42 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/STabWidget/stabwidget.cpp         | C++        |         27 |          0 |          4 |         31 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/STabWidget/stabwidget.h           | C++        |         15 |          0 |          8 |         23 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SToolBar/stoolbar.cpp             | C++        |         52 |          0 |         11 |         63 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SToolBar/stoolbar.h               | C++        |         26 |          0 |         10 |         36 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SToolBox/stoolbox.cpp             | C++        |         18 |          0 |          8 |         26 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/SWidgets/SToolBox/stoolbox.h               | C++        |         18 |          0 |          7 |         25 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/Sources/scripts/XMLHttpRequest.js          | JavaScript |         16 |          0 |          4 |         20 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/Sources/scripts/block_logic.js             | JavaScript |         58 |          1 |          5 |         64 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/Sources/scripts/progress.js                | JavaScript |         15 |          0 |          3 |         18 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js                  | JavaScript |         19 |          0 |          7 |         26 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/main.cpp                                   | C++        |          9 |          0 |          5 |         14 |
+| /home/murom/QT/SPARQL_v2.0/SPARQL/sources.qrc                                | XML        |         36 |          0 |          1 |         37 |
+| Total                                                                        |            |        573 |         27 |        146 |        746 |
++------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
