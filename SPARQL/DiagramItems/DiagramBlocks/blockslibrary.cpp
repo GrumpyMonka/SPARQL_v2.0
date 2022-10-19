@@ -56,7 +56,7 @@ void BlocksLibrary::loadBlocksFormFiles( const QString& folder )
             if ( "basic" == type )
             {
                 BasedBlockSettings* setting = new BasedBlockSettings();
-                setting->setSettingFromJson( text );
+                setting->setSettingFromString( text );
                 addBlock( setting );
             }
             // else if ( "sparql" == type )
@@ -73,23 +73,6 @@ void BlocksLibrary::loadBlocksFormFiles( const QString& folder )
 void BlocksLibrary::addBlock( DiagramItemSettings* settings )
 {
     ModeBlocks mode = getMode( settings );
-    /*DiagramItem* item;
-    switch ( mode )
-    {
-    case Based:
-        item = new DiagramItemBased( nullptr, static_cast<BasedBlockSettings*>( setting ) );
-        break;
-    case Composite:
-        break;
-    case SPARQL:
-        break;
-    case Fail:
-        break;
-    default:
-        throw "BlocksLibrary item = nullptr";
-        break;
-    }*/
-
     library.insert( settings, mode );
 }
 
@@ -130,8 +113,6 @@ void BlocksLibrary::deleteBlocks( int modes_blocks )
 
 QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
 {
-    if ( library.empty() )
-        return {};
     QVector<DiagramItemSettings*> block_list;
     QSet<ModeBlocks> mode_list;
     if ( ( modes_blocks & Based ) )
@@ -147,7 +128,6 @@ QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
         mode_list.insert( SPARQL );
     }
 
-    int chel = library.size();
     for ( auto lib : library.keys() )
     {
         if ( mode_list.end() != mode_list.find( library[lib] ) )

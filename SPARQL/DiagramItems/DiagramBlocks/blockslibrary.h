@@ -7,7 +7,7 @@
 #include <diagramitembased.h>
 #include <diagramitemcomposite.h>
 
-#define FOLDER_FOR_BLOCKS "Blocks"
+#define FOLDER_FOR_BLOCKS "Blocks/"
 
 class BlocksLibrary
 {

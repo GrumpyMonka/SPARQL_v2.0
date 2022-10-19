@@ -7,6 +7,10 @@
 
 #include <diagramitem.h>
 #include <diagramitemsettings.h>
+#include <basedblocksettings.h>
+#include <compositeblocksettings.h>
+
+#define COUNT_COLUMN 3
 
 class SToolBox : public QToolBox
 {
@@ -16,14 +20,13 @@ public:
 
 public slots:
     void setDiagramItems( const QVector<DiagramItemSettings*>& );
-    void addDiagramItem( DiagramItemSettings* );
+    void addDiagramItem( DiagramItemSettings*, bool addButtonGroup = true  );
     void addDiagramItems( const QVector<DiagramItemSettings*>& );
     void deleteDiagramItem( DiagramItemSettings* );
-    void deleteDiagramItems( const QVector<DiagramItemSettings*>& );
+    void deleteDiagramItems( const QVector<DiagramItemSettings*> );
 
 private:
     void createToolButtonGroup();
-    void createCellWidget( DiagramItemSettings* settings = nullptr, bool addButtonGroup = false );
     void addWidget( DiagramItemSettings*, QWidget* );
 
 private slots:

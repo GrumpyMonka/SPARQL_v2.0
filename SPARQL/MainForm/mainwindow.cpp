@@ -12,9 +12,10 @@ MainWindow::MainWindow( QWidget* parent )
 {
     ui->setupUi( this );
 
-    CreateMainForm();
     library = new BlocksLibrary();
     library->loadBlocksFormFiles( FOLDER_FOR_BLOCKS );
+
+    CreateMainForm();
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +41,8 @@ void MainWindow::CreateMainForm()
         this, SLOT( slotCurrentTabMode( int ) ) );
     // тест
     BasedBlockWindow* window = new BasedBlockWindow( BasedBlockWindow::CreateMode, tabWidget );
-    tabWidget->addWidget( window, BasedBlockWindow::DiagramMode, "TEST" );
+    //tabWidget->addWidget( window, BasedBlockWindow::DiagramMode, "TEST" );
+    tabWidget->addTab( window, "TEST" );
 
     mainLayout->addWidget( toolBox, 0, 0 );
     mainLayout->addWidget( tabWidget, 0, 1 );

@@ -8,9 +8,9 @@ STabWidget::STabWidget( QWidget* parent )
 
 void STabWidget::addWidget( QWidget* widget, int mode, const QString& name )
 {
+    widget_lib.insert( widget, mode );
     addTab( widget, name );
     setCurrentWidget( widget );
-    widget_lib.insert( widget, mode );
 }
 
 void STabWidget::createTabWidgets()
