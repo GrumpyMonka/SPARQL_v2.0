@@ -1,12 +1,13 @@
 #include <mainwindow.h>
 
 #include <QApplication>
-#include <QFile>
 #include <QDebug>
+#include <QFile>
 
-int main(int argc, char *argv[])
+int main( int argc, char* argv[] )
+
 {
-    QApplication a(argc, argv);
+    QApplication a( argc, argv );
 
     QFile styleF;
     styleF.setFileName( ":/Sources/style/project_style.qss" );
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
     qApp->setStyleSheet( qssStr );
 
     MainWindow w;
-    w.show();
+    w.showMaximized();
 
     return a.exec();
 }

@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "projectwindow.h"
 #include <QDebug>
+
+#include <basedblockwindow.h>
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
@@ -10,6 +13,8 @@ MainWindow::MainWindow( QWidget* parent )
     ui->setupUi( this );
 
     CreateMainForm();
+    library = new BlocksLibrary();
+    library->loadBlocksFormFiles( FOLDER_FOR_BLOCKS );
 }
 
 MainWindow::~MainWindow()
@@ -31,9 +36,24 @@ void MainWindow::CreateMainForm()
 
     toolBox = new SToolBox( this );
     tabWidget = new STabWidget( this );
+    connect( tabWidget, SIGNAL( currentMode( int ) ),
+        this, SLOT( slotCurrentTabMode( int ) ) );
+    // тест
+    BasedBlockWindow* window = new BasedBlockWindow( BasedBlockWindow::CreateMode, tabWidget );
+    tabWidget->addWidget( window, BasedBlockWindow::DiagramMode, "TEST" );
 
     mainLayout->addWidget( toolBox, 0, 0 );
     mainLayout->addWidget( tabWidget, 0, 1 );
 
     setCentralWidget( widget );
+}
+
+void MainWindow::slotCreateNewProject()
+{
+    tabWidget->addWidget( new ProjectWindow( this ), ProjectWindow::DiagramMode, "kek" );
+}
+
+void MainWindow::slotCurrentTabMode( int mode )
+{
+    toolBox->setDiagramItems( library->getBlocks( mode ) );
 }

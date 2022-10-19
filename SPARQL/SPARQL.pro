@@ -9,7 +9,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    DiagramItems/DiagramArrow/diagramarrow.cpp \
+    DiagramItems/DiagramBlocks/BasedBlock/basedblocksettings.cpp \
+    DiagramItems/DiagramBlocks/BasedBlock/basedblockwindow.cpp \
+    DiagramItems/DiagramBlocks/BasedBlock/diagramitembased.cpp \
+    DiagramItems/DiagramBlocks/CompositeBlock/compositeblocksettings.cpp \
+    DiagramItems/DiagramBlocks/CompositeBlock/compositeblockwindow.cpp \
+    DiagramItems/DiagramBlocks/CompositeBlock/diagramitemcomposite.cpp \
+    DiagramItems/DiagramBlocks/blockslibrary.cpp \
+    DiagramItems/DiagramItem/diagramitem.cpp \
+    DiagramItems/DiagramItemSettings/diagramitemsettings.cpp \
     DiagramItems/DiagramScene/diagramscene.cpp \
+    DiagramItems/DiagramWindows/projectwindow.cpp \
     SWidgets/SGraphicsView/sgraphicsview.cpp \
     SWidgets/STabWidget/stabwidget.cpp \
     SWidgets/SToolBar/stoolbar.cpp \
@@ -19,7 +30,18 @@ SOURCES += \
     SWidgets/SMenuBar/smenubar.cpp
 
 HEADERS += \
+    DiagramItems/DiagramArrow/diagramarrow.h \
+    DiagramItems/DiagramBlocks/BasedBlock/basedblocksettings.h \
+    DiagramItems/DiagramBlocks/BasedBlock/basedblockwindow.h \
+    DiagramItems/DiagramBlocks/BasedBlock/diagramitembased.h \
+    DiagramItems/DiagramBlocks/CompositeBlock/compositeblocksettings.h \
+    DiagramItems/DiagramBlocks/CompositeBlock/compositeblockwindow.h \
+    DiagramItems/DiagramBlocks/CompositeBlock/diagramitemcomposite.h \
+    DiagramItems/DiagramBlocks/blockslibrary.h \
+    DiagramItems/DiagramItem/diagramitem.h \
+    DiagramItems/DiagramItemSettings/diagramitemsettings.h \
     DiagramItems/DiagramScene/diagramscene.h \
+    DiagramItems/DiagramWindows/projectwindow.h \
     MainForm/mainwindow.h \
     SWidgets/SGraphicsView/sgraphicsview.h \
     SWidgets/STabWidget/stabwidget.h \
@@ -36,7 +58,15 @@ INCLUDEPATH += \
     SWidgets/SMenuBar \
     SWidgets/SToolBox \
     SWidgets/STabWidget \
-    DiagramItems/DiagramScene
+    SWidgets/SGraphicsView \
+    DiagramItems/DiagramWindows \
+    DiagramItems/DiagramItem \
+    DiagramItems/DiagramArrow \
+    DiagramItems/DiagramScene \
+    DiagramItems/DiagramItemSettings \
+    DiagramItems/DiagramBlocks/BasedBlock \
+    DiagramItems/DiagramBlocks/CompositeBlock \
+    DiagramItems/DiagramBlocks \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
