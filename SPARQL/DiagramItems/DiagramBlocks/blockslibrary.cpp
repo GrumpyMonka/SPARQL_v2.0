@@ -22,23 +22,23 @@ void BlocksLibrary::loadBlocksFormFiles( const QString& folder )
     QVector<QString> files;
     for ( int i = 0; i < list.size(); i++ )
     {
-        if ( list[i].fileName() == "." || list[i].fileName() == ".." )
+        if ( list.at( i ).fileName() == "." || list.at( i ).fileName() == ".." )
             continue;
 
-        if ( list[i].isFile() )
+        if ( list.at( i ).isFile() )
         {
-            files.push_back( list[i].absoluteFilePath() );
+            files.push_back( list.at( i ).absoluteFilePath() );
         }
         else
         {
-            dir.setPath( "Blocks/" + list[i].fileName() );
+            dir.setPath( "Blocks/" + list.at( i ).fileName() );
             qDebug() << dir.path();
             QFileInfoList lst = dir.entryInfoList();
             for ( int j = 0; j < lst.size(); j++ )
             {
-                if ( lst[j].isFile() )
+                if ( lst.at( j ).isFile() )
                 {
-                    files.push_back( lst[j].absoluteFilePath() );
+                    files.push_back( lst.at( j ).absoluteFilePath() );
                 }
             }
         }
@@ -46,7 +46,7 @@ void BlocksLibrary::loadBlocksFormFiles( const QString& folder )
 
     for ( int i = 0; i < files.size(); i++ )
     {
-        QFile file( files[i] );
+        QFile file( files.at( i ) );
         if ( file.open( QIODevice::ReadOnly ) )
         {
             QString text = file.readAll();

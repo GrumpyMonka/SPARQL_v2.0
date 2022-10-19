@@ -49,8 +49,8 @@ void SMenuBar::CreateActions()
     createBasedBlockAction = new QAction( QIcon( ":/Sources/images/based.png" ), tr( "Based" ), this );
     createBasedBlockAction->setShortcut( tr( "Ctrl+Q" ) );
     createBasedBlockAction->setStatusTip( tr( "New BasedBlock" ) );
-    // connect( createBasedBlockAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( slotCreateBasedBlock() ) );
+    connect( createBasedBlockAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotCreateBasedBlock() ) );
 
     createCompositeBlockAction = new QAction( QIcon( ":/Sources/images/composite.png" ), tr( "Composite" ), this );
     createCompositeBlockAction->setShortcut( tr( "Ctrl+W" ) );

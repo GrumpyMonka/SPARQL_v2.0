@@ -1,8 +1,8 @@
 #ifndef STOOLBAR_H
 #define STOOLBAR_H
 
-#include <QToolBar>
 #include <QButtonGroup>
+#include <QToolBar>
 
 #include <smenubar.h>
 
@@ -29,7 +29,7 @@ signals:
     void setNewDiagramSceneMode( int );
 
 private:
-    QButtonGroup* pointerTypeGroup;
+    QButtonGroup* pointer_type_group;
 };
 
 #endif // STOOLBAR_H

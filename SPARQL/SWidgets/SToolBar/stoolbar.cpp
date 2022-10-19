@@ -1,7 +1,7 @@
 #include "stoolbar.h"
 
-#include <diagramscene.h>
 #include <QToolButton>
+#include <diagramscene.h>
 
 SToolBar::SToolBar( SMenuBar& menubar, QWidget* parent )
     : QToolBar( parent )
@@ -27,36 +27,36 @@ void SToolBar::CreateToolBar( SMenuBar& menubar )
     addAction( menubar.reworkBlockAction );
     addAction( menubar.runSceneScriptAction );
 
-    QToolButton* pointerButton = new QToolButton( this );
-    pointerButton->setCheckable( true );
-    pointerButton->setIcon( QIcon( ":/Sources/images/pointer.png" ) );
-    QToolButton* linePointerButton = new QToolButton( this );
-    linePointerButton->setCheckable( true );
-    linePointerButton->setIcon( QIcon( ":/Sources/images/linepointer.png" ) );
+    QToolButton* pointer_button = new QToolButton( this );
+    pointer_button->setCheckable( true );
+    pointer_button->setIcon( QIcon( ":/Sources/images/pointer.png" ) );
+    QToolButton* line_pointer_button = new QToolButton( this );
+    line_pointer_button->setCheckable( true );
+    line_pointer_button->setIcon( QIcon( ":/Sources/images/linepointer.png" ) );
 
-    pointerTypeGroup = new QButtonGroup( this );
-    pointerTypeGroup->addButton( pointerButton, int( DiagramScene::MoveItem ) );
-    pointerTypeGroup->addButton( linePointerButton, int( DiagramScene::InsertLine ) );
-    connect( pointerTypeGroup, SIGNAL( buttonClicked( int ) ),
-             this, SIGNAL( setNewDiagramSceneMode( int ) ) );
+    pointer_type_group = new QButtonGroup( this );
+    pointer_type_group->addButton( pointer_button, int( DiagramScene::MoveItem ) );
+    pointer_type_group->addButton( line_pointer_button, int( DiagramScene::InsertLine ) );
+    connect( pointer_type_group, SIGNAL( buttonClicked( int ) ),
+        this, SIGNAL( setNewDiagramSceneMode( int ) ) );
 
     setSettings( pointerButtonChecked );
 
     addSeparator();
-    addWidget( pointerButton );
-    addWidget( linePointerButton );
+    addWidget( pointer_button );
+    addWidget( line_pointer_button );
 }
 
 void SToolBar::setSettings( Settings setting )
 {
-    auto listButton = pointerTypeGroup->buttons();
-    for ( int i = 0; i < listButton.size(); ++i )
+    auto list_button = pointer_type_group->buttons();
+    for ( int i = 0; i < list_button.size(); ++i )
     {
         if ( setting != i )
         {
-            listButton.at( i )->setChecked( false );
+            list_button.at( i )->setChecked( false );
             continue;
         }
-        listButton.at( i )->setChecked( true );
+        list_button.at( i )->setChecked( true );
     }
 }
