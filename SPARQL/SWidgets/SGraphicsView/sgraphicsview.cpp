@@ -27,6 +27,7 @@ void SGraphicsView::CreateDiagramView()
 void SGraphicsView::SetDiagramScene( DiagramScene* scene )
 {
     diagramScene = scene;
+    scene->addRect( 0, 0, widthScene, heigthScene );
     graphicsView->setScene( diagramScene );
 }
 

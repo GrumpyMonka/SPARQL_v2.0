@@ -25,37 +25,39 @@ MainWindow::~MainWindow()
 
 void MainWindow::CreateMainForm()
 {
-    menuBar = new SMenuBar( this );
-    setMenuBar( menuBar );
+    menu_bar = new SMenuBar( this );
+    setMenuBar( menu_bar );
 
-    toolBar = new SToolBar( *menuBar, this );
-    addToolBar( Qt::TopToolBarArea, toolBar );
+    tool_bar = new SToolBar( *menu_bar, this );
+    addToolBar( Qt::TopToolBarArea, tool_bar );
 
     QWidget* widget = new QWidget( this );
-    mainLayout = new QGridLayout( widget );
-    widget->setLayout( mainLayout );
+    main_layout = new QGridLayout( widget );
+    widget->setLayout( main_layout );
 
-    toolBox = new SToolBox( this );
-    tabWidget = new STabWidget( this );
-    connect( tabWidget, SIGNAL( currentMode( int ) ),
+    tool_box = new SToolBox( this );
+    tab_widget = new STabWidget( this );
+    connect( tab_widget, SIGNAL( currentMode( int ) ),
         this, SLOT( slotCurrentTabMode( int ) ) );
-    // тест
-    BasedBlockWindow* window = new BasedBlockWindow( BasedBlockWindow::CreateMode, tabWidget );
-    //tabWidget->addWidget( window, BasedBlockWindow::DiagramMode, "TEST" );
-    tabWidget->addTab( window, "TEST" );
 
-    mainLayout->addWidget( toolBox, 0, 0 );
-    mainLayout->addWidget( tabWidget, 0, 1 );
+    main_layout->addWidget( tool_box, 0, 0 );
+    main_layout->addWidget( tab_widget, 0, 1 );
 
     setCentralWidget( widget );
 }
 
 void MainWindow::slotCreateNewProject()
 {
-    tabWidget->addWidget( new ProjectWindow( this ), ProjectWindow::DiagramMode, "kek" );
+    tab_widget->addWidget( new ProjectWindow( this ), ProjectWindow::DiagramMode, tr( "New Project" ) );
+}
+
+void MainWindow::slotCreateBasedBlock()
+{
+
+    tab_widget->addWidget( new BasedBlockWindow( BasedBlockWindow::CreateMode, tab_widget ), BasedBlockWindow::DiagramMode, tr( "New Block" ) );
 }
 
 void MainWindow::slotCurrentTabMode( int mode )
 {
-    toolBox->setDiagramItems( library->getBlocks( mode ) );
+    tool_box->setDiagramItems( library->getBlocks( mode ) );
 }

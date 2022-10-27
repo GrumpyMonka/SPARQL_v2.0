@@ -29,6 +29,7 @@ public:
 
 public slots:
     void slotCreateNewProject();
+    void slotCreateBasedBlock();
     void slotCurrentTabMode( int );
 
 private:
@@ -36,12 +37,12 @@ private:
 
 private:
     Ui::MainWindow* ui;
-    QGridLayout* mainLayout;
+    QGridLayout* main_layout;
 
-    SMenuBar* menuBar;
-    SToolBar* toolBar;
-    SToolBox* toolBox;
-    STabWidget* tabWidget;
+    SMenuBar* menu_bar;
+    SToolBar* tool_bar;
+    SToolBox* tool_box;
+    STabWidget* tab_widget;
 
     BlocksLibrary* library;
 };

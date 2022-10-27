@@ -5,12 +5,13 @@
 #include <QGridLayout>
 #include <QToolBox>
 
-#include <diagramitem.h>
-#include <diagramitemsettings.h>
 #include <basedblocksettings.h>
 #include <compositeblocksettings.h>
+#include <diagramitem.h>
+#include <diagramitemsettings.h>
 
 #define COUNT_COLUMN 3
+#define SIZE 50
 
 class SToolBox : public QToolBox
 {
@@ -20,7 +21,7 @@ public:
 
 public slots:
     void setDiagramItems( const QVector<DiagramItemSettings*>& );
-    void addDiagramItem( DiagramItemSettings*, bool addButtonGroup = true  );
+    void addDiagramItem( DiagramItemSettings*, bool addButtonGroup = true );
     void addDiagramItems( const QVector<DiagramItemSettings*>& );
     void deleteDiagramItem( DiagramItemSettings* );
     void deleteDiagramItems( const QVector<DiagramItemSettings*> );
@@ -37,8 +38,8 @@ signals:
     void itemPressed( DiagramItemSettings* );
 
 private:
-    QButtonGroup* buttonGroup;
-    QGridLayout* buttonLayout;
+    QButtonGroup* button_group;
+    QGridLayout* button_layout;
 
     // QMap<QWidget*, DiagramItemSettings*> library;
 

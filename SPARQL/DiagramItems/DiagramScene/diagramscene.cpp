@@ -3,5 +3,4 @@
 DiagramScene::DiagramScene( QObject* parent )
     : QGraphicsScene( parent )
 {
-
 }

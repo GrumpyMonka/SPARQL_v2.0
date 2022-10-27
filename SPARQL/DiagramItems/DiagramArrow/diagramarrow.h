@@ -39,6 +39,5 @@ private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_widget;
 };
-//! [0]
 
 #endif // DIAGRAMARROW_H

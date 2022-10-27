@@ -6,7 +6,7 @@
 class DiagramScene : public QGraphicsScene
 {
 public:
-    enum Mode
+    enum SceneMode
     {
         InsertItem,
         InsertLine,
@@ -14,7 +14,6 @@ public:
     };
 
     explicit DiagramScene( QObject* parent = nullptr );
-
 };
 
 #endif // DIAGRAMSCENE_H

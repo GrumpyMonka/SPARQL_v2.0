@@ -16,6 +16,9 @@ SOURCES += \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblocksettings.cpp \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblockwindow.cpp \
     DiagramItems/DiagramBlocks/CompositeBlock/diagramitemcomposite.cpp \
+    DiagramItems/DiagramBlocks/SparqlBlock/diagramitemsparql.cpp \
+    DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.cpp \
+    DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.cpp \
     DiagramItems/DiagramBlocks/blockslibrary.cpp \
     DiagramItems/DiagramItem/diagramitem.cpp \
     DiagramItems/DiagramItemSettings/diagramitemsettings.cpp \
@@ -37,6 +40,9 @@ HEADERS += \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblocksettings.h \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblockwindow.h \
     DiagramItems/DiagramBlocks/CompositeBlock/diagramitemcomposite.h \
+    DiagramItems/DiagramBlocks/SparqlBlock/diagramitemsparql.h \
+    DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.h \
+    DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.h \
     DiagramItems/DiagramBlocks/blockslibrary.h \
     DiagramItems/DiagramItem/diagramitem.h \
     DiagramItems/DiagramItemSettings/diagramitemsettings.h \
@@ -66,6 +72,7 @@ INCLUDEPATH += \
     DiagramItems/DiagramItemSettings \
     DiagramItems/DiagramBlocks/BasedBlock \
     DiagramItems/DiagramBlocks/CompositeBlock \
+    DiagramItems/DiagramBlocks/SparqlBlock \
     DiagramItems/DiagramBlocks \
 
 # Default rules for deployment.
