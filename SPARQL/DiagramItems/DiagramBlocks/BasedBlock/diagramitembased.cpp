@@ -38,7 +38,7 @@ DiagramItemBased::DiagramItemBased( QMenu* contextMenu,
 void DiagramItemBased::setSetting( BasedBlockSettings* setting )
 {
     setting_ = setting;
-    name->setHtml( "<span style=\"font-size: 15px; text-decoration: underline;\">" + setting->name + "</span>" );
+    name->setHtml( "<span style=\"font-size: 15px; text-decoration: underline;\">" + setting->block_name + "</span>" );
     if ( setting_->label )
     {
         label->setHtml( "<span style=\"font-size: 12px;\">" + setting->label_text + "</span>" );
@@ -56,7 +56,7 @@ void DiagramItemBased::setSetting( BasedBlockSettings* setting )
     {
         line_edit->hide();
     }
-    picture->setPixmap( setting->image.scaled( 30, 30 ) );
+    picture->setPixmap( setting->pixmap.scaled( 30, 30 ) );
 }
 
 QPixmap DiagramItemBased::image() const
@@ -71,17 +71,17 @@ QPixmap DiagramItemBased::image() const
         painter.drawPolyline( my_polygon );
 
         painter.setPen( QPen( Qt::black, 4 ) );
-        int index = 150 / setting_->name.size() * 0.75;
+        int index = 150 / setting_->block_name.size() * 0.75;
         painter.setFont( QFont( "Consolas", index ) );
-        painter.drawText( -75, -75, 150, 150, Qt::AlignCenter, setting_->name );
+        painter.drawText( -75, -75, 150, 150, Qt::AlignCenter, setting_->block_name );
         return pixmap;
     }
-    return setting_->image;
+    return setting_->pixmap;
 }
 
 QString DiagramItemBased::getName()
 {
-    return setting_->name;
+    return setting_->block_name;
 }
 
 BasedBlockSettings* DiagramItemBased::getSetting()

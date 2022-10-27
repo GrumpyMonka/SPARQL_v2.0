@@ -30,10 +30,11 @@ public:
 public slots:
     void slotCreateNewProject();
     void slotCreateBasedBlock();
+    void slotCreateSparqlBlock();
     void slotCurrentTabMode( int );
 
 private:
-    void CreateMainForm();
+    void createMainForm();
 
 private:
     Ui::MainWindow* ui;

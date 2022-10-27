@@ -17,7 +17,7 @@ class DiagramItemBased : public DiagramItem
 public:
     enum
     {
-        Type = UserType + 4
+        Type = UserType + 6
     };
     int type() const override { return Type; }
 

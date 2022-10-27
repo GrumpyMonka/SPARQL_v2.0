@@ -5,9 +5,6 @@
 #include <QGridLayout>
 #include <QToolBox>
 
-#include <basedblocksettings.h>
-#include <compositeblocksettings.h>
-#include <diagramitem.h>
 #include <diagramitemsettings.h>
 
 #define COUNT_COLUMN 3

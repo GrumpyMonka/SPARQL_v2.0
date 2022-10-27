@@ -65,7 +65,7 @@ class DiagramItem : public QGraphicsPolygonItem
 public:
     enum
     {
-        Type = UserType + 1
+        Type = UserType + 2
     };
 
     int type() const override { return Type; }

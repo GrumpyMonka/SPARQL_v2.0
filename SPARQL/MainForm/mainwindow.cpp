@@ -4,7 +4,10 @@
 #include "projectwindow.h"
 #include <QDebug>
 
+#include <atomblocksettings.h>
 #include <basedblockwindow.h>
+#include <compositeblocksettings.h>
+#include <sparqlblockwindow.h>
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
@@ -14,8 +17,9 @@ MainWindow::MainWindow( QWidget* parent )
 
     library = new BlocksLibrary();
     library->loadBlocksFormFiles( FOLDER_FOR_BLOCKS );
+    library->addBlocks( AtomBlockSettings::GetBasedAtomBlocks() );
 
-    CreateMainForm();
+    createMainForm();
 }
 
 MainWindow::~MainWindow()
@@ -23,7 +27,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::CreateMainForm()
+void MainWindow::createMainForm()
 {
     menu_bar = new SMenuBar( this );
     setMenuBar( menu_bar );
@@ -60,6 +64,11 @@ void MainWindow::slotCreateBasedBlock()
 {
 
     tab_widget->addWidget( new BasedBlockWindow( BasedBlockWindow::CreateMode, tab_widget ), BasedBlockWindow::DiagramMode, tr( "New Block" ) );
+}
+
+void MainWindow::slotCreateSparqlBlock()
+{
+    tab_widget->addWidget( new SparqlBlockWindow( this ), SparqlBlockWindow::DiagramMode, tr( "New Sparql" ) );
 }
 
 void MainWindow::slotCurrentTabMode( int mode )

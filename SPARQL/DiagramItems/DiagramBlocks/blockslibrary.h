@@ -4,8 +4,7 @@
 #include <QMap>
 #include <QVector>
 
-#include <diagramitembased.h>
-#include <diagramitemcomposite.h>
+#include <diagramitemsettings.h>
 
 #define FOLDER_FOR_BLOCKS "Blocks/"
 
@@ -17,7 +16,8 @@ public:
         Fail = 0,
         Based = 1,
         Composite = 2,
-        SPARQL = 4
+        SPARQL = 4,
+        Atom = 8
     };
 
     BlocksLibrary();
@@ -25,7 +25,7 @@ public:
     void loadBlocksFormFiles( const QString& folder );
 
     void addBlock( DiagramItemSettings* settings );
-    void addBlocks( QVector<DiagramItemSettings*>& settings_list );
+    void addBlocks( const QVector<DiagramItemSettings*>& settings_list );
     // void addBlock( DiagramItem* item );
     // void addBlocks( QVector<DiagramItem*>& items );
 
@@ -37,7 +37,7 @@ public:
 
 private:
     ModeBlocks getMode( DiagramItemSettings* settings );
-    ModeBlocks getMode( DiagramItem* item );
+    // ModeBlocks getMode( DiagramItem* item );
 
 private:
     QMap<DiagramItemSettings*, ModeBlocks> library;

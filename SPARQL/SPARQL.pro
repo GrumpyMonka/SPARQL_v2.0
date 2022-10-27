@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     DiagramItems/DiagramArrow/diagramarrow.cpp \
+    DiagramItems/DiagramBlocks/AtomBlock/atomblocksettings.cpp \
+    DiagramItems/DiagramBlocks/AtomBlock/diagramitematom.cpp \
     DiagramItems/DiagramBlocks/BasedBlock/basedblocksettings.cpp \
     DiagramItems/DiagramBlocks/BasedBlock/basedblockwindow.cpp \
     DiagramItems/DiagramBlocks/BasedBlock/diagramitembased.cpp \
@@ -34,6 +36,8 @@ SOURCES += \
 
 HEADERS += \
     DiagramItems/DiagramArrow/diagramarrow.h \
+    DiagramItems/DiagramBlocks/AtomBlock/atomblocksettings.h \
+    DiagramItems/DiagramBlocks/AtomBlock/diagramitematom.h \
     DiagramItems/DiagramBlocks/BasedBlock/basedblocksettings.h \
     DiagramItems/DiagramBlocks/BasedBlock/basedblockwindow.h \
     DiagramItems/DiagramBlocks/BasedBlock/diagramitembased.h \
@@ -73,6 +77,7 @@ INCLUDEPATH += \
     DiagramItems/DiagramBlocks/BasedBlock \
     DiagramItems/DiagramBlocks/CompositeBlock \
     DiagramItems/DiagramBlocks/SparqlBlock \
+    DiagramItems/DiagramBlocks/AtomBlock \
     DiagramItems/DiagramBlocks \
 
 # Default rules for deployment.

@@ -3,6 +3,9 @@
 #include <QPushButton>
 #include <QToolButton>
 
+#include <compositeblocksettings.h>
+#include <sparqlblocksettings.h>
+
 SToolBox::SToolBox( QWidget* parent )
     : QToolBox( parent )
 {
@@ -67,23 +70,35 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
     {
         name = "";
     }
-    else if ( BasedBlockSettings::Type == item->type() )
+    else
     {
-        BasedBlockSettings* setting = static_cast<BasedBlockSettings*>( item );
-        name = setting->name;
-        icon = QIcon( setting->image.scaled( SIZE, SIZE ) );
+        name = item->block_name;
+        icon = QIcon( item->pixmap.scaled( SIZE, SIZE ) );
     }
     /*
-    else if ( CompositeBlockSetting::Type == settingf->type() )
-    {
-    }
-    else if ( SparqlBlockSetting::Type == settingf->type() )
-    {
-        SparqlBlockSetting* setting = ( SparqlBlockSetting* )( settingf );
-        name = setting->name;
-        QPixmap pixmap( ":/images/sparqlicon.jpg" );
-        icon = QIcon( pixmap.scaled( 50, 50 ) );
-    }*/
+        else if ( BasedBlockSettings::Type == item->type() )
+        {
+            BasedBlockSettings* setting = static_cast<BasedBlockSettings*>( item );
+            name = setting->block_name;
+            icon = QIcon( setting->pixmap.scaled( SIZE, SIZE ) );
+        }
+
+        else if ( CompositeBlockSetting::Type == settingf->type() )
+        {
+        }
+        else if ( SparqlBlockSetting::Type == settingf->type() )
+        {
+            SparqlBlockSetting* setting = ( SparqlBlockSetting* )( settingf );
+            name = setting->name;
+            QPixmap pixmap( ":/images/sparqlicon.jpg" );
+            icon = QIcon( pixmap.scaled( 50, 50 ) );
+        }
+        else if ( AtomBlockSettings::Type == item->type() )
+        {
+            AtomBlockSettings* setting = static_cast<AtomBlockSettings*>( item );
+
+        }
+        */
 
     QToolButton* button = new QToolButton;
     button->setIcon( icon );

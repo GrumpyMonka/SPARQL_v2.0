@@ -11,7 +11,7 @@ class DiagramArrow : public QGraphicsLineItem
 public:
     enum
     {
-        Type = UserType + 1
+        Type = UserType + 4
     };
 
     DiagramArrow( QGraphicsPolygonItem* startItem, QGraphicsPolygonItem* endItem,

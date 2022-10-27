@@ -61,8 +61,8 @@ void SMenuBar::CreateActions()
     createSparqlBlockAction = new QAction( QIcon( ":/Sources/images/SPARQL.png" ), tr( "SPARQL" ), this );
     createSparqlBlockAction->setShortcut( tr( "Ctrl+L" ) );
     createSparqlBlockAction->setStatusTip( tr( "New SPARQL Block" ) );
-    // connect( createSparqlBlockAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( slotCreateSparqlBlock() ) );
+    connect( createSparqlBlockAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotCreateSparqlBlock() ) );
 
     runSceneScriptAction = new QAction( QIcon( ":/Sources/images/execution.png" ), tr( "Run" ), this );
     runSceneScriptAction->setShortcut( tr( "Ctrl+R" ) );
