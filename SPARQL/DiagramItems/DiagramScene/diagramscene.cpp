@@ -27,8 +27,16 @@ void DiagramScene::setDiagramItemForInserted( DiagramItemSettings* settings )
     item_for_insert = settings;
 }
 
-DiagramArrow* DiagramScene::createArrow( DiagramItem*, DiagramItem* )
+DiagramArrow* DiagramScene::createArrow( DiagramItem* startItem, DiagramItem* endItem )
 {
+    DiagramArrow* arrow = new DiagramArrow( startItem, endItem );
+    // arrow->setColor(myLineColor);
+    startItem->addArrow( arrow );
+    endItem->addArrow( arrow );
+    arrow->setZValue( -1000.0 );
+    addItem( arrow );
+    arrow->updatePosition();
+    return arrow;
 }
 
 void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
