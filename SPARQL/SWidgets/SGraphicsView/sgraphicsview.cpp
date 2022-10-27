@@ -6,64 +6,64 @@ SGraphicsView::SGraphicsView( QWidget* parent )
     : QWidget( parent )
 {
     setAttribute( Qt::WA_DeleteOnClose );
-    CreateDiagramView();
+    createDiagramView();
 }
 
-void SGraphicsView::CreateDiagramView()
+void SGraphicsView::createDiagramView()
 {
-    gridLayout = new QGridLayout( this );
-    setLayout( gridLayout );
+    grid_layout = new QGridLayout( this );
+    setLayout( grid_layout );
 
-    graphicsView = new QGraphicsView( this );
-    groupBox = new QGroupBox( this );
-    groupBox->setMaximumWidth( 220 );
+    graphics_view = new QGraphicsView( this );
+    group_box = new QGroupBox( this );
+    group_box->setMaximumWidth( 220 );
 
-    gridLayout->addWidget( graphicsView, 0, 0 );
-    gridLayout->addWidget( groupBox, 0, 1 );
+    grid_layout->addWidget( graphics_view, 0, 0 );
+    grid_layout->addWidget( group_box, 0, 1 );
 
-    SetDiagramScene( CreateDiagramScene() );
+    setDiagramScene( createDiagramScene() );
 }
 
-void SGraphicsView::SetDiagramScene( DiagramScene* scene )
+void SGraphicsView::setDiagramScene( DiagramScene* scene )
 {
-    diagramScene = scene;
-    scene->addRect( 0, 0, widthScene, heigthScene );
-    graphicsView->setScene( diagramScene );
+    diagram_scene = scene;
+    scene->addRect( 0, 0, width_scene, heigth_scene );
+    graphics_view->setScene( diagram_scene );
 }
 
-DiagramScene* SGraphicsView::CreateDiagramScene()
+DiagramScene* SGraphicsView::createDiagramScene()
 {
-    return new DiagramScene( graphicsView );
+    return new DiagramScene( graphics_view );
 }
 
-void SGraphicsView::CreateSidePanel()
+void SGraphicsView::createSidePanel()
 {
-    QLabel* label = new QLabel( "Pos", groupBox );
+    QLabel* label = new QLabel( "Pos", group_box );
 
-    xSpinBox = new QSpinBox( groupBox );
-    xSpinBox->setMaximum( widthScene );
-    xSpinBox->setMinimum( 0 );
-    connect( xSpinBox, SIGNAL( valueChanged( int ) ),
+    x_spin_box = new QSpinBox( group_box );
+    x_spin_box->setMaximum( width_scene );
+    x_spin_box->setMinimum( 0 );
+    connect( x_spin_box, SIGNAL( valueChanged( int ) ),
         this, SLOT( updatePosItems() ) );
 
-    ySpinBox = new QSpinBox( groupBox );
-    ySpinBox->setMaximum( widthScene );
-    ySpinBox->setMinimum( 0 );
-    connect( ySpinBox, SIGNAL( valueChanged( int ) ),
+    y_spin_box = new QSpinBox( group_box );
+    y_spin_box->setMaximum( width_scene );
+    y_spin_box->setMinimum( 0 );
+    connect( y_spin_box, SIGNAL( valueChanged( int ) ),
         this, SLOT( updatePosItems() ) );
 
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget( label );
-    layout->addWidget( xSpinBox );
-    layout->addWidget( ySpinBox );
+    layout->addWidget( x_spin_box );
+    layout->addWidget( y_spin_box );
 
-    groupBoxLayout = new QVBoxLayout( groupBox );
-    groupBoxLayout->addLayout( layout, 0 );
-    groupBoxLayout->addWidget( AddCustomWidget(), 1 );
-    groupBoxLayout->addSpacerItem( new QSpacerItem( 0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
-    groupBoxLayout->addWidget( AddCustomBotWidget() );
+    group_box_layout = new QVBoxLayout( group_box );
+    group_box_layout->addLayout( layout, 0 );
+    group_box_layout->addWidget( addCustomWidget(), 1 );
+    group_box_layout->addSpacerItem( new QSpacerItem( 0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
+    group_box_layout->addWidget( addCustomBotWidget() );
 
-    groupBox->setLayout( groupBoxLayout );
+    group_box->setLayout( group_box_layout );
 }
 
 void SGraphicsView::updatePosData()
@@ -72,4 +72,20 @@ void SGraphicsView::updatePosData()
 
 void SGraphicsView::updatePosItems()
 {
+}
+
+DiagramScene* SGraphicsView::getScene()
+{
+    return diagram_scene;
+}
+
+void SGraphicsView::setItemForScene( DiagramItemSettings* settings )
+{
+    getScene()->setMode( DiagramScene::InsertItem );
+    getScene()->setDiagramItemForInserted( settings );
+}
+
+void SGraphicsView::setSceneMode( int mode )
+{
+    getScene()->setMode( static_cast<DiagramScene::SceneMode>( mode ) );
 }

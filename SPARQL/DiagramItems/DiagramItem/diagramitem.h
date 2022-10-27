@@ -57,7 +57,8 @@
 #include <QLineEdit>
 #include <QList>
 
-#include "diagramarrow.h"
+#include <diagramarrow.h>
+#include <diagramitemsettings.h>
 
 class DiagramItem : public QGraphicsPolygonItem
 {
@@ -69,28 +70,34 @@ public:
 
     int type() const override { return Type; }
 
-    explicit DiagramItem( QMenu* contextMenu, QGraphicsItem* parent = 0 );
+    explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
 
-    void SetContextMenu( QMenu* );
-    QMenu* GetContextMenu();
+    void setContextMenu( QMenu* );
+    QMenu* getContextMenu();
 
     void removeArrow( DiagramArrow* arrow );
     void removeArrows();
-    QPolygonF polygon() const { return myPolygon; }
+    QPolygonF getPolygon() const { return my_polygon; }
+    void setItemPolygon( QPolygonF& polygon );
+
     void addArrow( DiagramArrow* arrow );
     virtual QPixmap image() const;
     QList<DiagramArrow*> getArrows();
     QPointF getStartPos();
     QPointF getEndPos();
-    QPolygonF myPolygon;
+
+    static bool CheckItemOnDiagramItem( const qint64 code );
+    static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
+        DiagramItemSettings* settings, QGraphicsItem* parent = 0 );
 
 protected:
     void contextMenuEvent( QGraphicsSceneContextMenuEvent* event ) override;
     QVariant itemChange( GraphicsItemChange change, const QVariant& value ) override;
 
 protected:
-    QMenu* myContextMenu;
+    QMenu* my_context_menu;
     QList<DiagramArrow*> arrows;
+    QPolygonF my_polygon;
 };
 
 #endif // DIAGRAMITEM_H

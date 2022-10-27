@@ -44,3 +44,13 @@ void STabWidget::tabClose( int index )
     widget( index )->deleteLater();
     removeTab( index );
 }
+
+void STabWidget::itemForAdd( DiagramItemSettings* settings )
+{
+    ( static_cast<SGraphicsView*>( currentWidget() ) )->setItemForScene( settings );
+}
+void STabWidget::setSceneMode( int mode )
+{
+    if ( nullptr != currentWidget() )
+        ( static_cast<SGraphicsView*>( currentWidget() ) )->setSceneMode( mode );
+}
