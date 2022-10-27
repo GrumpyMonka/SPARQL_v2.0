@@ -9,24 +9,40 @@
 DiagramItem::DiagramItem( QMenu* contextMenu, QGraphicsItem* parent )
     : QGraphicsPolygonItem( parent )
 {
-    myContextMenu = contextMenu;
+    my_context_menu = contextMenu;
 
-    myPolygon << QPointF( -50, -50 ) << QPointF( 50, -50 )
-              << QPointF( 50, 50 ) << QPointF( -50, 50 )
-              << QPointF( -50, -50 );
+    my_polygon << QPointF( -50, -50 ) << QPointF( 50, -50 )
+               << QPointF( 50, 50 ) << QPointF( -50, 50 )
+               << QPointF( -50, -50 );
 
-    setPolygon( myPolygon );
+    setItemPolygon( my_polygon );
     setFlag( QGraphicsItem::ItemIsMovable, true );
     setFlag( QGraphicsItem::ItemIsSelectable, true );
     setFlag( QGraphicsItem::ItemSendsGeometryChanges, true );
 }
 
+void DiagramItem::setContextMenu( QMenu* contextMenu )
+{
+    my_context_menu = contextMenu;
+}
+
+QMenu* DiagramItem::getContextMenu()
+{
+    return my_context_menu;
+}
+
+void DiagramItem::setItemPolygon( QPolygonF& polygon )
+{
+    my_polygon = polygon;
+    setPolygon( my_polygon );
+}
+
 QPointF DiagramItem::getStartPos()
 {
-    if ( myPolygon.size() == 0 )
+    if ( my_polygon.size() == 0 )
         return QPointF();
-    QPointF min = myPolygon[0];
-    foreach ( QPointF temp, myPolygon )
+    QPointF min = my_polygon[0];
+    foreach ( QPointF temp, my_polygon )
     {
         if ( min.x() > temp.x() )
         {
@@ -42,10 +58,10 @@ QPointF DiagramItem::getStartPos()
 
 QPointF DiagramItem::getEndPos()
 {
-    if ( myPolygon.size() == 0 )
+    if ( my_polygon.size() == 0 )
         return QPointF();
-    QPointF max = myPolygon[0];
-    foreach ( QPointF temp, myPolygon )
+    QPointF max = my_polygon[0];
+    foreach ( QPointF temp, my_polygon )
     {
         if ( max.x() < temp.x() )
         {
@@ -90,7 +106,7 @@ QPixmap DiagramItem::image() const
     QPainter painter( &pixmap );
     painter.setPen( QPen( Qt::black, 8 ) );
     painter.translate( 100, 100 );
-    painter.drawPolyline( myPolygon );
+    painter.drawPolyline( my_polygon );
 
     return pixmap;
 }
@@ -99,7 +115,7 @@ void DiagramItem::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
     scene()->clearSelection();
     setSelected( true );
-    myContextMenu->exec( event->screenPos() );
+    my_context_menu->exec( event->screenPos() );
 }
 
 QVariant DiagramItem::itemChange( GraphicsItemChange change, const QVariant& value )
@@ -118,4 +134,35 @@ QVariant DiagramItem::itemChange( GraphicsItemChange change, const QVariant& val
 QList<DiagramArrow*> DiagramItem::getArrows()
 {
     return arrows;
+}
+
+#include <diagramitembased.h>
+#include <diagramitemcomposite.h>
+#include <diagramitemsparql.h>
+
+bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
+{
+    if ( DiagramItemBased::Type == code )
+    // DiagramItemComposite::Type == code ||
+    // DiagramItemSparql::Type == code ||
+    // DiagramSparqlAtom::Type == code)
+    {
+        return true;
+    }
+    return false;
+}
+
+DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
+    DiagramItemSettings* settings, QGraphicsItem* parent )
+{
+    switch ( settings->type() )
+    {
+    case BasedBlockSettings::Type:
+        return new DiagramItemBased( context_menu,
+            static_cast<BasedBlockSettings*>( settings ), parent );
+        break;
+    default:
+        break;
+    }
+    return nullptr;
 }

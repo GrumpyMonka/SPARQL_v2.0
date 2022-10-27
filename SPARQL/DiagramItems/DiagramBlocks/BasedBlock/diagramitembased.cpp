@@ -68,7 +68,7 @@ QPixmap DiagramItemBased::image() const
         QPainter painter( &pixmap );
         painter.setPen( QPen( Qt::black, 8 ) );
         painter.translate( 75, 75 );
-        painter.drawPolyline( myPolygon );
+        painter.drawPolyline( my_polygon );
 
         painter.setPen( QPen( Qt::black, 4 ) );
         int index = 150 / setting_->name.size() * 0.75;

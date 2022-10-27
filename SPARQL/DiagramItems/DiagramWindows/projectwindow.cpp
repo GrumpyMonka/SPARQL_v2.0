@@ -3,15 +3,15 @@
 ProjectWindow::ProjectWindow( QWidget* parent )
     : SGraphicsView( parent )
 {
-    CreateSidePanel();
+    createSidePanel();
 }
 
-QWidget* ProjectWindow::AddCustomWidget()
+QWidget* ProjectWindow::addCustomWidget()
 {
     return new QWidget( this );
 }
 
-QWidget* ProjectWindow::AddCustomBotWidget()
+QWidget* ProjectWindow::addCustomBotWidget()
 {
     return new QWidget( this );
 }

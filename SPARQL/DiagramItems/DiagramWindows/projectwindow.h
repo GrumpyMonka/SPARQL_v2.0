@@ -15,8 +15,8 @@ public:
     explicit ProjectWindow( QWidget* parent = nullptr );
 
 private:
-    QWidget* AddCustomWidget() override;
-    QWidget* AddCustomBotWidget() override;
+    QWidget* addCustomWidget() override;
+    QWidget* addCustomBotWidget() override;
 
 signals:
 };

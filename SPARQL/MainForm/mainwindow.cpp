@@ -28,17 +28,22 @@ void MainWindow::CreateMainForm()
     menu_bar = new SMenuBar( this );
     setMenuBar( menu_bar );
 
-    tool_bar = new SToolBar( *menu_bar, this );
-    addToolBar( Qt::TopToolBarArea, tool_bar );
-
     QWidget* widget = new QWidget( this );
     main_layout = new QGridLayout( widget );
     widget->setLayout( main_layout );
 
-    tool_box = new SToolBox( this );
     tab_widget = new STabWidget( this );
     connect( tab_widget, SIGNAL( currentMode( int ) ),
         this, SLOT( slotCurrentTabMode( int ) ) );
+
+    tool_box = new SToolBox( this );
+    connect( tool_box, SIGNAL( itemPressed( DiagramItemSettings* ) ),
+        tab_widget, SLOT( itemForAdd( DiagramItemSettings* ) ) );
+
+    tool_bar = new SToolBar( *menu_bar, this );
+    addToolBar( Qt::TopToolBarArea, tool_bar );
+    connect( tool_bar, SIGNAL( setNewDiagramSceneMode( int ) ),
+        tab_widget, SLOT( setSceneMode( int ) ) );
 
     main_layout->addWidget( tool_box, 0, 0 );
     main_layout->addWidget( tab_widget, 0, 1 );

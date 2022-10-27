@@ -36,7 +36,7 @@ void SToolBar::CreateToolBar( SMenuBar& menubar )
 
     pointer_type_group = new QButtonGroup( this );
     pointer_type_group->addButton( pointer_button, int( DiagramScene::MoveItem ) );
-    pointer_type_group->addButton( line_pointer_button, int( DiagramScene::InsertLine ) );
+    pointer_type_group->addButton( line_pointer_button, int( DiagramScene::InsertArrow ) );
     connect( pointer_type_group, SIGNAL( buttonClicked( int ) ),
         this, SIGNAL( setNewDiagramSceneMode( int ) ) );
 

@@ -14,19 +14,23 @@ class SGraphicsView : public QWidget
     Q_OBJECT
 public:
     explicit SGraphicsView( QWidget* parent = nullptr );
-    void SetDiagramScene( DiagramScene* );
-    void CreateSidePanel();
+    void setDiagramScene( DiagramScene* );
+    void createSidePanel();
 
-    DiagramScene* GetScene();
+    DiagramScene* getScene();
+
+public slots:
+    void setItemForScene( DiagramItemSettings* );
+    void setSceneMode( int mode );
 
 protected:
-    virtual QWidget* AddCustomWidget() = 0;
-    virtual QWidget* AddCustomBotWidget() = 0;
+    virtual QWidget* addCustomWidget() = 0;
+    virtual QWidget* addCustomBotWidget() = 0;
 
 private:
-    void CreateDiagramView();
+    void createDiagramView();
 
-    DiagramScene* CreateDiagramScene();
+    DiagramScene* createDiagramScene();
 
 private slots:
     void updatePosData();
@@ -35,17 +39,17 @@ private slots:
 signals:
 
 private:
-    DiagramScene* diagramScene;
-    QGraphicsView* graphicsView;
-    QGroupBox* groupBox;
-    QGridLayout* gridLayout;
-    QVBoxLayout* groupBoxLayout;
-    QSpinBox* xSpinBox;
-    QSpinBox* ySpinBox;
-    QSlider* xSlider;
-    QSlider* ySlider;
-    int heigthScene = 5000;
-    int widthScene = 5000;
+    DiagramScene* diagram_scene;
+    QGraphicsView* graphics_view;
+    QGroupBox* group_box;
+    QGridLayout* grid_layout;
+    QVBoxLayout* group_box_layout;
+    QSpinBox* x_spin_box;
+    QSpinBox* y_spin_box;
+    QSlider* x_slider;
+    QSlider* y_slider;
+    int heigth_scene = 5000;
+    int width_scene = 5000;
 };
 
 #endif // SGRAPHICSVIEW_H
