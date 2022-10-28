@@ -33,6 +33,7 @@ DiagramItemBased::DiagramItemBased( QMenu* contextMenu,
     proxy_picture->setWidget( picture );
 
     setSetting( setting );
+    delete setting;
 }
 
 void DiagramItemBased::setSetting( BasedBlockSettings* setting )

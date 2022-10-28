@@ -7,49 +7,53 @@
 class SparqlBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 3
-    };
+     enum
+     {
+          Type = 3
+     };
 
-    int type() override { return Type; }
+     int type() override { return Type; }
 
-    SparqlBlockSettings();
+     SparqlBlockSettings();
 
-    struct LineSaver
-    {
-        int startBlock;
-        int endBlock;
-        QString text;
-    };
+     struct LineSaver
+     {
+          int startBlock;
+          int endBlock;
+          QString text;
+     };
 
-    struct BlockSaver
-    {
-        QString text;
-        QPointF pos;
-        QString path;
-    };
+     struct BlockSaver
+     {
+          QString text;
+          QPointF pos;
+          QString path;
+          QString type;
+     };
 
-    struct AreaSaver
-    {
-        QPointF polygon;
-        QPointF pos;
-        QString name;
-    };
+     struct AreaSaver
+     {
+          QPointF polygon;
+          QPointF pos;
+          QString name;
+     };
 
-    int limit;
+     int limit;
 
-    QVector<BlockSaver> blocks;
-    QVector<LineSaver> lines;
+     QVector<BlockSaver> blocks;
+     QVector<LineSaver> lines;
 
-    QVector<AreaSaver> areas;
-    QPolygonF polygon;
+     QVector<AreaSaver> areas;
 
-    void setSettingFromJson( const QJsonValue& value ) override;
-    QJsonObject getJsonFromSetting() override;
-    QPixmap image() const override;
+     AtomBlockSettings setting_var;
+     AtomBlockSettings setting_value;
+     AtomBlockSettings setting_area;
 
-    static BasedBlockSettings* ConvertToBasedBlockSetting( SparqlBlockSettings* );
+     void setSettingFromJson( const QJsonValue& value ) override;
+     QJsonObject getJsonFromSetting() override;
+     QPixmap image() const override;
+
+     static BasedBlockSettings* ConvertToBasedBlockSetting( SparqlBlockSettings* );
 };
 
 #endif // SPARQLBLOCKSETTINGS_H

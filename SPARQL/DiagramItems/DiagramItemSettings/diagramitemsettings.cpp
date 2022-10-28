@@ -3,6 +3,7 @@
 #include <QBuffer>
 #include <QDebug>
 #include <QJsonDocument>
+#include <QPainter>
 
 DiagramItemSettings::DiagramItemSettings()
 {
@@ -32,4 +33,21 @@ void DiagramItemSettings::setSettingFromString( const QString& str )
     {
         setSettingFromJson( json["data"] );
     }
+}
+
+QPixmap DiagramItemSettings::image() const
+{
+    QPixmap pixmap( 200, 200 );
+    pixmap.fill( Qt::transparent );
+    QPainter painter( &pixmap );
+    painter.setPen( QPen( Qt::black, 8 ) );
+    painter.translate( 100, 100 );
+    painter.drawPolyline(
+        QPolygonF() << QPointF( -50, -50 )
+                    << QPointF( 50, -50 )
+                    << QPointF( 50, 50 )
+                    << QPointF( -50, 50 )
+                    << QPointF( -50, -50 ) );
+
+    return pixmap;
 }

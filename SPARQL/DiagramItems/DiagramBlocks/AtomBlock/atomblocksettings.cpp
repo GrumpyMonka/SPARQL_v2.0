@@ -62,24 +62,25 @@ QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
 {
     QVector<DiagramItemSettings*> list;
     auto setting = new AtomBlockSettings();
-    setting->block_name = "Var";
+    setting->type_block = "Var";
     setting->color_text = "red";
     list.push_back( setting );
 
     setting = new AtomBlockSettings();
-    setting->block_name = "Value";
+    setting->type_block = "Value";
     setting->color_text = "blue";
     list.push_back( setting );
 
     setting = new AtomBlockSettings();
-    setting->block_name = "Area";
+    setting->type_block = "Area";
     setting->flag_text = false;
     setting->polygon.clear();
+    setting->transparent = true;
     setting->polygon << QPointF( -300, 200 )
-                << QPointF( 300, 200 )
-                << QPointF( 300, -200 )
-                << QPointF( -300, -200 )
-                << QPointF( -300, 200 );
+                     << QPointF( 300, 200 )
+                     << QPointF( 300, -200 )
+                     << QPointF( -300, -200 )
+                     << QPointF( -300, 200 );
     list.push_back( setting );
 
     return list;

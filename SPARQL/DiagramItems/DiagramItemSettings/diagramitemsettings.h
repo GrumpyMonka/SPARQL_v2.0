@@ -16,7 +16,8 @@ public:
 
     virtual void setSettingFromJson( const QJsonValue& value ) = 0;
     virtual QJsonObject getJsonFromSetting() = 0;
-    virtual QPixmap image() const = 0;
+    virtual QPixmap image() const;
+    virtual ~DiagramItemSettings() = default;
 
     void setSettingFromString( const QString& str );
 

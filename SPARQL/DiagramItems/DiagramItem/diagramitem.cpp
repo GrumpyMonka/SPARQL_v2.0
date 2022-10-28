@@ -148,11 +148,11 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     {
     case BasedBlockSettings::Type:
         return new DiagramItemBased( context_menu,
-            static_cast<BasedBlockSettings*>( settings ), parent );
+            new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ), parent );
         break;
     case AtomBlockSettings::Type:
         return new DiagramItemAtom( context_menu,
-            static_cast<AtomBlockSettings*>( settings ), parent );
+            new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ), parent );
     default:
         break;
     }

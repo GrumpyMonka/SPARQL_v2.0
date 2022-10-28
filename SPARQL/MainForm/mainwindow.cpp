@@ -7,6 +7,7 @@
 #include <atomblocksettings.h>
 #include <basedblockwindow.h>
 #include <compositeblocksettings.h>
+#include <compositeblockwindow.h>
 #include <sparqlblockwindow.h>
 
 MainWindow::MainWindow( QWidget* parent )
@@ -62,8 +63,12 @@ void MainWindow::slotCreateNewProject()
 
 void MainWindow::slotCreateBasedBlock()
 {
-
     tab_widget->addWidget( new BasedBlockWindow( BasedBlockWindow::CreateMode, tab_widget ), BasedBlockWindow::DiagramMode, tr( "New Block" ) );
+}
+
+void MainWindow::slotCreateCompositeBlock()
+{
+    tab_widget->addWidget( new CompositeBlockWindow( this ), CompositeBlockWindow::DiagramMode, tr( "Composite Block" ) );
 }
 
 void MainWindow::slotCreateSparqlBlock()

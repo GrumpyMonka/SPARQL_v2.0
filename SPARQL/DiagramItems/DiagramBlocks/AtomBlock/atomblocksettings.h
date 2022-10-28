@@ -16,8 +16,6 @@ public:
 
     AtomBlockSettings();
 
-    QString block_name;
-
     QPolygonF polygon;
 
     bool flag_text;
@@ -25,6 +23,8 @@ public:
 
     QColor color;
     QString color_text;
+
+    QString type_block;
 
     bool transparent;
 

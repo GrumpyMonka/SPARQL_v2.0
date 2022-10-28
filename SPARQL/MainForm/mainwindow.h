@@ -30,6 +30,7 @@ public:
 public slots:
     void slotCreateNewProject();
     void slotCreateBasedBlock();
+    void slotCreateCompositeBlock();
     void slotCreateSparqlBlock();
     void slotCurrentTabMode( int );
 

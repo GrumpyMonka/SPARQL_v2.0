@@ -1,6 +1,7 @@
 #include "diagramitematom.h"
 
 #include <QPainter>
+#include <QPolygonF>
 
 DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settings, QGraphicsItem* parent )
     : DiagramItem( context_menu, parent )
@@ -19,10 +20,18 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settin
                                        "color: %1;"
                                        "}" )
                                   .arg( settings->color_text ) );
+
     proxy_line_edit->setWidget( line_edit );
 
     setItemPolygon( settings->polygon );
     setText( settings->text );
+    line_edit->setVisible( settings->flag_text );
+    if ( !settings->transparent )
+    {
+        setBrush( Qt::white );
+    }
+
+    delete settings;
 }
 
 void DiagramItemAtom::setItemPolygon( QPolygonF& polygon )
@@ -32,6 +41,7 @@ void DiagramItemAtom::setItemPolygon( QPolygonF& polygon )
 
 AtomBlockSettings* DiagramItemAtom::getSettings()
 {
+    return {};
 }
 
 void DiagramItemAtom::setText( const QString& text )
