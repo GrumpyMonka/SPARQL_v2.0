@@ -99,18 +99,6 @@ void DiagramItem::addArrow( DiagramArrow* arrow )
     arrows.append( arrow );
 }
 
-QPixmap DiagramItem::image() const
-{
-    QPixmap pixmap( 200, 200 );
-    pixmap.fill( Qt::transparent );
-    QPainter painter( &pixmap );
-    painter.setPen( QPen( Qt::black, 8 ) );
-    painter.translate( 100, 100 );
-    painter.drawPolyline( my_polygon );
-
-    return pixmap;
-}
-
 void DiagramItem::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
     scene()->clearSelection();

@@ -81,7 +81,6 @@ public:
     void setItemPolygon( QPolygonF& polygon );
 
     void addArrow( DiagramArrow* arrow );
-    virtual QPixmap image() const;
     QList<DiagramArrow*> getArrows();
     QPointF getStartPos();
     QPointF getEndPos();

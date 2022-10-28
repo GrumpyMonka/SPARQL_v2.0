@@ -187,9 +187,7 @@ void BasedBlockWindow::setSettingOnWindow()
 
     if ( settings_->pixmap.isNull() )
     {
-        DiagramItemBased* item = new DiagramItemBased( nullptr, settings_ );
-        settings_->pixmap = QPixmap( item->image() ).scaled( 70, 70 );
-        delete item;
+        settings_->pixmap = settings_->image().scaled( 70, 70 );
     }
     label_pixmap->setPixmap( settings_->pixmap.scaled( 70, 70 ) );
 }

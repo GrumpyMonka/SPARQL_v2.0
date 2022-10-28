@@ -24,7 +24,6 @@ public:
     DiagramItemBased( QMenu* contextMenu, BasedBlockSettings* setting = new BasedBlockSettings(),
         QGraphicsItem* parent = nullptr );
     void setSetting( BasedBlockSettings* setting );
-    QPixmap image() const override;
     QString getName();
     BasedBlockSettings* getSetting();
     QString GetInputData();

@@ -43,7 +43,7 @@ QString DiagramItemAtom::getText()
 {
     return line_edit->text();
 }
-
+/*
 QPixmap DiagramItemAtom::image() const
 {
     // if ( setting_->type_image == "self" )
@@ -61,3 +61,4 @@ QPixmap DiagramItemAtom::image() const
     // painter.drawText( -75, -75, 150, 150, Qt::AlignCenter, setting_->block_name );
     return pixmap;
 }
+*/

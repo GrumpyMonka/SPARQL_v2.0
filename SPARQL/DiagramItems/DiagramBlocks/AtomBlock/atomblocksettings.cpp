@@ -41,7 +41,7 @@ AtomBlockSettings::AtomBlockSettings()
     polygon << QPointF( razmer, razmer - radius );
 
     block_name = "AtomBlock";
-    flag_text = false;
+    flag_text = true;
     text = "";
     color = Qt::black;
     color_text = "blue";
@@ -61,9 +61,25 @@ QJsonObject AtomBlockSettings::getJsonFromSetting()
 QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
 {
     QVector<DiagramItemSettings*> list;
-    list.push_back( new AtomBlockSettings() );
     auto setting = new AtomBlockSettings();
+    setting->block_name = "Var";
     setting->color_text = "red";
+    list.push_back( setting );
+
+    setting = new AtomBlockSettings();
+    setting->block_name = "Value";
+    setting->color_text = "blue";
+    list.push_back( setting );
+
+    setting = new AtomBlockSettings();
+    setting->block_name = "Area";
+    setting->flag_text = false;
+    setting->polygon.clear();
+    setting->polygon << QPointF( -300, 200 )
+                << QPointF( 300, 200 )
+                << QPointF( 300, -200 )
+                << QPointF( -300, -200 )
+                << QPointF( -300, 200 );
     list.push_back( setting );
 
     return list;

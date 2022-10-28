@@ -58,7 +58,7 @@ void DiagramItemBased::setSetting( BasedBlockSettings* setting )
     }
     picture->setPixmap( setting->pixmap.scaled( 30, 30 ) );
 }
-
+/*
 QPixmap DiagramItemBased::image() const
 {
     if ( setting_->type_image == "self" )
@@ -78,7 +78,7 @@ QPixmap DiagramItemBased::image() const
     }
     return setting_->pixmap;
 }
-
+*/
 QString DiagramItemBased::getName()
 {
     return setting_->block_name;

@@ -24,8 +24,6 @@ public:
     void setText( const QString& text );
     QString getText();
 
-    QPixmap image() const override;
-
 private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
