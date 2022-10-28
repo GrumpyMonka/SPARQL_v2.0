@@ -99,18 +99,6 @@ void DiagramItem::addArrow( DiagramArrow* arrow )
     arrows.append( arrow );
 }
 
-QPixmap DiagramItem::image() const
-{
-    QPixmap pixmap( 200, 200 );
-    pixmap.fill( Qt::transparent );
-    QPainter painter( &pixmap );
-    painter.setPen( QPen( Qt::black, 8 ) );
-    painter.translate( 100, 100 );
-    painter.drawPolyline( my_polygon );
-
-    return pixmap;
-}
-
 void DiagramItem::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
 {
     scene()->clearSelection();
@@ -136,6 +124,7 @@ QList<DiagramArrow*> DiagramItem::getArrows()
     return arrows;
 }
 
+#include <diagramitematom.h>
 #include <diagramitembased.h>
 #include <diagramitemcomposite.h>
 #include <diagramitemsparql.h>
@@ -143,9 +132,9 @@ QList<DiagramArrow*> DiagramItem::getArrows()
 bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 {
     if ( DiagramItemBased::Type == code )
-    // DiagramItemComposite::Type == code ||
-    // DiagramItemSparql::Type == code ||
-    // DiagramSparqlAtom::Type == code)
+    //    || DiagramItemComposite::Type == code
+    //    || DiagramItemSparql::Type == code
+    //    || DiagramAtom::Type == code)
     {
         return true;
     }
@@ -159,8 +148,11 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     {
     case BasedBlockSettings::Type:
         return new DiagramItemBased( context_menu,
-            static_cast<BasedBlockSettings*>( settings ), parent );
+            new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ), parent );
         break;
+    case AtomBlockSettings::Type:
+        return new DiagramItemAtom( context_menu,
+            new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ), parent );
     default:
         break;
     }

@@ -4,6 +4,9 @@
 #include <QDir>
 #include <QJsonDocument>
 
+#include <compositeblocksettings.h>
+#include <sparqlblocksettings.h>
+
 BlocksLibrary::BlocksLibrary()
 {
 }
@@ -76,7 +79,7 @@ void BlocksLibrary::addBlock( DiagramItemSettings* settings )
     library.insert( settings, mode );
 }
 
-void BlocksLibrary::addBlocks( QVector<DiagramItemSettings*>& settings_list )
+void BlocksLibrary::addBlocks( const QVector<DiagramItemSettings*>& settings_list )
 {
     for ( auto settings : settings_list )
     {
@@ -127,6 +130,10 @@ QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
     {
         mode_list.insert( SPARQL );
     }
+    if ( ( modes_blocks & Atom ) )
+    {
+        mode_list.insert( Atom );
+    }
 
     for ( auto lib : library.keys() )
     {
@@ -151,17 +158,20 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings 
         return Based;
         break;
     // case CompositeBlockSettings::Type:
-    //     return Composite
-    //     break;
-    // case SparqlBlockSettings::Type:
-    //     return Composite
-    //     break;
+    //      return Composite
+    //      break;
+    case SparqlBlockSettings::Type:
+        return Composite;
+        break;
+    case AtomBlockSettings::Type:
+        return Atom;
+        break;
     default:
         return Fail;
         break;
     }
 }
-
+/*
 BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItem* item )
 {
     switch ( item->type() )
@@ -180,3 +190,4 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItem* item )
         break;
     }
 }
+*/

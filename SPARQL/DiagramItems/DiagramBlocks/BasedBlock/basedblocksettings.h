@@ -17,20 +17,18 @@ public:
 
     void setSettingFromJson( const QJsonValue& value ) override;
     QJsonObject getJsonFromSetting() override;
+    QPixmap image() const override;
 
 public:
-    QString name = "BasicBlock";
+    bool label;
+    QString label_text;
 
-    bool label = true;
-    QString label_text = "label";
+    bool line_edit;
+    QString line_edit_text;
 
-    bool line_edit = true;
-    QString line_edit_text = "";
+    QString script;
 
-    QString script = "";
-
-    QString type_image = "self";
-    QPixmap image;
+    QString type_image;
 };
 
 #endif // BASEDBLOCKSETTINGS_H

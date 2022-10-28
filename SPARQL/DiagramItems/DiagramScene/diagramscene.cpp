@@ -113,8 +113,8 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
         removeItem( line_for_arrow );
         delete line_for_arrow;
-        //! НЕДОРАБОТАННЫЙ АЛГОРИТМ
-        if ( startItems.count() && endItems.count() )
+
+        if ( !startItems.empty() && !endItems.empty() )
         {
             QGraphicsItem* temp = endItems.first();
             while ( endItems.first()->parentItem() != nullptr )
@@ -126,6 +126,7 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
                 endItems.first() = endItems.first()->parentItem();
             }
             endItems.first() = temp;
+
             temp = startItems.first();
             while ( startItems.first()->parentItem() != nullptr )
             {
@@ -136,12 +137,13 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
                 startItems.first() = startItems.first()->parentItem();
             }
             startItems.first() = temp;
-            if ( startItems.count() > 0 && endItems.count() > 0 && DiagramItem::CheckItemOnDiagramItem( startItems.first()->type() )
-                && DiagramItem::CheckItemOnDiagramItem( endItems.first()->type() ) && startItems.first() != endItems.first() )
+
+            if ( DiagramItem::CheckItemOnDiagramItem( startItems.first()->type() )
+                && DiagramItem::CheckItemOnDiagramItem( endItems.first()->type() )
+                && startItems.first() != endItems.first() )
             {
-                DiagramItem* startItem = static_cast<DiagramItem*>( startItems.first() );
-                DiagramItem* endItem = static_cast<DiagramItem*>( endItems.first() );
-                createArrow( startItem, endItem );
+                createArrow( static_cast<DiagramItem*>( startItems.first() ),
+                    static_cast<DiagramItem*>( endItems.first() ) );
             }
         }
     }

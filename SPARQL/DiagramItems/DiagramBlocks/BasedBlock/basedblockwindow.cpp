@@ -176,7 +176,7 @@ void BasedBlockWindow::setSettingOnWindow()
 {
     if ( nullptr == settings_ )
         emit error( tr( "BasedBlockWindow settings_ = nullptr" ) );
-    line_name->setText( settings_->name );
+    line_name->setText( settings_->block_name );
     line_label->setText( settings_->label_text );
     line_line_edit->setText( settings_->line_edit_text );
 
@@ -185,20 +185,18 @@ void BasedBlockWindow::setSettingOnWindow()
 
     text_edit->setText( settings_->script );
 
-    if ( settings_->image.isNull() )
+    if ( settings_->pixmap.isNull() )
     {
-        DiagramItemBased* item = new DiagramItemBased( nullptr, settings_ );
-        settings_->image = QPixmap( item->image() ).scaled( 70, 70 );
-        delete item;
+        settings_->pixmap = settings_->image().scaled( 70, 70 );
     }
-    label_pixmap->setPixmap( settings_->image.scaled( 70, 70 ) );
+    label_pixmap->setPixmap( settings_->pixmap.scaled( 70, 70 ) );
 }
 
 void BasedBlockWindow::setWindowToSetting()
 {
     if ( nullptr == settings_ )
         emit error( tr( "BasedBlockWindow settings_ = nullptr" ) );
-    settings_->name = line_name->text();
+    settings_->block_name = line_name->text();
     settings_->label = check_label->isChecked();
     settings_->line_edit = check_line_edit->isChecked();
     settings_->label_text = line_label->text();

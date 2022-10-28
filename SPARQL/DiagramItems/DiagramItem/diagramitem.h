@@ -65,7 +65,7 @@ class DiagramItem : public QGraphicsPolygonItem
 public:
     enum
     {
-        Type = UserType + 1
+        Type = UserType + 2
     };
 
     int type() const override { return Type; }
@@ -81,7 +81,6 @@ public:
     void setItemPolygon( QPolygonF& polygon );
 
     void addArrow( DiagramArrow* arrow );
-    virtual QPixmap image() const;
     QList<DiagramArrow*> getArrows();
     QPointF getStartPos();
     QPointF getEndPos();

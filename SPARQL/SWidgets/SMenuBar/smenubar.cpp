@@ -55,14 +55,14 @@ void SMenuBar::CreateActions()
     createCompositeBlockAction = new QAction( QIcon( ":/Sources/images/composite.png" ), tr( "Composite" ), this );
     createCompositeBlockAction->setShortcut( tr( "Ctrl+W" ) );
     createCompositeBlockAction->setStatusTip( tr( "New CompositeBlock" ) );
-    // connect( createCompositeBlockAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( slotCreateCompositeBlock() ) );
+    connect( createCompositeBlockAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotCreateCompositeBlock() ) );
 
     createSparqlBlockAction = new QAction( QIcon( ":/Sources/images/SPARQL.png" ), tr( "SPARQL" ), this );
     createSparqlBlockAction->setShortcut( tr( "Ctrl+L" ) );
     createSparqlBlockAction->setStatusTip( tr( "New SPARQL Block" ) );
-    // connect( createSparqlBlockAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( slotCreateSparqlBlock() ) );
+    connect( createSparqlBlockAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotCreateSparqlBlock() ) );
 
     runSceneScriptAction = new QAction( QIcon( ":/Sources/images/execution.png" ), tr( "Run" ), this );
     runSceneScriptAction->setShortcut( tr( "Ctrl+R" ) );

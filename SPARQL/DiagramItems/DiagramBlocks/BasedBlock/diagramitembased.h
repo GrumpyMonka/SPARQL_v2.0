@@ -17,14 +17,13 @@ class DiagramItemBased : public DiagramItem
 public:
     enum
     {
-        Type = UserType + 4
+        Type = UserType + 6
     };
     int type() const override { return Type; }
 
     DiagramItemBased( QMenu* contextMenu, BasedBlockSettings* setting = new BasedBlockSettings(),
         QGraphicsItem* parent = nullptr );
     void setSetting( BasedBlockSettings* setting );
-    QPixmap image() const override;
     QString getName();
     BasedBlockSettings* getSetting();
     QString GetInputData();
