@@ -27,9 +27,20 @@ void SToolBox::createToolButtonGroup()
     button_layout->setSpacing( 0 );
     button_layout->setMargin( 0 );
 
+    for ( int i = 0; i < 3; ++i )
+    {
+        addDiagramItem( nullptr, false );
+    }
+
+    for ( int i = 0; i < 3; ++i )
+    {
+        settings_list.removeLast();
+        widget_list.removeLast();
+    }
+
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
+    setMinimumWidth( 230 );
     addItem( buttonGroupWidget, tr( "Blocks" ) );
-    setDiagramItems( {} );
 }
 
 void SToolBox::buttonGroupClicked( int pos )
@@ -47,19 +58,7 @@ void SToolBox::setDiagramItems( const QVector<DiagramItemSettings*>& items )
 {
     deleteDiagramItems( settings_list );
 
-    int size_list = items.size();
     addDiagramItems( items );
-
-    for ( int i = size_list; i < 3; ++i )
-    {
-        addDiagramItem( nullptr, false );
-    }
-
-    for ( int i = size_list; i < 3; ++i )
-    {
-        settings_list.removeLast();
-        widget_list.removeLast();
-    }
 }
 
 void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )

@@ -5,6 +5,10 @@
 
 #include <diagramitemsettings.h>
 
+#define DEFAULT_AREA "AREA"
+#define DEFAULT_VAR "VAR"
+#define DEFAULT_VALUE "VALUE"
+
 class AtomBlockSettings : public DiagramItemSettings
 {
 public:

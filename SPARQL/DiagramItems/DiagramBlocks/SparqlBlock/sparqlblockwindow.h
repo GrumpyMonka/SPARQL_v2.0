@@ -1,6 +1,7 @@
 #ifndef SPARQLBLOCKWINDOW_H
 #define SPARQLBLOCKWINDOW_H
 
+#include <diagramitematom.h>
 #include <sgraphicsview.h>
 #include <sparqlblocksettings.h>
 
@@ -24,6 +25,7 @@ private:
 
     void createDefaultcScene();
     void clearScene();
+    bool CheckCollisionArea( DiagramItemAtom* item, DiagramItemAtom* area );
 };
 
 #endif // SPARQLBLOCKWINDOW_H
