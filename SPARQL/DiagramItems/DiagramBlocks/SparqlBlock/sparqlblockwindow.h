@@ -14,13 +14,15 @@ public:
 
     explicit SparqlBlockWindow( QWidget* parent = nullptr );
 
-    void setSettings( SparqlBlockSettings* );
+    void setSettings( const SparqlBlockSettings& settings = SparqlBlockSettings() );
+
+    SparqlBlockSettings* getSettings();
 
 private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
 
-    void createDefaultScene();
+    void createDefaultcScene();
     void clearScene();
 };
 
