@@ -133,6 +133,7 @@ void SToolBox::deleteDiagramItem( DiagramItemSettings* item )
     widget_list.at( pos )->deleteLater();
     widget_list.remove( pos );
     settings_list.remove( pos );
+    button_group->removeButton( button_group->buttons().at( pos ) );
 }
 
 void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )
