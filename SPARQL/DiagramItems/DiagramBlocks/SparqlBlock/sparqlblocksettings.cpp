@@ -133,3 +133,8 @@ QPixmap SparqlBlockSettings::image() const
 {
     return {};
 }
+
+SparqlBlockSettings* SparqlBlockSettings::CreateTemplateSparqlSettings()
+{
+    auto settings = new SparqlBlockSettings();
+}

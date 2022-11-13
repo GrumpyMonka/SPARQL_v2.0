@@ -31,6 +31,11 @@ void STabWidget::createTabWidgets()
         this, SLOT( slotCurrentTab( int ) ) );
 }
 
+void STabWidget::resetBlocks()
+{
+    slotCurrentTab( currentIndex() );
+}
+
 void STabWidget::slotCurrentTab( int index )
 {
     if ( nullptr == widget( index ) )

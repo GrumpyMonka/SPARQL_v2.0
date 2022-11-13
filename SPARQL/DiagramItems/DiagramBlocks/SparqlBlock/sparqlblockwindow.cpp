@@ -21,9 +21,16 @@ QWidget* SparqlBlockWindow::addCustomBotWidget()
     widget->setLayout( grid_layout );
 
     QPushButton* button_create_block = new QPushButton( tr( "Create" ), this );
+    connect( button_create_block, SIGNAL( clicked() ), this, SLOT( slotOnCreateButtonClicked() ) );
     grid_layout->addWidget( button_create_block, 0, 0 );
 
     return widget;
+}
+
+void SparqlBlockWindow::slotOnCreateButtonClicked()
+{
+    emit blockCreated( getSettings() );
+    //  emit blockCreated( static_cast<DiagramItemSettings*>( getSettings() ) );
 }
 
 void SparqlBlockWindow::setSettings( const SparqlBlockSettings& settings )
@@ -45,15 +52,15 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         }
         else if ( DiagramItemAtom::Type == item->type() )
         {
-            DiagramItemAtom* item = qgraphicsitem_cast<DiagramItemAtom*>( item );
-            auto settings = item->getSettings();
+            DiagramItemAtom* diagram_item_atom = qgraphicsitem_cast<DiagramItemAtom*>( item );
+            auto settings = diagram_item_atom->getSettings();
             if ( DEFAULT_AREA == settings->type_block )
             {
-                blocks_area.push_back( item );
+                blocks_area.push_back( diagram_item_atom );
             }
             else
             {
-                blocks_atom.push_back( item );
+                blocks_atom.push_back( diagram_item_atom );
             }
         }
     }
@@ -95,15 +102,15 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
     for ( const auto& area : blocks_area )
     {
         QString path;
-        DiagramArrow* arrow = area->getArrows()[0];
-        if ( arrow->endItem() == area )
-        {
-            path = arrow->getText();
-        }
-        else
-        {
-            path = "ORIGIN";
-        }
+        // DiagramArrow* arrow = area->getArrows()[0];
+        // if ( arrow->endItem() == area )
+        //{
+        //     path = arrow->getText();
+        // }
+        // else
+        //{
+        path = "ORIGIN";
+        //}
         setting->areas.push_back( { QPointF( area->getEndPos().x() - area->getStartPos().x(),
                                         area->getEndPos().y() - area->getStartPos().y() ),
             area->pos(), path } );

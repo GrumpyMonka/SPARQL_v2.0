@@ -22,6 +22,7 @@ public:
 public slots:
     void setItemForScene( DiagramItemSettings* );
     void setSceneMode( int mode );
+    virtual void slotOnCreateButtonClicked();
 
 protected:
     virtual QWidget* addCustomWidget() = 0;
@@ -37,6 +38,7 @@ private slots:
     void updatePosItems();
 
 signals:
+    void blockCreated( DiagramItemSettings* );
 
 private:
     DiagramScene* diagram_scene;

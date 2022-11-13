@@ -27,6 +27,7 @@ public:
 private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
+    QString type_block;
 };
 
 #endif // DIAGRAMITEMATOM_H

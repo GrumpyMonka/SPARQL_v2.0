@@ -16,6 +16,7 @@ public:
 public slots:
     void setSceneMode( int );
     void itemForAdd( DiagramItemSettings* );
+    void resetBlocks();
 
 private:
     void createTabWidgets();

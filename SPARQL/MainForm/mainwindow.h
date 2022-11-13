@@ -33,6 +33,7 @@ public slots:
     void slotCreateCompositeBlock();
     void slotCreateSparqlBlock();
     void slotCurrentTabMode( int );
+    void slotOnCreateBlock( DiagramItemSettings* );
 
 private:
     void createMainForm();

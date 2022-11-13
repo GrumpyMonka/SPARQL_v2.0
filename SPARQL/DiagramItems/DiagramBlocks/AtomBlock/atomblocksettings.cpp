@@ -64,11 +64,19 @@ QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
     auto setting = new AtomBlockSettings();
     setting->type_block = DEFAULT_VAR;
     setting->color_text = "red";
+    setting->polygon.clear();
+    setting->polygon << QPointF( -50, -50 )
+                     << QPointF( 50, -50 )
+                     << QPointF( 50, 50 )
+                     << QPointF( -50, 50 )
+                     << QPointF( -50, -50 );
+    setting->pixmap = setting->image();
     list.push_back( setting );
 
     setting = new AtomBlockSettings();
     setting->type_block = DEFAULT_VALUE;
     setting->color_text = "blue";
+    setting->pixmap = setting->image();
     list.push_back( setting );
 
     setting = new AtomBlockSettings();
@@ -81,6 +89,7 @@ QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
                      << QPointF( 300, -200 )
                      << QPointF( -300, -200 )
                      << QPointF( -300, 200 );
+    setting->pixmap = setting->image();
     list.push_back( setting );
 
     return list;

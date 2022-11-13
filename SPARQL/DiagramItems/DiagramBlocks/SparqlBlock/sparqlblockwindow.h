@@ -19,6 +19,9 @@ public:
 
     SparqlBlockSettings* getSettings();
 
+public slots:
+    void slotOnCreateButtonClicked() override;
+
 private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;

@@ -17,7 +17,7 @@ MainWindow::MainWindow( QWidget* parent )
     ui->setupUi( this );
 
     library = new BlocksLibrary();
-    library->loadBlocksFormFiles( FOLDER_FOR_BLOCKS );
+    library->loadBlocksFromFiles( FOLDER_FOR_BLOCKS );
     library->addBlocks( AtomBlockSettings::GetBasedAtomBlocks() );
 
     createMainForm();
@@ -58,22 +58,33 @@ void MainWindow::createMainForm()
 
 void MainWindow::slotCreateNewProject()
 {
-    tab_widget->addWidget( new ProjectWindow( this ), ProjectWindow::DiagramMode, tr( "New Project" ) );
+    auto window = new ProjectWindow( this );
+    tab_widget->addWidget( window, ProjectWindow::DiagramMode, tr( "New Project" ) );
 }
 
 void MainWindow::slotCreateBasedBlock()
 {
-    tab_widget->addWidget( new BasedBlockWindow( BasedBlockWindow::CreateMode, tab_widget ), BasedBlockWindow::DiagramMode, tr( "New Block" ) );
+    auto window = new BasedBlockWindow( BasedBlockWindow::CreateMode, tab_widget );
+    tab_widget->addWidget( window, BasedBlockWindow::DiagramMode, tr( "New Block" ) );
 }
 
 void MainWindow::slotCreateCompositeBlock()
 {
-    tab_widget->addWidget( new CompositeBlockWindow( this ), CompositeBlockWindow::DiagramMode, tr( "Composite Block" ) );
+    auto window = new CompositeBlockWindow( this );
+    tab_widget->addWidget( window, CompositeBlockWindow::DiagramMode, tr( "Composite Block" ) );
 }
 
 void MainWindow::slotCreateSparqlBlock()
 {
-    tab_widget->addWidget( new SparqlBlockWindow( this ), SparqlBlockWindow::DiagramMode, tr( "New Sparql" ) );
+    auto window = new SparqlBlockWindow( this );
+    tab_widget->addWidget( window, SparqlBlockWindow::DiagramMode, tr( "New Sparql" ) );
+    connect( window, SIGNAL( blockCreated( DiagramItemSettings* ) ), this, SLOT( slotOnCreateBlock( DiagramItemSettings* ) ) );
+}
+
+void MainWindow::slotOnCreateBlock( DiagramItemSettings* settings )
+{
+    library->addBlock( settings );
+    tab_widget->resetBlocks();
 }
 
 void MainWindow::slotCurrentTabMode( int mode )

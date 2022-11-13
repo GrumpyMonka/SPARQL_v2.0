@@ -24,6 +24,11 @@ void SGraphicsView::createDiagramView()
     setDiagramScene( createDiagramScene() );
 }
 
+void SGraphicsView::slotOnCreateButtonClicked()
+{
+    // empty
+}
+
 void SGraphicsView::setDiagramScene( DiagramScene* scene )
 {
     diagram_scene = scene;
