@@ -1,5 +1,8 @@
 #include "sparqlblockwindow.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QMap>
 #include <QPushButton>
 
 SparqlBlockWindow::SparqlBlockWindow( QWidget* parent )
@@ -35,7 +38,16 @@ QWidget* SparqlBlockWindow::addCustomBotWidget()
 
     QPushButton* button_create_block = new QPushButton( tr( "Create" ), this );
     connect( button_create_block, SIGNAL( clicked() ), this, SLOT( slotOnCreateButtonClicked() ) );
+
+    QPushButton* button_save_block = new QPushButton( tr( "Save" ), this );
+    connect( button_save_block, SIGNAL( clicked() ), this, SLOT( slotOnSaveButtonClicked() ) );
+
+    QPushButton* button_open_block = new QPushButton( tr( "Open" ), this );
+    connect( button_open_block, SIGNAL( clicked() ), this, SLOT( slotOnOpenButtonClicked() ) );
+
     grid_layout->addWidget( button_create_block, 0, 0 );
+    grid_layout->addWidget( button_save_block, 1, 0 );
+    grid_layout->addWidget( button_open_block, 2, 0 );
 
     return widget;
 }
@@ -43,17 +55,65 @@ QWidget* SparqlBlockWindow::addCustomBotWidget()
 void SparqlBlockWindow::slotOnCreateButtonClicked()
 {
     emit blockCreated( getSettings() );
-    //  emit blockCreated( static_cast<DiagramItemSettings*>( getSettings() ) );
+}
+
+void SparqlBlockWindow::slotOnSaveButtonClicked()
+{
+    auto settings = getSettings();
+    QJsonDocument json;
+    json.setObject( settings->getJsonFromSetting() );
+    saveFile( json.toJson() );
+}
+
+void SparqlBlockWindow::slotOnOpenButtonClicked()
+{
+    SparqlBlockSettings* settings = new SparqlBlockSettings();
+    settings->setSettingFromString( openFile() );
+    setSettings( settings );
 }
 
 void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
 {
-    auto atom_settings = new AtomBlockSettings();
-    atom_settings->polygon = settings->areas.at( 0 ).polygon;
-    atom_settings->block_name = settings->areas.at( 0 ).name;
-    auto item = new DiagramItemAtom( nullptr, atom_settings );
-    getScene()->addItem( item );
-    item->setPos( settings->areas.at( 0 ).pos );
+    for ( const auto& area : settings->areas )
+    {
+        AtomBlockSettings* setting = new AtomBlockSettings();
+        setting->polygon = area.polygon;
+        setting->block_name = area.name;
+        setting->type_block = DEFAULT_AREA;
+        DiagramItemAtom* item = new DiagramItemAtom( nullptr, setting );
+        getScene()->addItem( item );
+        item->setPos( area.pos );
+    }
+
+    QVector<DiagramItem*> blocks;
+    for ( const auto& block : settings->blocks )
+    {
+        AtomBlockSettings* setting = new AtomBlockSettings();
+        setting->text = block.text;
+        setting->type_block = block.type;
+        if ( block.type == DEFAULT_VAR )
+        {
+            setting->polygon.clear();
+            setting->polygon << QPointF( -50, -50 )
+                             << QPointF( 50, -50 )
+                             << QPointF( 50, 50 )
+                             << QPointF( -50, 50 )
+                             << QPointF( -50, -50 );
+        }
+        DiagramItemAtom* item = new DiagramItemAtom( nullptr, setting );
+        getScene()->addItem( item );
+        item->setPos( block.pos );
+        blocks.push_back( item );
+    }
+
+    for ( const auto& line : settings->lines )
+    {
+        auto arrow = getScene()->createArrow( blocks.at( line.startBlock ), blocks.at( line.endBlock ) );
+        if ( line.text != "" )
+            arrow->setText( line.text );
+    }
+
+    line_name_block->setText( settings->block_name );
     delete settings;
 }
 
@@ -61,6 +121,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
 {
     SparqlBlockSettings* setting = new SparqlBlockSettings();
     QVector<DiagramItemAtom*> blocks_atom;
+    QVector<QString> blocks_type;
     QVector<DiagramItemAtom*> blocks_area;
     QVector<DiagramArrow*> arrows;
     auto full_items = getScene()->items();
@@ -74,6 +135,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         {
             DiagramItemAtom* diagram_item_atom = qgraphicsitem_cast<DiagramItemAtom*>( item );
             auto settings = diagram_item_atom->getSettings();
+            auto ttemp = settings->type_block;
             if ( DEFAULT_AREA == settings->type_block )
             {
                 blocks_area.push_back( diagram_item_atom );
@@ -81,32 +143,33 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
             else
             {
                 blocks_atom.push_back( diagram_item_atom );
+                blocks_type.push_back( settings->type_block );
             }
         }
     }
 
-    for ( auto& block : blocks_atom )
+    for ( int i = 0; i < blocks_atom.size(); ++i )
     {
-        QString path;
-        for ( const auto& area : blocks_area )
-        {
-            if ( CheckCollisionArea( block, area ) )
-            {
-                if ( area->getArrows().size() )
-                {
-                    DiagramArrow* arrow = area->getArrows()[0];
-                    if ( arrow->endItem() == area )
-                    {
-                        path = arrow->getText();
-                    }
-                    else
-                    {
-                        path = "ORIGIN";
-                    }
-                }
-                setting->blocks.push_back( { block->getText(), block->pos(), path } );
-            }
-        }
+        /*      QString path;
+              for ( const auto& area : blocks_area )
+              {
+                  if ( CheckCollisionArea( block, area ) )
+                  {
+                      if ( area->getArrows().size() )
+                      {
+                          DiagramArrow* arrow = area->getArrows()[0];
+                          if ( arrow->endItem() == area )
+                          {
+                              path = arrow->getText();
+                          }
+                          else
+                          {
+                              path = "ORIGIN";
+                          }
+                      }*/
+        setting->blocks.push_back( { blocks_atom.at( i )->getText(), blocks_atom.at( i )->pos(), "path", blocks_type.at( i ) } );
+        /*            }
+                }*/
     }
 
     for ( auto& arrow : arrows )

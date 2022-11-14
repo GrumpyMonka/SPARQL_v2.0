@@ -1,6 +1,9 @@
 #include "sgraphicsview.h"
 
+#include <QFile>
+#include <QFileDialog>
 #include <QLabel>
+#include <QMessageBox>
 
 SGraphicsView::SGraphicsView( QWidget* parent )
     : QWidget( parent )
@@ -27,6 +30,56 @@ void SGraphicsView::createDiagramView()
 void SGraphicsView::slotOnCreateButtonClicked()
 {
     // empty
+}
+
+void SGraphicsView::slotOnSaveButtonClicked()
+{
+    // empty
+}
+
+void SGraphicsView::slotOnOpenButtonClicked()
+{
+    // empty
+}
+
+QString SGraphicsView::openFile()
+{
+    QString file_name = QFileDialog::getOpenFileName( this, "Choose File", QDir::currentPath(), tr( "JSON (*.json);;All files (*)" ) );
+    QFile file( file_name );
+    QString result;
+    if ( file.open( QIODevice::ReadOnly ) )
+    {
+        result = file.readAll();
+        QMessageBox::about( this, tr( "Based Block" ), tr( "Block is open!" ) );
+    }
+    else
+    {
+        QMessageBox::about( this, tr( "Based Block" ), tr( "Failed open block!" ) );
+    }
+    file.close();
+    return result;
+}
+
+void SGraphicsView::saveFile( const QString& text )
+{
+    QString file_name = QFileDialog::getSaveFileName( this, "Save as", QDir::currentPath(), tr( "JSON (*.json);;All files (*)" ) );
+    QStringList list = file_name.split( "." );
+    if ( list.size() == 1 || list.back() != "json" )
+    {
+        file_name += ".json";
+    }
+
+    QFile file( file_name );
+    if ( file.open( QIODevice::WriteOnly ) )
+    {
+        file.write( text.toLatin1() );
+        QMessageBox::about( this, tr( "Based Block" ), tr( "Block is saved!" ) );
+    }
+    else
+    {
+        QMessageBox::about( this, tr( "Based Block" ), tr( "Failed save block!" ) );
+    }
+    file.close();
 }
 
 void SGraphicsView::setDiagramScene( DiagramScene* scene )
