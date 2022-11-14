@@ -11,13 +11,14 @@ class DiagramArrow : public QGraphicsLineItem
 public:
     enum
     {
-        Type = UserType + 4
+        Type = UserType
     };
 
     DiagramArrow( QGraphicsPolygonItem* startItem, QGraphicsPolygonItem* endItem,
         QGraphicsItem* parent = 0 );
 
     int type() const override { return Type; }
+
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void setColor( const QColor& color ) { myColor = color; }

@@ -73,8 +73,8 @@ void SMenuBar::CreateActions()
     deleteAction = new QAction( QIcon( ":/Sources/images/delete.png" ), tr( "&Delete" ), this );
     deleteAction->setShortcut( tr( "Delete" ) );
     deleteAction->setStatusTip( tr( "Delete item from diagram" ) );
-    // connect( deleteAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( deleteItem() ) );
+    connect( deleteAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotOnDeleteItemOnScene() ) );
 
     exitAction = new QAction( tr( "E&xit" ), this );
     exitAction->setShortcuts( QKeySequence::Quit );

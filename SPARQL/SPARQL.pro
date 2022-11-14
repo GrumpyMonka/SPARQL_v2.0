@@ -31,6 +31,7 @@ SOURCES += \
     SWidgets/STabWidget/stabwidget.cpp \
     SWidgets/SToolBar/stoolbar.cpp \
     SWidgets/SToolBox/stoolbox.cpp \
+    SWidgets/swidget.cpp \
     main.cpp \
     MainForm/mainwindow.cpp \
     SWidgets/SMenuBar/smenubar.cpp
@@ -59,13 +60,15 @@ HEADERS += \
     SWidgets/STabWidget/stabwidget.h \
     SWidgets/SToolBar/stoolbar.h \
     SWidgets/SMenuBar/smenubar.h \
-    SWidgets/SToolBox/stoolbox.h
+    SWidgets/SToolBox/stoolbox.h \
+    SWidgets/swidget.h
 
 FORMS += \
     MainForm/mainwindow.ui
 
 INCLUDEPATH += \
     MainForm \
+    SWidgets \
     SWidgets/SToolBar \
     SWidgets/SMenuBar \
     SWidgets/SToolBox \

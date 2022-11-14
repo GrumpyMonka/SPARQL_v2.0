@@ -9,15 +9,13 @@
 #include <QSlider>
 #include <QSpinBox>
 
-class SGraphicsView : public QWidget
+#include <swidget.h>
+
+class SGraphicsView : public SWidget
 {
     Q_OBJECT
 public:
-    enum
-    {
-        Type = 0
-    };
-    virtual int type() { return Type; }
+    virtual int type() override { return SGraphicsViewType; }
 
     explicit SGraphicsView( QWidget* parent = nullptr );
     void setDiagramScene( DiagramScene* );

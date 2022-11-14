@@ -157,7 +157,7 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings 
     case BasedBlockSettings::Type:
         return Based;
         break;
-    // case CompositeBlockSettings::Type:
+    // case CompositeBlockSettings:
     //      return Composite
     //      break;
     case SparqlBlockSettings::Type:
@@ -176,13 +176,13 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItem* item )
 {
     switch ( item->type() )
     {
-    case DiagramItemBased::Type:
+    case DiagramItemBased:
         return Based;
         break;
-    // case DiagramItemComposite::Type:
+    // case DiagramItemComposite:
     //     return Composite
     //     break;
-    // case DiagramItemSparql::Type:
+    // case DiagramItemSparql:
     //     return Composite
     //     break;
     default:

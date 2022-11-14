@@ -6,7 +6,7 @@
 #include <QMessageBox>
 
 SGraphicsView::SGraphicsView( QWidget* parent )
-    : QWidget( parent )
+    : SWidget( parent )
 {
     setAttribute( Qt::WA_DeleteOnClose );
     createDiagramView();

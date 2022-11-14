@@ -80,6 +80,7 @@ void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
         setting->polygon = area.polygon;
         setting->block_name = area.name;
         setting->type_block = DEFAULT_AREA;
+        setting->transparent = true;
         DiagramItemAtom* item = new DiagramItemAtom( nullptr, setting );
         getScene()->addItem( item );
         item->setPos( area.pos );
@@ -131,7 +132,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         {
             arrows.push_back( qgraphicsitem_cast<DiagramArrow*>( item ) );
         }
-        else if ( DiagramItemAtom::Type == item->type() )
+        else if ( DiagramItem::AtomItemType == item->type() )
         {
             DiagramItemAtom* diagram_item_atom = qgraphicsitem_cast<DiagramItemAtom*>( item );
             auto settings = diagram_item_atom->getSettings();

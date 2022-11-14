@@ -39,7 +39,7 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
         auto json_areas = value["areas"].toArray();
         for ( const QJsonValue& area : json_areas )
         {
-            areas.push_back( { polygonFromJsonArray( area["polygon"].toArray() ), QPointF( area["pos_x"].toInt(), area["pox_y"].toInt() ), area["name"].toString() } );
+            areas.push_back( { polygonFromJsonArray( area["polygon"].toArray() ), QPointF( area["pos_x"].toDouble(), area["pox_y"].toDouble() ), area["name"].toString() } );
         }
     }
 }

@@ -131,10 +131,10 @@ QList<DiagramArrow*> DiagramItem::getArrows()
 
 bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 {
-    if ( DiagramItemBased::Type == code
-        //    || DiagramItemComposite::Type == code
-        //    || DiagramItemSparql::Type == code
-        || DiagramItemAtom::Type == code )
+    if ( DiagramItem::BasedItemType == code
+        //    || DiagramItemComposite  == code
+        //    || DiagramItemSparql  == code
+        || DiagramItem::AtomItemType == code )
     {
         return true;
     }

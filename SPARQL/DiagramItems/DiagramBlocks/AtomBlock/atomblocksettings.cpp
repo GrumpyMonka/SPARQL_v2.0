@@ -95,6 +95,7 @@ QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
     setting->transparent = true;
     setting->polygon = GetDefaultAreaPolygon();
     setting->pixmap = setting->image();
+    setting->transparent = true;
     list.push_back( setting );
 
     return list;
