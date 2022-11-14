@@ -34,6 +34,7 @@ public slots:
     void slotCreateSparqlBlock();
     void slotCurrentTabMode( int );
     void slotOnCreateBlock( DiagramItemSettings* );
+    void slotOnClickedBlockExecutor();
 
 private:
     void createMainForm();

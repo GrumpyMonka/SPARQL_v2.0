@@ -1,5 +1,7 @@
 #include "stabwidget.h"
 
+#include <projectwindow.h>
+
 STabWidget::STabWidget( QWidget* parent )
     : QTabWidget( parent )
 {
@@ -58,4 +60,17 @@ void STabWidget::setSceneMode( int mode )
 {
     if ( nullptr != currentWidget() )
         ( static_cast<SGraphicsView*>( currentWidget() ) )->setSceneMode( mode );
+}
+
+QVector<DiagramItem*> STabWidget::getBlocksForRun()
+{
+    if ( ProjectWindow::Type == ( static_cast<SGraphicsView*>( currentWidget() )->type() ) )
+    {
+        auto window = static_cast<ProjectWindow*>( currentWidget() );
+        return window->getDiagramItems();
+    }
+    else
+    {
+        return {};
+    }
 }

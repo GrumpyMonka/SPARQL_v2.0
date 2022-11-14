@@ -12,7 +12,15 @@ public:
         DiagramMode = 7
     };
 
+    enum
+    {
+        Type = 1
+    };
+    int type() override { return Type; }
+
     explicit ProjectWindow( QWidget* parent = nullptr );
+
+    QVector<DiagramItem*> getDiagramItems();
 
 private:
     QWidget* addCustomWidget() override;

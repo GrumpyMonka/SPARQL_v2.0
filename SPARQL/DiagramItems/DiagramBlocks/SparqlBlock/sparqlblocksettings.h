@@ -33,7 +33,7 @@ public:
 
     struct AreaSaver
     {
-        QPointF polygon;
+        QPolygonF polygon;
         QPointF pos;
         QString name;
     };

@@ -8,6 +8,7 @@
 #include <basedblockwindow.h>
 #include <compositeblocksettings.h>
 #include <compositeblockwindow.h>
+#include <diagramexecutor.h>
 #include <sparqlblockwindow.h>
 
 MainWindow::MainWindow( QWidget* parent )
@@ -90,4 +91,14 @@ void MainWindow::slotOnCreateBlock( DiagramItemSettings* settings )
 void MainWindow::slotCurrentTabMode( int mode )
 {
     tool_box->setDiagramItems( library->getBlocks( mode ) );
+}
+
+void MainWindow::slotOnClickedBlockExecutor()
+{
+    auto list_blocks = tab_widget->getBlocksForRun();
+    if ( !list_blocks.empty() )
+    {
+        auto window = new DiagramExecutor( this );
+        tab_widget->addWidget( window, 0, "Exec" );
+    }
 }

@@ -1,5 +1,6 @@
 #include "stoolbox.h"
 
+#include <QLabel>
 #include <QPushButton>
 #include <QToolButton>
 
@@ -108,7 +109,9 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
 
     QGridLayout* layout = new QGridLayout;
     layout->addWidget( button, 0, 0, Qt::AlignHCenter );
-    // layout->addWidget( new QLabel( name ), 1, 0, Qt::AlignCenter );
+    auto temp_label = new QLabel( name );
+    temp_label->setMaximumWidth( 50 );
+    layout->addWidget( temp_label, 1, 0, Qt::AlignCenter );
 
     QWidget* widget = new QWidget;
     widget->setLayout( layout );

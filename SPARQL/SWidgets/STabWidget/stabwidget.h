@@ -12,6 +12,7 @@ public:
     explicit STabWidget( QWidget* parent = nullptr );
 
     void addWidget( QWidget* widget, int mode, const QString& name );
+    QVector<DiagramItem*> getBlocksForRun();
 
 public slots:
     void setSceneMode( int );

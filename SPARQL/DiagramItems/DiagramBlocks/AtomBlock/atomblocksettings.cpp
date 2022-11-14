@@ -58,6 +58,15 @@ QJsonObject AtomBlockSettings::getJsonFromSetting()
     return {};
 }
 
+QPolygonF AtomBlockSettings::GetDefaultAreaPolygon()
+{
+    return QPolygonF() << QPointF( -300, 200 )
+                       << QPointF( 300, 200 )
+                       << QPointF( 300, -200 )
+                       << QPointF( -300, -200 )
+                       << QPointF( -300, 200 );
+}
+
 QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
 {
     QVector<DiagramItemSettings*> list;
@@ -84,11 +93,7 @@ QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
     setting->flag_text = false;
     setting->polygon.clear();
     setting->transparent = true;
-    setting->polygon << QPointF( -300, 200 )
-                     << QPointF( 300, 200 )
-                     << QPointF( 300, -200 )
-                     << QPointF( -300, -200 )
-                     << QPointF( -300, 200 );
+    setting->polygon = GetDefaultAreaPolygon();
     setting->pixmap = setting->image();
     list.push_back( setting );
 

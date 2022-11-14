@@ -15,7 +15,7 @@ public:
 
     explicit SparqlBlockWindow( QWidget* parent = nullptr );
 
-    void setSettings( const SparqlBlockSettings& settings = SparqlBlockSettings() );
+    void setSettings( SparqlBlockSettings* settings = new SparqlBlockSettings() );
 
     SparqlBlockSettings* getSettings();
 
@@ -26,6 +26,7 @@ private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
 
+    QLineEdit* line_name_block;
     void createDefaultcScene();
     void clearScene();
     bool CheckCollisionArea( DiagramItemAtom* item, DiagramItemAtom* area );

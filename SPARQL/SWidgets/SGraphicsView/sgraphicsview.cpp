@@ -65,7 +65,7 @@ void SGraphicsView::createSidePanel()
     group_box_layout = new QVBoxLayout( group_box );
     group_box_layout->addLayout( layout, 0 );
     group_box_layout->addWidget( addCustomWidget(), 1 );
-    group_box_layout->addSpacerItem( new QSpacerItem( 0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
+    group_box_layout->addSpacerItem( new QSpacerItem( 0, 3000, QSizePolicy::Ignored, QSizePolicy::Ignored ) );
     group_box_layout->addWidget( addCustomBotWidget() );
 
     group_box->setLayout( group_box_layout );

@@ -6,12 +6,25 @@ SparqlBlockWindow::SparqlBlockWindow( QWidget* parent )
     : SGraphicsView( parent )
 {
     createSidePanel();
-    setSettings();
+    setSettings( SparqlBlockSettings::CreateTemplateSparqlSettings() );
 }
 
 QWidget* SparqlBlockWindow::addCustomWidget()
 {
-    return new QWidget( this );
+    QWidget* widget = new QWidget( this );
+    QGridLayout* grid_layout = new QGridLayout();
+    widget->setLayout( grid_layout );
+
+    QLabel* label = new QLabel( "Name block:", this );
+    label->setMaximumHeight( 30 );
+    line_name_block = new QLineEdit( this );
+    line_name_block->setText( "Sparql" );
+
+    grid_layout->addWidget( label, 0, 0 );
+    grid_layout->addWidget( line_name_block, 1, 0 );
+    widget->setSizePolicy( QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum ) );
+
+    return widget;
 }
 
 QWidget* SparqlBlockWindow::addCustomBotWidget()
@@ -33,8 +46,15 @@ void SparqlBlockWindow::slotOnCreateButtonClicked()
     //  emit blockCreated( static_cast<DiagramItemSettings*>( getSettings() ) );
 }
 
-void SparqlBlockWindow::setSettings( const SparqlBlockSettings& settings )
+void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
 {
+    auto atom_settings = new AtomBlockSettings();
+    atom_settings->polygon = settings->areas.at( 0 ).polygon;
+    atom_settings->block_name = settings->areas.at( 0 ).name;
+    auto item = new DiagramItemAtom( nullptr, atom_settings );
+    getScene()->addItem( item );
+    item->setPos( settings->areas.at( 0 ).pos );
+    delete settings;
 }
 
 SparqlBlockSettings* SparqlBlockWindow::getSettings()
@@ -111,12 +131,11 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         //{
         path = "ORIGIN";
         //}
-        setting->areas.push_back( { QPointF( area->getEndPos().x() - area->getStartPos().x(),
-                                        area->getEndPos().y() - area->getStartPos().y() ),
+        setting->areas.push_back( { area->polygon(),
             area->pos(), path } );
     }
 
-    // setting->block_name = name_line_edit->text();
+    setting->block_name = line_name_block->text();
     // setting->limit = limit_spin->value();
     return setting;
 }

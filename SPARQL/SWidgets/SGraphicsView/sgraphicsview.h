@@ -13,6 +13,12 @@ class SGraphicsView : public QWidget
 {
     Q_OBJECT
 public:
+    enum
+    {
+        Type = 0
+    };
+    virtual int type() { return Type; }
+
     explicit SGraphicsView( QWidget* parent = nullptr );
     void setDiagramScene( DiagramScene* );
     void createSidePanel();

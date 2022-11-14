@@ -67,8 +67,8 @@ void SMenuBar::CreateActions()
     runSceneScriptAction = new QAction( QIcon( ":/Sources/images/execution.png" ), tr( "Run" ), this );
     runSceneScriptAction->setShortcut( tr( "Ctrl+R" ) );
     runSceneScriptAction->setStatusTip( tr( "Run" ) );
-    // connect( runSceneScriptAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( runScene() ) );
+    connect( runSceneScriptAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotOnClickedBlockExecutor() ) );
 
     deleteAction = new QAction( QIcon( ":/Sources/images/delete.png" ), tr( "&Delete" ), this );
     deleteAction->setShortcut( tr( "Delete" ) );

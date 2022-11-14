@@ -37,6 +37,7 @@ public:
     QPixmap image() const override;
 
     static QVector<DiagramItemSettings*> GetBasedAtomBlocks();
+    static QPolygonF GetDefaultAreaPolygon();
 };
 
 #endif // ATOMBLOCKSETTINGS_H
