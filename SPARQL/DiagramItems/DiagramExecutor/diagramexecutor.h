@@ -13,13 +13,13 @@ class DiagramExecutor : public QWidget
 public:
     explicit DiagramExecutor( QWidget* parent = nullptr );
 
-    void setScript( QString& );
+    void setScript( const QString& );
 
-    static QString ConvertDiagramItemToScript( QVector<DiagramItemSettings*>& );
+    static QString ConvertDiagramItemToScript( QVector<DiagramItem*>& );
 
 private:
     void createWindow();
-    QString loadScript( QString path );
+    QString loadScript( const QString& path );
 
 private slots:
     void execute();

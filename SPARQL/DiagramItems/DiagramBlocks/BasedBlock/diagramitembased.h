@@ -19,10 +19,9 @@ public:
     {
         Type = UserType + 6
     };
-    int type() const override { return Type; }
+    virtual int type() const override { return Type; }
 
-    DiagramItemBased( QMenu* contextMenu, BasedBlockSettings* setting = new BasedBlockSettings(),
-        QGraphicsItem* parent = nullptr );
+    DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent = nullptr, BasedBlockSettings* setting = new BasedBlockSettings() );
     void setSetting( BasedBlockSettings* setting );
     QString getName();
     BasedBlockSettings* getSetting();

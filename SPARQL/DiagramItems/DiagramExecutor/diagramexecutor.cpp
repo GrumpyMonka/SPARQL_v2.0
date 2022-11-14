@@ -3,6 +3,9 @@
 #include <QGridLayout>
 #include <QPushButton>
 
+#include <diagramitembased.h>
+#include <diagramitemsparql.h>
+
 DiagramExecutor::DiagramExecutor( QWidget* parent )
     : QWidget( parent )
 {
@@ -17,12 +20,109 @@ DiagramExecutor::DiagramExecutor( QWidget* parent )
     // engine->globalObject().setProperty( "network", networkVal );
 }
 
-void DiagramExecutor::setScript( QString& )
+void DiagramExecutor::setScript( const QString& script )
 {
+    text_edit_script->setHtml( script );
 }
 
-QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItemSettings*>& )
+namespace
 {
+QString getHtmlLine( QString line, QString style = "" )
+{
+    return "<span style=\"margin-top:0px; " + style + "\">" + line + "</span><br>";
+}
+
+QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
+{
+    QString result = "";
+    DiagramItem* diagram_item = block_list[index];
+
+    result += getHtmlLine( "\nblocks_list.push( new Block( " );
+    result += getHtmlLine( "\tfunction( x ) {" );
+
+    switch ( diagram_item->type() )
+    {
+    case DiagramItemBased::Type:
+        if ( ( static_cast<DiagramItemBased*>( diagram_item ) )->GetInputData() != "" )
+            result += getHtmlLine( "\t\tvar input = " + ( static_cast<DiagramItemBased*>( diagram_item ) )->GetInputData() + ";" );
+        break;
+
+    case DiagramItemSparql::Type:
+        result += getHtmlLine( "\t\tvar input = \"\";" );
+        break;
+    }
+
+    result += getHtmlLine( "\t\tvar y = [];" );
+
+    QStringList list;
+    switch ( diagram_item->type() )
+    {
+    case DiagramItemBased::Type:
+        list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSetting()->script.split( "\n" );
+        break;
+
+        // case DiagramItemSparql::Type:
+        //     list = ( static_cast<DiagramItemSparql*>( diagram_item ) )->getSetting()->ConvertToBasedBlockSetting()->script.split( "\n" );
+        //     break;
+    }
+
+    foreach ( QString iter, list )
+    {
+        for ( int i = 0; i < iter.size(); i++ )
+        {
+            if ( iter[i] == "<" )
+            {
+                iter = iter.mid( 0, i ) + "&lt;" + iter.mid( i + 1, iter.size() );
+            }
+            if ( iter[i] == ">" )
+            {
+                iter = iter.mid( 0, i ) + "&gt;" + iter.mid( i + 1, iter.size() );
+            }
+        }
+        result += getHtmlLine( "\t\t" + iter );
+    }
+
+    result += getHtmlLine( "\t\treturn y;" );
+    result += getHtmlLine( "\t}," );
+
+    result += getHtmlLine( "\t[ ]," );
+
+    QString temp = "[ ";
+
+    // foreach ( Arrow* arrow, api->block_list[index]->getArrows() )
+    //{
+    //     if ( arrow->startItem() != api->block_list[index] )
+    //     {
+    //         temp += QString::number( api->block_list.indexOf( arrow->startItem() ) );
+    //         temp += ", ";
+    //     }
+    // }
+
+    if ( temp[temp.size() - 2] == "," )
+        temp.remove( temp.size() - 2, 1 );
+
+    temp += "]";
+
+    result += getHtmlLine( "\t" + temp );
+    result += getHtmlLine( "));\n" );
+    return result;
+}
+} // namespace
+
+QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& block_list )
+{
+    int end_block = -1;
+    QString script = "<p style=\"white-space: pre-wrap;\">";
+    for ( int i = 0; i < block_list.size(); i++ )
+    {
+        script += CreateScriptForBlock( block_list, i );
+        if ( DiagramItemBased::Type == block_list[i]->type() && ( (DiagramItemBased*)( block_list[i] ) )->getName() == "END" )
+        {
+            end_block = i;
+        }
+    }
+    script += "</p>";
+    return script;
 }
 
 void DiagramExecutor::createWindow()
@@ -39,7 +139,7 @@ void DiagramExecutor::createWindow()
     grid_layout->addWidget( button_exec, 2, 0 );
 }
 
-QString DiagramExecutor::loadScript( QString path )
+QString DiagramExecutor::loadScript( const QString& path )
 {
     QFile f( path );
     QScriptValue result;
