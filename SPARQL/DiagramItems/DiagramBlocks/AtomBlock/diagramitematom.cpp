@@ -29,7 +29,7 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settin
     type_block = settings->type_block;
     if ( !settings->transparent )
     {
-        //   setBrush( Qt::white );
+        setBrush( Qt::white );
     }
 
     delete settings;

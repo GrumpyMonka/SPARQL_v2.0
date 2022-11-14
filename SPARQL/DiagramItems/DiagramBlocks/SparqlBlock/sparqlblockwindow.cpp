@@ -80,6 +80,7 @@ void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
         setting->polygon = area.polygon;
         setting->block_name = area.name;
         setting->type_block = DEFAULT_AREA;
+        setting->transparent = true;
         DiagramItemAtom* item = new DiagramItemAtom( nullptr, setting );
         getScene()->addItem( item );
         item->setPos( area.pos );
@@ -195,7 +196,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         path = "ORIGIN";
         //}
         setting->areas.push_back( { area->polygon(),
-            area->pos(), path } );
+            area->pos(), path, true } );
     }
 
     setting->block_name = line_name_block->text();
