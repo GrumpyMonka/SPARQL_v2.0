@@ -42,12 +42,12 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
 
     switch ( diagram_item->type() )
     {
-    case DiagramItemBased::Type:
+    case DiagramItem::BasedItemType:
         if ( ( static_cast<DiagramItemBased*>( diagram_item ) )->GetInputData() != "" )
             result += getHtmlLine( "\t\tvar input = " + ( static_cast<DiagramItemBased*>( diagram_item ) )->GetInputData() + ";" );
         break;
 
-    case DiagramItemSparql::Type:
+    case DiagramItem::SparqlItemType:
         result += getHtmlLine( "\t\tvar input = \"\";" );
         break;
     }
@@ -57,11 +57,11 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     QStringList list;
     switch ( diagram_item->type() )
     {
-    case DiagramItemBased::Type:
+    case DiagramItem::BasedItemType:
         list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSetting()->script.split( "\n" );
         break;
 
-        // case DiagramItemSparql::Type:
+        // case DiagramItemSparql :
         //     list = ( static_cast<DiagramItemSparql*>( diagram_item ) )->getSetting()->ConvertToBasedBlockSetting()->script.split( "\n" );
         //     break;
     }
@@ -116,7 +116,7 @@ QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& bloc
     for ( int i = 0; i < block_list.size(); i++ )
     {
         script += CreateScriptForBlock( block_list, i );
-        if ( DiagramItemBased::Type == block_list[i]->type() && ( (DiagramItemBased*)( block_list[i] ) )->getName() == "END" )
+        if ( DiagramItem::BasedItemType == block_list[i]->type() && ( ( DiagramItemBased* )( block_list[i] ) )->getName() == "END" )
         {
             end_block = i;
         }

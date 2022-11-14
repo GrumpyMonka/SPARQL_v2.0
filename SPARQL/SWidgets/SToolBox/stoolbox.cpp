@@ -76,24 +76,24 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
         icon = QIcon( item->pixmap.scaled( SIZE, SIZE ) );
     }
     /*
-        else if ( BasedBlockSettings::Type == item->type() )
+        else if ( BasedBlockSettings  == item->type() )
         {
             BasedBlockSettings* setting = static_cast<BasedBlockSettings*>( item );
             name = setting->block_name;
             icon = QIcon( setting->pixmap.scaled( SIZE, SIZE ) );
         }
 
-        else if ( CompositeBlockSetting::Type == settingf->type() )
+        else if ( CompositeBlockSetting  == settingf->type() )
         {
         }
-        else if ( SparqlBlockSetting::Type == settingf->type() )
+        else if ( SparqlBlockSetting  == settingf->type() )
         {
             SparqlBlockSetting* setting = ( SparqlBlockSetting* )( settingf );
             name = setting->name;
             QPixmap pixmap( ":/images/sparqlicon.jpg" );
             icon = QIcon( pixmap.scaled( 50, 50 ) );
         }
-        else if ( AtomBlockSettings::Type == item->type() )
+        else if ( AtomBlockSettings  == item->type() )
         {
             AtomBlockSettings* setting = static_cast<AtomBlockSettings*>( item );
 

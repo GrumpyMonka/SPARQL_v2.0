@@ -24,7 +24,7 @@ QVector<DiagramItem*> ProjectWindow::getDiagramItems()
     auto list = getScene()->items();
     for ( auto item : list )
     {
-        if ( DiagramItemBased::Type == item->type() )
+        if ( DiagramItem::BasedItemType == item->type() )
         {
             result.push_back( static_cast<DiagramItem*>( item ) );
         }

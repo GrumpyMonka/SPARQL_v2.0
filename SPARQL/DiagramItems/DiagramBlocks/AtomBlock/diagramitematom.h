@@ -10,11 +10,7 @@
 class DiagramItemAtom : public DiagramItem
 {
 public:
-    enum
-    {
-        Type = UserType + 12
-    };
-    int type() const override { return Type; }
+    int type() const override { return AtomItemType; }
 
     DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settings = new AtomBlockSettings(),
         QGraphicsItem* parent = nullptr );

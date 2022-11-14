@@ -64,7 +64,7 @@ void STabWidget::setSceneMode( int mode )
 
 QVector<DiagramItem*> STabWidget::getBlocksForRun()
 {
-    if ( ProjectWindow::Type == ( static_cast<SGraphicsView*>( currentWidget() )->type() ) )
+    if ( SWidget::SGraphicsViewType == ( static_cast<SGraphicsView*>( currentWidget() )->type() ) )
     {
         auto window = static_cast<ProjectWindow*>( currentWidget() );
         return window->getDiagramItems();
@@ -73,4 +73,8 @@ QVector<DiagramItem*> STabWidget::getBlocksForRun()
     {
         return {};
     }
+}
+
+void STabWidget::deleteItemOnScene()
+{
 }

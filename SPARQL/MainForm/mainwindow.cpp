@@ -103,3 +103,8 @@ void MainWindow::slotOnClickedBlockExecutor()
         tab_widget->addWidget( window, 0, "Exec" );
     }
 }
+
+void MainWindow::slotOnDeleteItemOnScene()
+{
+    tab_widget->deleteItemOnScene();
+}

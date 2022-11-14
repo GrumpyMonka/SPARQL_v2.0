@@ -132,7 +132,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         {
             arrows.push_back( qgraphicsitem_cast<DiagramArrow*>( item ) );
         }
-        else if ( DiagramItemAtom::Type == item->type() )
+        else if ( DiagramItem::AtomItemType == item->type() )
         {
             DiagramItemAtom* diagram_item_atom = qgraphicsitem_cast<DiagramItemAtom*>( item );
             auto settings = diagram_item_atom->getSettings();
@@ -196,7 +196,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
         path = "ORIGIN";
         //}
         setting->areas.push_back( { area->polygon(),
-            area->pos(), path, true } );
+            area->pos(), path } );
     }
 
     setting->block_name = line_name_block->text();

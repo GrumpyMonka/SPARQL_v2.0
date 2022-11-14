@@ -7,11 +7,7 @@
 class DiagramItemSparql : public DiagramItemBased
 {
 public:
-    enum
-    {
-        Type = UserType + 10
-    };
-    int type() const override { return Type; };
+    int type() const override { return SparqlItemType; };
 
     DiagramItemSparql( QMenu* contextMenu, QGraphicsItem* parent = nullptr, SparqlBlockSettings* setting = new SparqlBlockSettings() );
 };

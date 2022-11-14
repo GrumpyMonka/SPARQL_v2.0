@@ -15,11 +15,7 @@
 class DiagramItemBased : public DiagramItem
 {
 public:
-    enum
-    {
-        Type = UserType + 6
-    };
-    virtual int type() const override { return Type; }
+    virtual int type() const override { return BasedItemType; }
 
     DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent = nullptr, BasedBlockSettings* setting = new BasedBlockSettings() );
     void setSetting( BasedBlockSettings* setting );

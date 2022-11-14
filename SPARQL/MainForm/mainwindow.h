@@ -35,6 +35,7 @@ public slots:
     void slotCurrentTabMode( int );
     void slotOnCreateBlock( DiagramItemSettings* );
     void slotOnClickedBlockExecutor();
+    void slotOnDeleteItemOnScene();
 
 private:
     void createMainForm();
