@@ -147,8 +147,8 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     switch ( settings->type() )
     {
     case BasedBlockSettings::Type:
-        return new DiagramItemBased( context_menu,
-            new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ), parent );
+        return new DiagramItemBased( context_menu, parent,
+            new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ) );
         break;
     case AtomBlockSettings::Type:
         return new DiagramItemAtom( context_menu,

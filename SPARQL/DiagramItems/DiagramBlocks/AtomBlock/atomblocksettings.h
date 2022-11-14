@@ -5,6 +5,10 @@
 
 #include <diagramitemsettings.h>
 
+#define DEFAULT_AREA "AREA"
+#define DEFAULT_VAR "VAR"
+#define DEFAULT_VALUE "VALUE"
+
 class AtomBlockSettings : public DiagramItemSettings
 {
 public:
@@ -33,6 +37,7 @@ public:
     QPixmap image() const override;
 
     static QVector<DiagramItemSettings*> GetBasedAtomBlocks();
+    static QPolygonF GetDefaultAreaPolygon();
 };
 
 #endif // ATOMBLOCKSETTINGS_H

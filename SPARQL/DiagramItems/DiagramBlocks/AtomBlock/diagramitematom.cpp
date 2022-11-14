@@ -26,6 +26,7 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settin
     setItemPolygon( settings->polygon );
     setText( settings->text );
     line_edit->setVisible( settings->flag_text );
+    type_block = settings->type_block;
     if ( !settings->transparent )
     {
         setBrush( Qt::white );
@@ -41,7 +42,12 @@ void DiagramItemAtom::setItemPolygon( QPolygonF& polygon )
 
 AtomBlockSettings* DiagramItemAtom::getSettings()
 {
-    return {};
+    auto settings = new AtomBlockSettings();
+    settings->text = getText();
+    settings->polygon = polygon();
+    settings->type_block = type_block;
+    settings->flag_text = line_edit->isVisible();
+    return settings;
 }
 
 void DiagramItemAtom::setText( const QString& text )

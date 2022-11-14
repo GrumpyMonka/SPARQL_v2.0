@@ -1,6 +1,7 @@
 #ifndef SPARQLBLOCKWINDOW_H
 #define SPARQLBLOCKWINDOW_H
 
+#include <diagramitematom.h>
 #include <sgraphicsview.h>
 #include <sparqlblocksettings.h>
 
@@ -14,14 +15,21 @@ public:
 
     explicit SparqlBlockWindow( QWidget* parent = nullptr );
 
-    void setSettings( SparqlBlockSettings* );
+    void setSettings( SparqlBlockSettings* settings = new SparqlBlockSettings() );
+
+    SparqlBlockSettings* getSettings();
+
+public slots:
+    void slotOnCreateButtonClicked() override;
 
 private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
 
-    void createDefaultScene();
+    QLineEdit* line_name_block;
+    void createDefaultcScene();
     void clearScene();
+    bool CheckCollisionArea( DiagramItemAtom* item, DiagramItemAtom* area );
 };
 
 #endif // SPARQLBLOCKWINDOW_H

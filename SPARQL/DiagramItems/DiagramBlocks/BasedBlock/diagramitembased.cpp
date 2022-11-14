@@ -1,7 +1,6 @@
 #include "diagramitembased.h"
 
-DiagramItemBased::DiagramItemBased( QMenu* contextMenu,
-    BasedBlockSettings* setting, QGraphicsItem* parent )
+DiagramItemBased::DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent, BasedBlockSettings* setting )
     : DiagramItem( contextMenu, parent )
 {
     setBrush( Qt::white );

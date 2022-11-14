@@ -1,5 +1,6 @@
 #include "stoolbox.h"
 
+#include <QLabel>
 #include <QPushButton>
 #include <QToolButton>
 
@@ -27,9 +28,20 @@ void SToolBox::createToolButtonGroup()
     button_layout->setSpacing( 0 );
     button_layout->setMargin( 0 );
 
+    for ( int i = 0; i < 3; ++i )
+    {
+        addDiagramItem( nullptr, false );
+    }
+
+    for ( int i = 0; i < 3; ++i )
+    {
+        settings_list.removeLast();
+        widget_list.removeLast();
+    }
+
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
+    setMinimumWidth( 230 );
     addItem( buttonGroupWidget, tr( "Blocks" ) );
-    setDiagramItems( {} );
 }
 
 void SToolBox::buttonGroupClicked( int pos )
@@ -47,19 +59,7 @@ void SToolBox::setDiagramItems( const QVector<DiagramItemSettings*>& items )
 {
     deleteDiagramItems( settings_list );
 
-    int size_list = items.size();
     addDiagramItems( items );
-
-    for ( int i = size_list; i < 3; ++i )
-    {
-        addDiagramItem( nullptr, false );
-    }
-
-    for ( int i = size_list; i < 3; ++i )
-    {
-        settings_list.removeLast();
-        widget_list.removeLast();
-    }
 }
 
 void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
@@ -109,7 +109,9 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
 
     QGridLayout* layout = new QGridLayout;
     layout->addWidget( button, 0, 0, Qt::AlignHCenter );
-    // layout->addWidget( new QLabel( name ), 1, 0, Qt::AlignCenter );
+    auto temp_label = new QLabel( name );
+    temp_label->setMaximumWidth( 50 );
+    layout->addWidget( temp_label, 1, 0, Qt::AlignCenter );
 
     QWidget* widget = new QWidget;
     widget->setLayout( layout );
@@ -134,6 +136,7 @@ void SToolBox::deleteDiagramItem( DiagramItemSettings* item )
     widget_list.at( pos )->deleteLater();
     widget_list.remove( pos );
     settings_list.remove( pos );
+    button_group->removeButton( button_group->buttons().at( pos ) );
 }
 
 void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )

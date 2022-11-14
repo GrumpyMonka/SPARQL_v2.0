@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network script qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,6 +22,7 @@ SOURCES += \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.cpp \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.cpp \
     DiagramItems/DiagramBlocks/blockslibrary.cpp \
+    DiagramItems/DiagramExecutor/diagramexecutor.cpp \
     DiagramItems/DiagramItem/diagramitem.cpp \
     DiagramItems/DiagramItemSettings/diagramitemsettings.cpp \
     DiagramItems/DiagramScene/diagramscene.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.h \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.h \
     DiagramItems/DiagramBlocks/blockslibrary.h \
+    DiagramItems/DiagramExecutor/diagramexecutor.h \
     DiagramItems/DiagramItem/diagramitem.h \
     DiagramItems/DiagramItemSettings/diagramitemsettings.h \
     DiagramItems/DiagramScene/diagramscene.h \
@@ -79,6 +81,7 @@ INCLUDEPATH += \
     DiagramItems/DiagramBlocks/SparqlBlock \
     DiagramItems/DiagramBlocks/AtomBlock \
     DiagramItems/DiagramBlocks \
+    DiagramItems/DiagramExecutor \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

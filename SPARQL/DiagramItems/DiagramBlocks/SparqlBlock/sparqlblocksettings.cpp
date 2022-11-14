@@ -133,3 +133,10 @@ QPixmap SparqlBlockSettings::image() const
 {
     return {};
 }
+
+SparqlBlockSettings* SparqlBlockSettings::CreateTemplateSparqlSettings()
+{
+    auto settings = new SparqlBlockSettings();
+    settings->areas.push_back( { AtomBlockSettings::GetDefaultAreaPolygon(), QPointF( 2500, 2500 ), "ORIGIN" } );
+    return settings;
+}

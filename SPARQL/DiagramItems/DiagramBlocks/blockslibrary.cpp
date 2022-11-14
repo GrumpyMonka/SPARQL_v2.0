@@ -11,7 +11,7 @@ BlocksLibrary::BlocksLibrary()
 {
 }
 
-void BlocksLibrary::loadBlocksFormFiles( const QString& folder )
+void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
 {
     QDir dir;
     dir.setPath( folder );
@@ -161,7 +161,7 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings 
     //      return Composite
     //      break;
     case SparqlBlockSettings::Type:
-        return Composite;
+        return SPARQL;
         break;
     case AtomBlockSettings::Type:
         return Atom;

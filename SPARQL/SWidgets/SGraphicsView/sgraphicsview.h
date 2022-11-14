@@ -13,6 +13,12 @@ class SGraphicsView : public QWidget
 {
     Q_OBJECT
 public:
+    enum
+    {
+        Type = 0
+    };
+    virtual int type() { return Type; }
+
     explicit SGraphicsView( QWidget* parent = nullptr );
     void setDiagramScene( DiagramScene* );
     void createSidePanel();
@@ -22,6 +28,7 @@ public:
 public slots:
     void setItemForScene( DiagramItemSettings* );
     void setSceneMode( int mode );
+    virtual void slotOnCreateButtonClicked();
 
 protected:
     virtual QWidget* addCustomWidget() = 0;
@@ -37,6 +44,7 @@ private slots:
     void updatePosItems();
 
 signals:
+    void blockCreated( DiagramItemSettings* );
 
 private:
     DiagramScene* diagram_scene;

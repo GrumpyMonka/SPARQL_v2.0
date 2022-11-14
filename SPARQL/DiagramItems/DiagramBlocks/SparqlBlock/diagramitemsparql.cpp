@@ -1,6 +1,6 @@
 #include "diagramitemsparql.h"
 
-DiagramItemSparql::DiagramItemSparql()
+DiagramItemSparql::DiagramItemSparql( QMenu* contextMenu, QGraphicsItem* parent, SparqlBlockSettings* setting )
+    : DiagramItemBased( contextMenu, parent )
 {
-
 }
