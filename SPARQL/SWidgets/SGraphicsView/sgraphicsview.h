@@ -29,6 +29,10 @@ public slots:
     void setItemForScene( DiagramItemSettings* );
     void setSceneMode( int mode );
     virtual void slotOnCreateButtonClicked();
+    virtual void slotOnSaveButtonClicked();
+    virtual void slotOnOpenButtonClicked();
+    QString openFile();
+    void saveFile( const QString& );
 
 protected:
     virtual QWidget* addCustomWidget() = 0;

@@ -23,6 +23,8 @@ public:
 
     QJsonValue jsonValFromPixmap( const QPixmap& p );
     QPixmap pixmapFrom( const QJsonValue& val );
+    QJsonArray jsonArrayFromPolygon( const QPolygonF& polygon );
+    QPolygonF polygonFromJsonArray( const QJsonArray& array );
 };
 
 #endif // DIAGRAMITEMSETTINGS_H

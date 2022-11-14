@@ -21,6 +21,8 @@ public:
 
 public slots:
     void slotOnCreateButtonClicked() override;
+    void slotOnSaveButtonClicked() override;
+    void slotOnOpenButtonClicked() override;
 
 private:
     QWidget* addCustomWidget() override;
