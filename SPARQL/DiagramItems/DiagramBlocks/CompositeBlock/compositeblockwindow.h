@@ -6,10 +6,8 @@
 class CompositeBlockWindow : public SGraphicsView
 {
 public:
-    enum
-    {
-        DiagramMode = 7
-    };
+    SGViewTypes typeSGView() override { return CompositeBlockWindowType; }
+    int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::None; }
 
     explicit CompositeBlockWindow( QWidget* parent = nullptr );
 

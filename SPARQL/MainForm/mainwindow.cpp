@@ -39,7 +39,7 @@ void MainWindow::createMainForm()
     widget->setLayout( main_layout );
 
     tab_widget = new STabWidget( this );
-    connect( tab_widget, SIGNAL( currentMode( int ) ),
+    connect( tab_widget, SIGNAL( newCurrentMode( int ) ),
         this, SLOT( slotCurrentTabMode( int ) ) );
 
     tool_box = new SToolBox( this );
@@ -60,25 +60,25 @@ void MainWindow::createMainForm()
 void MainWindow::slotCreateNewProject()
 {
     auto window = new ProjectWindow( this );
-    tab_widget->addWidget( window, ProjectWindow::DiagramMode, tr( "New Project" ) );
+    tab_widget->addWidget( window, tr( "New Project" ) );
 }
 
 void MainWindow::slotCreateBasedBlock()
 {
     auto window = new BasedBlockWindow( BasedBlockWindow::CreateMode, tab_widget );
-    tab_widget->addWidget( window, BasedBlockWindow::DiagramMode, tr( "New Block" ) );
+    tab_widget->addWidget( window, tr( "New Block" ) );
 }
 
 void MainWindow::slotCreateCompositeBlock()
 {
     auto window = new CompositeBlockWindow( this );
-    tab_widget->addWidget( window, CompositeBlockWindow::DiagramMode, tr( "Composite Block" ) );
+    tab_widget->addWidget( window, tr( "Composite Block" ) );
 }
 
 void MainWindow::slotCreateSparqlBlock()
 {
     auto window = new SparqlBlockWindow( this );
-    tab_widget->addWidget( window, SparqlBlockWindow::DiagramMode, tr( "New Sparql" ) );
+    tab_widget->addWidget( window, tr( "New Sparql" ) );
     connect( window, SIGNAL( blockCreated( DiagramItemSettings* ) ), this, SLOT( slotOnCreateBlock( DiagramItemSettings* ) ) );
 }
 
@@ -100,7 +100,7 @@ void MainWindow::slotOnClickedBlockExecutor()
     {
         auto window = new DiagramExecutor( this );
         window->setScript( DiagramExecutor::ConvertDiagramItemToScript( list_blocks ) );
-        tab_widget->addWidget( window, 0, "Exec" );
+        tab_widget->addWidget( window, "Exec" );
     }
 }
 

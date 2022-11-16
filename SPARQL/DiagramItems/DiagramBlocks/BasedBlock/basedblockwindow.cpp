@@ -11,7 +11,7 @@
 #include <exception>
 
 BasedBlockWindow::BasedBlockWindow( const BasedMode& mode, QWidget* parent )
-    : QWidget( parent )
+    : SWidget( parent )
 {
     setMode( mode );
     createWidget();

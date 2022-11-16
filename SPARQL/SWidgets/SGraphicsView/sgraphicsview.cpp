@@ -147,3 +147,8 @@ void SGraphicsView::setSceneMode( int mode )
 {
     getScene()->setMode( static_cast<DiagramScene::SceneMode>( mode ) );
 }
+
+void SGraphicsView::removeSelectedGraphicsItems()
+{
+    getScene()->removeSelectedItems();
+}

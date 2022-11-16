@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QtMath>
 
+#include <diagramarrow.h>
+
 DiagramItem::DiagramItem( QMenu* contextMenu, QGraphicsItem* parent )
     : QGraphicsPolygonItem( parent )
 {
@@ -19,6 +21,11 @@ DiagramItem::DiagramItem( QMenu* contextMenu, QGraphicsItem* parent )
     setFlag( QGraphicsItem::ItemIsMovable, true );
     setFlag( QGraphicsItem::ItemIsSelectable, true );
     setFlag( QGraphicsItem::ItemSendsGeometryChanges, true );
+}
+
+DiagramItem::~DiagramItem()
+{
+    removeArrows();
 }
 
 void DiagramItem::setContextMenu( QMenu* contextMenu )
@@ -77,19 +84,17 @@ QPointF DiagramItem::getEndPos()
 
 void DiagramItem::removeArrow( DiagramArrow* arrow )
 {
-    int index = arrows.indexOf( arrow );
-
-    if ( index != -1 )
+    auto index = arrows.indexOf( arrow );
+    if ( -1 != index )
+    {
         arrows.removeAt( index );
+    }
 }
 
 void DiagramItem::removeArrows()
 {
     foreach ( DiagramArrow* arrow, arrows )
     {
-        // arrow->startItem()->removeArrow( arrow );
-        // arrow->endItem()->removeArrow( arrow );
-        scene()->removeItem( arrow );
         delete arrow;
     }
 }
@@ -151,8 +156,8 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
             new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ) );
         break;
     case AtomBlockSettings::Type:
-        return new DiagramItemAtom( context_menu,
-            new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ), parent );
+        return new DiagramItemAtom( context_menu, parent,
+            new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ) );
     default:
         break;
     }

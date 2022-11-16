@@ -8,10 +8,8 @@
 class SparqlBlockWindow : public SGraphicsView
 {
 public:
-    enum
-    {
-        DiagramMode = 10
-    };
+    SGViewTypes typeSGView() override { return SparqlBlockWindowType; }
+    int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::Atom; }
 
     explicit SparqlBlockWindow( QWidget* parent = nullptr );
 

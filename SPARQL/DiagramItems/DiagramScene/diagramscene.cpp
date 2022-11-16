@@ -154,3 +154,18 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
 void DiagramScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
 }
+
+void DiagramScene::removeSelectedItems()
+{
+    auto selected_items_list = selectedItems();
+    for ( auto item : selected_items_list )
+    {
+        removeItemSmart( item );
+    }
+}
+
+void DiagramScene::removeItemSmart( QGraphicsItem* item )
+{
+    removeItem( item );
+    delete item;
+}

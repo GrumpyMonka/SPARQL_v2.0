@@ -5,6 +5,8 @@
 #include <QMap>
 #include <QPushButton>
 
+#include <diagramarrow.h>
+
 SparqlBlockWindow::SparqlBlockWindow( QWidget* parent )
     : SGraphicsView( parent )
 {
@@ -81,7 +83,7 @@ void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
         setting->block_name = area.name;
         setting->type_block = DEFAULT_AREA;
         setting->transparent = true;
-        DiagramItemAtom* item = new DiagramItemAtom( nullptr, setting );
+        DiagramItemAtom* item = new DiagramItemAtom( nullptr, nullptr, setting );
         getScene()->addItem( item );
         item->setPos( area.pos );
     }
@@ -101,7 +103,7 @@ void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
                              << QPointF( -50, 50 )
                              << QPointF( -50, -50 );
         }
-        DiagramItemAtom* item = new DiagramItemAtom( nullptr, setting );
+        DiagramItemAtom* item = new DiagramItemAtom( nullptr, nullptr, setting );
         getScene()->addItem( item );
         item->setPos( block.pos );
         blocks.push_back( item );

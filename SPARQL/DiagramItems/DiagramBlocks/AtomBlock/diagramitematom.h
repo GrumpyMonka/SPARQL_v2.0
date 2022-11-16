@@ -12,8 +12,8 @@ class DiagramItemAtom : public DiagramItem
 public:
     int type() const override { return AtomItemType; }
 
-    DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settings = new AtomBlockSettings(),
-        QGraphicsItem* parent = nullptr );
+    DiagramItemAtom( QMenu* context_menu, QGraphicsItem* parent = nullptr,
+        AtomBlockSettings* settings = new AtomBlockSettings() );
 
     void setItemPolygon( QPolygonF& polygon );
     AtomBlockSettings* getSettings();

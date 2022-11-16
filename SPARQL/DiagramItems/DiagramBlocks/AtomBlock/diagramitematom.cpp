@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QPolygonF>
 
-DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, AtomBlockSettings* settings, QGraphicsItem* parent )
+DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, QGraphicsItem* parent, AtomBlockSettings* settings )
     : DiagramItem( context_menu, parent )
 {
     proxy_line_edit = new QGraphicsProxyWidget( this );

@@ -15,11 +15,21 @@ class SGraphicsView : public SWidget
 {
     Q_OBJECT
 public:
-    virtual int type() override { return SGraphicsViewType; }
+    enum SGViewTypes
+    {
+        SGViewType,
+        ProjectWindowType,
+        CompositeBlockWindowType,
+        SparqlBlockWindowType
+    };
+    virtual SGViewTypes typeSGView() { return SGViewType; }
+    SWidgetTypes typeSWidget() override { return SGraphicsViewType; }
+    virtual int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::None; }
 
     explicit SGraphicsView( QWidget* parent = nullptr );
     void setDiagramScene( DiagramScene* );
     void createSidePanel();
+    void removeSelectedGraphicsItems();
 
     DiagramScene* getScene();
 

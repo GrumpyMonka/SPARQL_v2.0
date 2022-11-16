@@ -13,7 +13,7 @@ class BlocksLibrary
 public:
     enum ModeBlocks
     {
-        Fail = 0,
+        None = 0,
         Based = 1,
         Composite = 2,
         SPARQL = 4,

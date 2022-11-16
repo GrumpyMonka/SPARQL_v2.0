@@ -2,28 +2,25 @@
 #define DIAGRAMARROW_H
 
 #include <QGraphicsLineItem>
-#include <QGraphicsPolygonItem>
 #include <QGraphicsProxyWidget>
 #include <QLineEdit>
+
+#include <diagramitem.h>
 
 class DiagramArrow : public QGraphicsLineItem
 {
 public:
-    enum
-    {
-        Type = UserType
-    };
+    int type() const override { return DiagramItem::DiagramArrowType; }
 
-    DiagramArrow( QGraphicsPolygonItem* startItem, QGraphicsPolygonItem* endItem,
+    DiagramArrow( DiagramItem* startItem, DiagramItem* endItem,
         QGraphicsItem* parent = 0 );
-
-    int type() const override { return Type; }
+    ~DiagramArrow();
 
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void setColor( const QColor& color ) { myColor = color; }
-    QGraphicsPolygonItem* startItem() const { return myStartItem; }
-    QGraphicsPolygonItem* endItem() const { return myEndItem; }
+    DiagramItem* startItem() const { return myStartItem; }
+    DiagramItem* endItem() const { return myEndItem; }
     void mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent ) override;
     void setText( const QString& str );
     QString getText();
@@ -33,8 +30,8 @@ protected:
     void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 ) override;
 
 private:
-    QGraphicsPolygonItem* myStartItem;
-    QGraphicsPolygonItem* myEndItem;
+    DiagramItem* myStartItem;
+    DiagramItem* myEndItem;
     QColor myColor;
     QPolygonF arrowHead;
     QLineEdit* line_edit;

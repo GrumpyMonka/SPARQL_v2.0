@@ -3,16 +3,20 @@
 
 #include <QWidget>
 
+#include <blockslibrary.h>
+
 class SWidget : public QWidget
 {
     Q_OBJECT
 public:
-    enum
+    enum SWidgetTypes
     {
-        SWidgetType = 0,
-        SGraphicsViewType = 2,
+        SWidgetType,
+        SGraphicsViewType,
+        BasedBlockWindowType
     };
-    virtual int type() { return SWidgetType; }
+    virtual SWidgetTypes typeSWidget() { return SWidgetType; }
+    virtual int modeDiagramBlocks() { return BlocksLibrary::ModeBlocks::None; }
 
     explicit SWidget( QWidget* parent = nullptr );
 };
