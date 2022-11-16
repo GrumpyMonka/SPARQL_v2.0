@@ -4,7 +4,7 @@
 #include <QPen>
 #include <qmath.h>
 
-DiagramArrow::DiagramArrow( QGraphicsPolygonItem* startItem, QGraphicsPolygonItem* endItem, QGraphicsItem* parent )
+DiagramArrow::DiagramArrow( DiagramItem* startItem, DiagramItem* endItem, QGraphicsItem* parent )
     : QGraphicsLineItem( parent )
 {
     myStartItem = startItem;
@@ -17,6 +17,12 @@ DiagramArrow::DiagramArrow( QGraphicsPolygonItem* startItem, QGraphicsPolygonIte
     line_edit = new QLineEdit();
     line_edit->setVisible( false );
     proxy_widget->setWidget( line_edit );
+}
+
+DiagramArrow::~DiagramArrow()
+{
+    startItem()->removeArrow( this );
+    endItem()->removeArrow( this );
 }
 
 QRectF DiagramArrow::boundingRect() const

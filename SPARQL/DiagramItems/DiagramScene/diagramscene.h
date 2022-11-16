@@ -5,6 +5,7 @@
 
 #include <QGraphicsSceneMouseEvent>
 
+#include <diagramarrow.h>
 #include <diagramitem.h>
 #include <diagramitemsettings.h>
 
@@ -27,6 +28,8 @@ public slots:
     void setMode( SceneMode );
     void setDiagramItemForInserted( DiagramItemSettings* settings );
     DiagramArrow* createArrow( DiagramItem*, DiagramItem* );
+    void removeSelectedItems();
+    void removeItemSmart( QGraphicsItem* item );
 
 signals:
     void itemSelected( DiagramItem* );

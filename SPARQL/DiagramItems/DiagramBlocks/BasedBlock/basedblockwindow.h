@@ -5,11 +5,11 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QTextEdit>
-#include <QWidget>
 
 #include <diagramitembased.h>
+#include <swidget.h>
 
-class BasedBlockWindow : public QWidget
+class BasedBlockWindow : public SWidget
 {
     Q_OBJECT
 public:
@@ -18,11 +18,8 @@ public:
         CreateMode = 0,
         ReworkMode = 1
     };
-
-    enum
-    {
-        DiagramMode = 0
-    };
+    SWidgetTypes typeSWidget() override { return BasedBlockWindowType; }
+    int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::None; }
 
     explicit BasedBlockWindow( const BasedMode& mode, QWidget* parent = nullptr );
 

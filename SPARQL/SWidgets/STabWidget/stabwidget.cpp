@@ -8,9 +8,9 @@ STabWidget::STabWidget( QWidget* parent )
     createTabWidgets();
 }
 
-void STabWidget::addWidget( QWidget* widget, int mode, const QString& name )
+void STabWidget::addWidget( SWidget* widget, const QString& name )
 {
-    widget_lib.insert( widget, mode );
+    widget_lib.insert( widget, widget->modeDiagramBlocks() );
     addTab( widget, name );
     setCurrentWidget( widget );
 }
@@ -43,7 +43,7 @@ void STabWidget::slotCurrentTab( int index )
     if ( nullptr == widget( index ) )
         return;
     int mode = widget_lib[widget( index )];
-    emit currentMode( mode );
+    emit newCurrentMode( mode );
 }
 
 void STabWidget::tabClose( int index )
@@ -64,17 +64,28 @@ void STabWidget::setSceneMode( int mode )
 
 QVector<DiagramItem*> STabWidget::getBlocksForRun()
 {
-    if ( SWidget::SGraphicsViewType == ( static_cast<SGraphicsView*>( currentWidget() )->type() ) )
-    {
-        auto window = static_cast<ProjectWindow*>( currentWidget() );
-        return window->getDiagramItems();
-    }
-    else
-    {
-        return {};
-    }
+    // if ( SWidget::SGraphicsViewType == ( static_cast<SGraphicsView*>( currentWidget() )->type() ) )
+    //{
+    //     auto window = static_cast<ProjectWindow*>( currentWidget() );
+    //     return window->getDiagramItems();
+    // }
+    // else
+    //{
+    //     return {};
+    // }
+}
+
+SWidget* STabWidget::currentSWidget()
+{
+    auto widget = currentWidget();
+    return static_cast<SWidget*>( widget );
 }
 
 void STabWidget::deleteItemOnScene()
 {
+    auto widget = currentSWidget();
+    if ( SWidget::SGraphicsViewType == widget->typeSWidget() )
+    {
+        ( static_cast<SGraphicsView*>( widget ) )->removeSelectedGraphicsItems();
+    }
 }

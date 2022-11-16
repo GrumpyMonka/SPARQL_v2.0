@@ -57,7 +57,7 @@
 #include <QLineEdit>
 #include <QList>
 
-#include <diagramarrow.h>
+class DiagramArrow;
 #include <diagramitemsettings.h>
 
 class DiagramItem : public QGraphicsPolygonItem
@@ -65,6 +65,7 @@ class DiagramItem : public QGraphicsPolygonItem
 public:
     enum
     {
+        DiagramArrowType = UserType,
         DiagramItemType = UserType + 2,
         BasedItemType = UserType + 4,
         CompositeItemType = UserType + 6,
@@ -72,9 +73,10 @@ public:
         AtomItemType = UserType + 10
     };
 
-    virtual int type() const override { return DiagramItemType; }
+    int type() const override { return DiagramItemType; }
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
+    ~DiagramItem();
 
     void setContextMenu( QMenu* );
     QMenu* getContextMenu();

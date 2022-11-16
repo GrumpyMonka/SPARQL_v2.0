@@ -11,8 +11,9 @@ class STabWidget : public QTabWidget
 public:
     explicit STabWidget( QWidget* parent = nullptr );
 
-    void addWidget( QWidget* widget, int mode, const QString& name );
+    void addWidget( SWidget* widget, const QString& name );
     QVector<DiagramItem*> getBlocksForRun();
+    SWidget* currentSWidget();
 
 public slots:
     void setSceneMode( int );
@@ -28,8 +29,8 @@ private slots:
     void slotCurrentTab( int );
 
 signals:
-    void currentMode( int );
-    void error( QString );
+    void newCurrentMode( int );
+    void ERROR( QString );
 
 private:
     QMap<QWidget*, int> widget_lib;

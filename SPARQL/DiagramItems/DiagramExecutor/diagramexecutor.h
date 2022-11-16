@@ -3,11 +3,11 @@
 
 #include <QScriptEngine>
 #include <QTextEdit>
-#include <QWidget>
 
 #include <diagramitem.h>
+#include <swidget.h>
 
-class DiagramExecutor : public QWidget
+class DiagramExecutor : public SWidget
 {
     Q_OBJECT
 public:

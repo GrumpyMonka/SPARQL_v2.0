@@ -167,7 +167,7 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings 
         return Atom;
         break;
     default:
-        return Fail;
+        return None;
         break;
     }
 }

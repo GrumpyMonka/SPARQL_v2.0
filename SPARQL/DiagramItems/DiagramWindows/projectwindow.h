@@ -7,16 +7,10 @@ class ProjectWindow : public SGraphicsView
 {
     Q_OBJECT
 public:
-    enum
-    {
-        DiagramMode = 7
-    };
-
-    enum
-    {
-        Type = 1
-    };
-    int type() override { return Type; }
+    SGViewTypes typeSGView() override { return ProjectWindowType; }
+    int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::Based
+        | BlocksLibrary::ModeBlocks::Composite
+        | BlocksLibrary::ModeBlocks::SPARQL; }
 
     explicit ProjectWindow( QWidget* parent = nullptr );
 

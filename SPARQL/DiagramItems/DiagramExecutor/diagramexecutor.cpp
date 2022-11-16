@@ -7,7 +7,7 @@
 #include <diagramitemsparql.h>
 
 DiagramExecutor::DiagramExecutor( QWidget* parent )
-    : QWidget( parent )
+    : SWidget( parent )
 {
     createWindow();
 
