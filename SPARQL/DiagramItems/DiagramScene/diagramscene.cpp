@@ -29,12 +29,24 @@ void DiagramScene::setDiagramItemForInserted( DiagramItemSettings* settings )
 
 DiagramArrow* DiagramScene::createArrow( DiagramItem* startItem, DiagramItem* endItem )
 {
-    DiagramArrow* arrow = new DiagramArrow( startItem, endItem );
+    DiagramArrow* arrow;
     // arrow->setColor(myLineColor);
+    if ( nullptr == startItem->parentItem()
+        || nullptr == endItem->parentItem()
+        || startItem->parentItem() != endItem->parentItem() )
+    {
+        arrow = new DiagramArrow( startItem, endItem );
+        addItem( arrow );
+    }
+    else
+    {
+
+        arrow = new DiagramArrow( startItem, endItem, startItem->parentItem() );
+    }
     startItem->addArrow( arrow );
     endItem->addArrow( arrow );
-    arrow->setZValue( -1000.0 );
-    addItem( arrow );
+    arrow->setZValue( qMin( startItem->zValue(), endItem->zValue() ) - 1 );
+    // addItem( arrow );
     arrow->updatePosition();
     return arrow;
 }
@@ -45,12 +57,28 @@ void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         return;
 
     DiagramItem* item;
+    auto items_for_add = items( mouseEvent->scenePos() );
+    bool flag_add = false;
     switch ( scene_mode )
     {
     case InsertItem:
-        item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert );
-        addItem( item );
-        item->setPos( mouseEvent->scenePos() );
+        for ( auto& parent_item : items_for_add )
+        {
+            if ( DiagramItem::CheckItemOnDiagramItem( parent_item->type() )
+                && static_cast<DiagramItem*>( parent_item )->getSupportAddItem() )
+            {
+                item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert, parent_item );
+                flag_add = true;
+                item->setPos( mouseEvent->scenePos() - parent_item->pos() );
+                break;
+            }
+        }
+        if ( !flag_add )
+        {
+            item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert );
+            addItem( item );
+            item->setPos( mouseEvent->scenePos() );
+        }
         setMode( MoveItem );
         // emit itemSelected( item );
         break;
@@ -58,6 +86,7 @@ void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         line_for_arrow = new QGraphicsLineItem( QLineF( mouseEvent->scenePos(),
             mouseEvent->scenePos() ) );
         line_for_arrow->setPen( QPen( Qt::black, 2 ) );
+        line_for_arrow->setZValue( 1000 );
         addItem( line_for_arrow );
         break;
     case MoveItem:
@@ -100,6 +129,26 @@ void DiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
     }*/
 }
 
+QGraphicsItem* DiagramScene::getParentItem( QGraphicsItem* item )
+{
+    auto temp = item;
+    while ( true )
+    {
+        auto parent = temp->parentItem();
+        if ( nullptr != parent
+            && DiagramItem::CheckItemOnDiagramItem( parent->type() )
+            && !static_cast<DiagramItem*>( parent )->getSupportAddItem() )
+        {
+            temp = parent;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return temp;
+}
+
 void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
     if ( 0 != line_for_arrow && InsertArrow == scene_mode )
@@ -116,34 +165,18 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
         if ( !startItems.empty() && !endItems.empty() )
         {
-            QGraphicsItem* temp = endItems.first();
-            while ( endItems.first()->parentItem() != nullptr )
-            {
-                if ( DiagramItem::CheckItemOnDiagramItem( endItems.first()->parentItem()->type() ) )
-                {
-                    temp = endItems.first()->parentItem();
-                }
-                endItems.first() = endItems.first()->parentItem();
-            }
-            endItems.first() = temp;
+            auto start = startItems.first();
+            auto end = endItems.first();
 
-            temp = startItems.first();
-            while ( startItems.first()->parentItem() != nullptr )
-            {
-                if ( DiagramItem::CheckItemOnDiagramItem( startItems.first()->parentItem()->type() ) )
-                {
-                    temp = startItems.first()->parentItem();
-                }
-                startItems.first() = startItems.first()->parentItem();
-            }
-            startItems.first() = temp;
+            start = getParentItem( start );
+            end = getParentItem( end );
 
-            if ( DiagramItem::CheckItemOnDiagramItem( startItems.first()->type() )
-                && DiagramItem::CheckItemOnDiagramItem( endItems.first()->type() )
-                && startItems.first() != endItems.first() )
+            if ( DiagramItem::CheckItemOnDiagramItem( start->type() )
+                && DiagramItem::CheckItemOnDiagramItem( end->type() )
+                && start != end )
             {
-                createArrow( static_cast<DiagramItem*>( startItems.first() ),
-                    static_cast<DiagramItem*>( endItems.first() ) );
+                createArrow( static_cast<DiagramItem*>( start ),
+                    static_cast<DiagramItem*>( end ) );
             }
         }
     }

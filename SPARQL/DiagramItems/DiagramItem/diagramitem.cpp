@@ -21,11 +21,22 @@ DiagramItem::DiagramItem( QMenu* contextMenu, QGraphicsItem* parent )
     setFlag( QGraphicsItem::ItemIsMovable, true );
     setFlag( QGraphicsItem::ItemIsSelectable, true );
     setFlag( QGraphicsItem::ItemSendsGeometryChanges, true );
+    setSupportAddItem( false );
 }
 
 DiagramItem::~DiagramItem()
 {
     removeArrows();
+}
+
+void DiagramItem::setSupportAddItem( bool flag )
+{
+    support_add_item = flag;
+}
+
+bool DiagramItem::getSupportAddItem()
+{
+    return support_add_item;
 }
 
 void DiagramItem::setContextMenu( QMenu* contextMenu )
@@ -162,4 +173,28 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
         break;
     }
     return nullptr;
+}
+
+QList<DiagramArrow*> DiagramItem::getStartArrows()
+{
+    QList<DiagramArrow*> result;
+    auto arrows = getArrows();
+    for ( auto arrow : arrows )
+    {
+        if ( this == arrow->startItem() )
+            result.push_back( arrow );
+    }
+    return result;
+}
+
+QList<DiagramArrow*> DiagramItem::getEndArrows()
+{
+    QList<DiagramArrow*> result;
+    auto arrows = getArrows();
+    for ( auto arrow : arrows )
+    {
+        if ( this == arrow->endItem() )
+            result.push_back( arrow );
+    }
+    return result;
 }

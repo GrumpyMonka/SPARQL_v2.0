@@ -23,6 +23,7 @@ public:
 
     void setContextMenu( QMenu* context_menu );
     QMenu* getContextMenu();
+    QGraphicsItem* getParentItem( QGraphicsItem* );
 
 public slots:
     void setMode( SceneMode );

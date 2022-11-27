@@ -74,6 +74,7 @@ public:
     };
 
     int type() const override { return DiagramItemType; }
+    // virtual DiagramItemSettings* getSettings();
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
     ~DiagramItem();
@@ -88,8 +89,12 @@ public:
 
     void addArrow( DiagramArrow* arrow );
     QList<DiagramArrow*> getArrows();
+    QList<DiagramArrow*> getStartArrows();
+    QList<DiagramArrow*> getEndArrows();
     QPointF getStartPos();
     QPointF getEndPos();
+    void setSupportAddItem( bool );
+    bool getSupportAddItem();
 
     static bool CheckItemOnDiagramItem( const qint64 code );
     static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
@@ -103,6 +108,7 @@ protected:
     QMenu* my_context_menu;
     QList<DiagramArrow*> arrows;
     QPolygonF my_polygon;
+    bool support_add_item;
 };
 
 #endif // DIAGRAMITEM_H

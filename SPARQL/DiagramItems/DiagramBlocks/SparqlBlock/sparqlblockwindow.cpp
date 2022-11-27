@@ -76,42 +76,32 @@ void SparqlBlockWindow::slotOnOpenButtonClicked()
 
 void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
 {
+    getScene()->clear();
+    QVector<DiagramItemAtom*> areas_items;
     for ( const auto& area : settings->areas )
     {
-        AtomBlockSettings* setting = new AtomBlockSettings();
-        setting->polygon = area.polygon;
-        setting->block_name = area.name;
-        setting->type_block = DEFAULT_AREA;
-        setting->transparent = true;
-        DiagramItemAtom* item = new DiagramItemAtom( nullptr, nullptr, setting );
-        getScene()->addItem( item );
-        item->setPos( area.pos );
-    }
+        DiagramItemAtom* area_item = new DiagramItemAtom( nullptr, nullptr, area.settings );
+        getScene()->addItem( area_item );
+        areas_items.push_back( area_item );
 
-    QVector<DiagramItem*> blocks;
-    for ( const auto& block : settings->blocks )
-    {
-        AtomBlockSettings* setting = new AtomBlockSettings();
-        setting->text = block.text;
-        setting->type_block = block.type;
-        if ( block.type == DEFAULT_VAR )
+        QVector<DiagramItem*> blocks;
+        for ( const auto& block : area.blocks )
         {
-            setting->polygon.clear();
-            setting->polygon << QPointF( -50, -50 )
-                             << QPointF( 50, -50 )
-                             << QPointF( 50, 50 )
-                             << QPointF( -50, 50 )
-                             << QPointF( -50, -50 );
+            DiagramItemAtom* item = new DiagramItemAtom( nullptr, area_item, block );
+            blocks.push_back( item );
         }
-        DiagramItemAtom* item = new DiagramItemAtom( nullptr, nullptr, setting );
-        getScene()->addItem( item );
-        item->setPos( block.pos );
-        blocks.push_back( item );
+
+        for ( const auto& line : area.lines )
+        {
+            auto arrow = getScene()->createArrow( blocks.at( line.start_block ), blocks.at( line.end_block ) );
+            if ( line.text != "" )
+                arrow->setText( line.text );
+        }
     }
 
     for ( const auto& line : settings->lines )
     {
-        auto arrow = getScene()->createArrow( blocks.at( line.startBlock ), blocks.at( line.endBlock ) );
+        auto arrow = getScene()->createArrow( areas_items.at( line.start_block ), areas_items.at( line.end_block ) );
         if ( line.text != "" )
             arrow->setText( line.text );
     }
@@ -122,88 +112,113 @@ void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
 
 SparqlBlockSettings* SparqlBlockWindow::getSettings()
 {
-    SparqlBlockSettings* setting = new SparqlBlockSettings();
-    QVector<DiagramItemAtom*> blocks_atom;
-    QVector<QString> blocks_type;
-    QVector<DiagramItemAtom*> blocks_area;
-    QVector<DiagramArrow*> arrows;
+    SparqlBlockSettings* settings = new SparqlBlockSettings();
+    // QVector<DiagramItemAtom*> blocks_area;
+    QMap<DiagramItemAtom*, QVector<DiagramItemAtom*>> blocks_area;
+    DiagramItemAtom* start_area;
     auto full_items = getScene()->items();
+
+    // check areas
     for ( QGraphicsItem* item : full_items )
     {
-        if ( DiagramArrow::Type == item->type() )
+        if ( DiagramItem::AtomItemType == item->type() )
         {
-            arrows.push_back( qgraphicsitem_cast<DiagramArrow*>( item ) );
-        }
-        else if ( DiagramItem::AtomItemType == item->type() )
-        {
-            DiagramItemAtom* diagram_item_atom = qgraphicsitem_cast<DiagramItemAtom*>( item );
-            auto settings = diagram_item_atom->getSettings();
-            auto ttemp = settings->type_block;
-            if ( DEFAULT_AREA == settings->type_block )
+            auto atom_item = static_cast<DiagramItemAtom*>( item );
+            if ( DEFAULT_AREA == atom_item->getSettings()->type_block )
             {
-                blocks_area.push_back( diagram_item_atom );
+                blocks_area.insert( atom_item, {} );
+            }
+        }
+    }
+
+    // check blocks
+    for ( QGraphicsItem* item : full_items )
+    {
+        if ( DiagramItem::AtomItemType == item->type() )
+        {
+            auto atom_item = static_cast<DiagramItemAtom*>( item );
+            if ( ( DEFAULT_VAR == atom_item->getSettings()->type_block
+                     || DEFAULT_VALUE == atom_item->getSettings()->type_block )
+                && nullptr != atom_item->parentItem()
+                && DiagramItem::AtomItemType == atom_item->parentItem()->type() )
+            {
+                auto parent_item = static_cast<DiagramItemAtom*>( atom_item->parentItem() );
+                blocks_area[parent_item].push_back( atom_item );
+            }
+        }
+    }
+
+    // find start
+    bool flag_find = false;
+    for ( auto& area : blocks_area.keys() )
+    {
+        auto arrows = area->getEndArrows();
+        if ( 0 == arrows.size() )
+        {
+            if ( flag_find )
+            {
+                emit ERROR( "Sparql wrong format! Find > 1 start area!" );
+                return {};
             }
             else
             {
-                blocks_atom.push_back( diagram_item_atom );
-                blocks_type.push_back( settings->type_block );
+                start_area = area;
+                flag_find = true;
             }
         }
     }
 
-    for ( int i = 0; i < blocks_atom.size(); ++i )
+    // generatesettings
+    auto area_list = blocks_area.keys();
+    for ( auto& area : area_list )
     {
-        /*      QString path;
-              for ( const auto& area : blocks_area )
-              {
-                  if ( CheckCollisionArea( block, area ) )
-                  {
-                      if ( area->getArrows().size() )
-                      {
-                          DiagramArrow* arrow = area->getArrows()[0];
-                          if ( arrow->endItem() == area )
-                          {
-                              path = arrow->getText();
-                          }
-                          else
-                          {
-                              path = "ORIGIN";
-                          }
-                      }*/
-        setting->blocks.push_back( { blocks_atom.at( i )->getText(), blocks_atom.at( i )->pos(), "path", blocks_type.at( i ) } );
-        /*            }
-                }*/
-    }
+        SparqlBlockSettings::AreaSaver area_saver;
+        area_saver.settings = area->getSettings();
 
-    for ( auto& arrow : arrows )
-    {
-        int p1 = blocks_atom.indexOf( qgraphicsitem_cast<DiagramItemAtom*>( arrow->startItem() ) );
-        int p2 = blocks_atom.indexOf( qgraphicsitem_cast<DiagramItemAtom*>( arrow->endItem() ) );
-        if ( -1 != p1 && -1 != p2 )
+        // blocks
+        auto blocks_item = blocks_area[area];
+        for ( auto& item : blocks_item )
         {
-            setting->lines.push_back( { p1, p2, arrow->getText() } );
+            area_saver.blocks.push_back( item->getSettings() );
+            auto arrows = item->getStartArrows();
+            for ( auto& arrow : arrows )
+            {
+                SparqlBlockSettings::LineSaver line_saver;
+                line_saver.text = arrow->getText();
+                line_saver.start_block = blocks_item.indexOf( item );
+                if ( DiagramItem::AtomItemType == arrow->endItem()->type() )
+                {
+                    line_saver.end_block = blocks_item.indexOf( static_cast<DiagramItemAtom*>( arrow->endItem() ) );
+                }
+                else
+                {
+                    emit ERROR( "Sparql wrong format! Unknown type blocks!" );
+                }
+                area_saver.lines.push_back( line_saver );
+            }
+        }
+
+        settings->areas.push_back( area_saver );
+        auto arrows = area->getStartArrows();
+        for ( auto& arrow : arrows )
+        {
+            SparqlBlockSettings::LineSaver line_saver;
+            line_saver.text = arrow->getText();
+            line_saver.start_block = area_list.indexOf( area );
+            if ( DiagramItem::AtomItemType == arrow->endItem()->type() )
+            {
+                line_saver.end_block = area_list.indexOf( static_cast<DiagramItemAtom*>( arrow->endItem() ) );
+            }
+            else
+            {
+                emit ERROR( "Sparql wrong format! Unknown type blocks!" );
+            }
+            settings->lines.push_back( line_saver );
         }
     }
 
-    for ( const auto& area : blocks_area )
-    {
-        QString path;
-        // DiagramArrow* arrow = area->getArrows()[0];
-        // if ( arrow->endItem() == area )
-        //{
-        //     path = arrow->getText();
-        // }
-        // else
-        //{
-        path = "ORIGIN";
-        //}
-        setting->areas.push_back( { area->polygon(),
-            area->pos(), path } );
-    }
-
-    setting->block_name = line_name_block->text();
-    // setting->limit = limit_spin->value();
-    return setting;
+    settings->start_area = area_list.indexOf( start_area );
+    return settings;
 }
 
 void SparqlBlockWindow::createDefaultcScene()

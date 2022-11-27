@@ -1,6 +1,7 @@
 # SPARQL V2.0
 
 библиотеки
+sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
 sudo apt-get install qt5-qmake qtdeclarative5-dev qtscript5-dev libqt5svg5-dev
 
 ## Getting started

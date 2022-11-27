@@ -15,11 +15,12 @@ public:
     int type() override { return Type; }
 
     SparqlBlockSettings();
+    ~SparqlBlockSettings();
 
     struct LineSaver
     {
-        int startBlock;
-        int endBlock;
+        int start_block;
+        int end_block;
         QString text;
     };
 
@@ -27,31 +28,28 @@ public:
     {
         QString text;
         QPointF pos;
-        QString path;
         QString type;
     };
 
     struct AreaSaver
     {
-        QPolygonF polygon;
-        QPointF pos;
-        QString name;
+        QVector<AtomBlockSettings*> blocks;
+        QVector<LineSaver> lines;
+        AtomBlockSettings* settings;
     };
 
     int limit;
 
-    QVector<BlockSaver> blocks;
     QVector<LineSaver> lines;
 
     QVector<AreaSaver> areas;
-
-    AtomBlockSettings setting_var;
-    AtomBlockSettings setting_value;
-    AtomBlockSettings setting_area;
+    int start_area;
 
     void setSettingFromJson( const QJsonValue& value ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
+    QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& );
+    void clear();
 
     static BasedBlockSettings* ConvertToBasedBlockSetting( SparqlBlockSettings* );
     static SparqlBlockSettings* CreateTemplateSparqlSettings();

@@ -1,5 +1,6 @@
 #include "atomblocksettings.h"
 
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QPainter>
 #include <QtMath>
@@ -45,17 +46,50 @@ AtomBlockSettings::AtomBlockSettings()
     text = "";
     color = Qt::black;
     color_text = "blue";
-    transparent = false;
+    transparent_background = false;
     pixmap = image();
+    support_add_item = false;
+    z_value = 2;
 }
 
 void AtomBlockSettings::setSettingFromJson( const QJsonValue& value )
 {
+    QJsonValue header = value["Header"];
+    QJsonValue body = value["Body"];
+
+    block_name = header["Name"].toString();
+    type_block = header["Type_Block"].toString();
+
+    flag_text = body["Flag_Text"].toBool();
+    text = body["Text"].toString();
+    color_text = body["Color_Text"].toString();
+    transparent_background = body["Transparent_Background"].toBool();
+    polygon = polygonFromJsonArray( body["Polygon"].toArray() );
+    pos = pointFromJsonObject( body["Pos"] );
 }
 
 QJsonObject AtomBlockSettings::getJsonFromSetting()
 {
-    return {};
+    QJsonObject object;
+
+    QJsonObject header;
+    QJsonObject body;
+
+    header.insert( "Type", QJsonValue( "Atom" ) );
+    header.insert( "Name", QJsonValue( block_name ) );
+    header.insert( "Type_Block", QJsonValue( type_block ) );
+
+    body.insert( "Flag_Text", QJsonValue( flag_text ) );
+    body.insert( "Text", QJsonValue( text ) );
+    body.insert( "Color_Text", QJsonValue( color_text ) );
+    body.insert( "Transparent_Background", QJsonValue( transparent_background ) );
+    body.insert( "Polygon", jsonArrayFromPolygon( polygon ) );
+    body.insert( "Pos", jsonFromPointF( pos ) );
+
+    object.insert( "Header", header );
+    object.insert( "Body", body );
+
+    return object;
 }
 
 QPolygonF AtomBlockSettings::GetDefaultAreaPolygon()
@@ -67,37 +101,51 @@ QPolygonF AtomBlockSettings::GetDefaultAreaPolygon()
                        << QPointF( -300, 200 );
 }
 
+AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()
+{
+    auto settings = new AtomBlockSettings();
+    settings->type_block = DEFAULT_AREA;
+    settings->flag_text = false;
+    settings->polygon.clear();
+    settings->transparent_background = true;
+    settings->polygon = GetDefaultAreaPolygon();
+    settings->pixmap = settings->image();
+    settings->transparent_background = true;
+    settings->support_add_item = true;
+    settings->z_value = 0;
+    return settings;
+}
+
+AtomBlockSettings* AtomBlockSettings::GetVarAtomBlock()
+{
+    auto settings = new AtomBlockSettings();
+    settings->type_block = DEFAULT_VAR;
+    settings->color_text = "red";
+    settings->polygon.clear();
+    settings->polygon << QPointF( -50, -50 )
+                      << QPointF( 50, -50 )
+                      << QPointF( 50, 50 )
+                      << QPointF( -50, 50 )
+                      << QPointF( -50, -50 );
+    settings->pixmap = settings->image();
+    return settings;
+}
+
+AtomBlockSettings* AtomBlockSettings::GetValueAtomBlock()
+{
+    auto settings = new AtomBlockSettings();
+    settings->type_block = DEFAULT_VALUE;
+    settings->color_text = "blue";
+    settings->pixmap = settings->image();
+    return settings;
+}
+
 QVector<DiagramItemSettings*> AtomBlockSettings::GetBasedAtomBlocks()
 {
     QVector<DiagramItemSettings*> list;
-    auto setting = new AtomBlockSettings();
-    setting->type_block = DEFAULT_VAR;
-    setting->color_text = "red";
-    setting->polygon.clear();
-    setting->polygon << QPointF( -50, -50 )
-                     << QPointF( 50, -50 )
-                     << QPointF( 50, 50 )
-                     << QPointF( -50, 50 )
-                     << QPointF( -50, -50 );
-    setting->pixmap = setting->image();
-    list.push_back( setting );
-
-    setting = new AtomBlockSettings();
-    setting->type_block = DEFAULT_VALUE;
-    setting->color_text = "blue";
-    setting->pixmap = setting->image();
-    list.push_back( setting );
-
-    setting = new AtomBlockSettings();
-    setting->type_block = DEFAULT_AREA;
-    setting->flag_text = false;
-    setting->polygon.clear();
-    setting->transparent = true;
-    setting->polygon = GetDefaultAreaPolygon();
-    setting->pixmap = setting->image();
-    setting->transparent = true;
-    list.push_back( setting );
-
+    list.push_back( GetVarAtomBlock() );
+    list.push_back( GetValueAtomBlock() );
+    list.push_back( GetAreaAtomBlock() );
     return list;
 }
 
