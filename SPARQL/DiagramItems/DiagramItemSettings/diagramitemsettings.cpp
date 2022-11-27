@@ -20,9 +20,9 @@ QJsonValue DiagramItemSettings::jsonValFromPixmap( const QPixmap& p )
     return { QLatin1String( encoded ) };
 }
 
-QPixmap DiagramItemSettings::pixmapFrom( const QJsonValue& val )
+QPixmap DiagramItemSettings::pixmapFrom( const QJsonValue& value )
 {
-    auto const encoded = val.toString().toLatin1();
+    auto const encoded = value.toString().toLatin1();
     QPixmap p;
     p.loadFromData( QByteArray::fromBase64( encoded ), "PNG" );
     return p;
@@ -33,7 +33,7 @@ void DiagramItemSettings::setSettingFromString( const QString& str )
     QJsonDocument json = QJsonDocument::fromJson( str.toUtf8() );
     if ( json.isObject() )
     {
-        setSettingFromJson( json["data"] );
+        setSettingFromJson( json.toVariant().toJsonValue() );
     }
 }
 
@@ -42,10 +42,7 @@ QJsonArray DiagramItemSettings::jsonArrayFromPolygon( const QPolygonF& polygon )
     QJsonArray array_polygon;
     for ( const auto& point : polygon )
     {
-        QJsonObject temp_object;
-        temp_object.insert( "x", point.x() );
-        temp_object.insert( "y", point.y() );
-        array_polygon.push_back( temp_object );
+        array_polygon.push_back( jsonFromPointF( point ) );
     }
     return array_polygon;
 }
@@ -55,7 +52,7 @@ QPolygonF DiagramItemSettings::polygonFromJsonArray( const QJsonArray& array )
     QPolygonF polygon;
     for ( const QJsonValue& next_item : array )
     {
-        polygon << QPointF( next_item["x"].toDouble(), next_item["y"].toDouble() );
+        polygon << pointFromJsonObject( next_item );
     }
     return polygon;
 }
@@ -75,4 +72,17 @@ QPixmap DiagramItemSettings::image() const
                     << QPointF( -50, -50 ) );
 
     return pixmap;
+}
+
+QJsonObject DiagramItemSettings::jsonFromPointF( const QPointF& point )
+{
+    QJsonObject object;
+    object.insert( "X", point.x() );
+    object.insert( "Y", point.y() );
+    return object;
+}
+
+QPointF DiagramItemSettings::pointFromJsonObject( const QJsonValue& value )
+{
+    return QPointF( value["X"].toDouble(), value["Y"].toDouble() );
 }

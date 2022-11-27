@@ -27,7 +27,10 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, QGraphicsItem* parent, At
     setText( settings->text );
     line_edit->setVisible( settings->flag_text );
     type_block = settings->type_block;
-    if ( !settings->transparent )
+    support_add_item = settings->support_add_item;
+    setZValue( settings->z_value );
+    setPos( settings->pos );
+    if ( !settings->transparent_background )
     {
         setBrush( Qt::white );
     }
@@ -47,6 +50,7 @@ AtomBlockSettings* DiagramItemAtom::getSettings()
     settings->polygon = polygon();
     settings->type_block = type_block;
     settings->flag_text = line_edit->isVisible();
+    settings->pos = pos();
     return settings;
 }
 

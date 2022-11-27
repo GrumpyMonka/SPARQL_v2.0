@@ -11,91 +11,108 @@ SparqlBlockSettings::SparqlBlockSettings()
     pixmap = image();
 }
 
+SparqlBlockSettings::~SparqlBlockSettings()
+{
+    clear();
+}
+
 void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
 {
     if ( value.isObject() )
     {
-        block_name = value["name"].toString();
-        // type_image = value["type_img"].toString();
-        pixmap = pixmapFrom( value["image"] );
-        limit = value["limit"].toInt();
-
-        blocks.clear();
-        auto json_blocks = value["blocks"].toArray();
-        for ( const QJsonValue& block : json_blocks )
-        {
-            blocks.push_back( { block["text"].toString(),
-                QPointF( block["pos_x"].toDouble(), block["pos_y"].toDouble() ), "", block["type"].toString() } );
-        }
-
-        lines.clear();
-        auto json_lines = value["lines"].toArray();
-        for ( const QJsonValue& line : json_lines )
-        {
-            lines.push_back( { line["start_block"].toInt(), line["end_block"].toInt(), line["text"].toString() } );
-        }
-
         areas.clear();
-        auto json_areas = value["areas"].toArray();
-        for ( const QJsonValue& area : json_areas )
+        lines.clear();
+
+        QJsonValue header = value["Header"];
+        QJsonValue body = value["Body"];
+
+        block_name = header["Name"].toString();
+        // type_image = value["type_img"].toString();
+        pixmap = pixmapFrom( body["Image"] );
+        limit = body["Limit"].toInt();
+        start_area = body["Start_Area"].toInt();
+
+        QJsonArray areas_array = body["Areas"].toArray();
+        for ( const QJsonValue& area : areas_array )
         {
-            areas.push_back( { polygonFromJsonArray( area["polygon"].toArray() ), QPointF( area["pos_x"].toDouble(), area["pox_y"].toDouble() ), area["name"].toString() } );
+            auto blocks_array = area["Blocks"].toArray();
+            auto lines_array = area["Lines"].toArray();
+            auto settings = area["Settings"];
+
+            AreaSaver area_saver;
+            for ( const QJsonValue& block : blocks_array )
+            {
+                AtomBlockSettings* setting = new AtomBlockSettings();
+                setting->setSettingFromJson( block );
+                area_saver.blocks.push_back( setting );
+            }
+
+            for ( const QJsonValue& line : lines_array )
+            {
+                area_saver.lines.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
+            }
+
+            area_saver.settings = new AtomBlockSettings();
+            area_saver.settings->setSettingFromJson( settings );
+            areas.push_back( area_saver );
         }
     }
+}
+
+QJsonArray SparqlBlockSettings::getJsonArrayFromLineSaver( const QVector<LineSaver>& lines )
+{
+    QJsonArray lines_array;
+    for ( const auto& line : lines )
+    {
+        QJsonObject line_obj;
+        line_obj.insert( "Text", line.text );
+        line_obj.insert( "Start", line.start_block );
+        line_obj.insert( "End", line.end_block );
+        lines_array.push_back( line_obj );
+    }
+    return lines_array;
 }
 
 QJsonObject SparqlBlockSettings::getJsonFromSetting()
 {
     QJsonObject json_object;
 
-    QJsonObject data;
-    data.insert( "name", QJsonValue( block_name ) );
-    data.insert( "type_img", QJsonValue( "" ) );
-    data.insert( "image", jsonValFromPixmap( pixmap ) );
-    data.insert( "limit", QJsonValue( limit ) );
+    QJsonObject header;
+    QJsonObject body;
 
-    QJsonArray array_blocks;
-    for ( const auto& next_block : blocks )
+    header.insert( "Type", "Sparql" );
+    header.insert( "Name", block_name );
+
+    body.insert( "Limit", limit );
+    body.insert( "Start_Area", start_area );
+
+    body.insert( "Lines", getJsonArrayFromLineSaver( lines ) );
+
+    QJsonArray areas_array;
+    for ( const auto& area : areas )
     {
-        QJsonObject temp_obj;
-        temp_obj.insert( "text", QJsonValue( next_block.text ) );
-        temp_obj.insert( "pos_x", QJsonValue( next_block.pos.x() ) );
-        temp_obj.insert( "pos_y", QJsonValue( next_block.pos.y() ) );
-        temp_obj.insert( "type", QJsonValue( next_block.type ) );
-        array_blocks.push_back( temp_obj );
+        QJsonObject area_obj;
+        area_obj.insert( "Settings", area.settings->getJsonFromSetting() );
+        area_obj.insert( "Lines", getJsonArrayFromLineSaver( area.lines ) );
+        QJsonArray blocks_array;
+        for ( const auto& block : area.blocks )
+        {
+            blocks_array.push_back( block->getJsonFromSetting() );
+        }
+        area_obj.insert( "Blocks", blocks_array );
+        areas_array.push_back( area_obj );
     }
-    data.insert( "blocks", array_blocks );
+    body.insert( "Areas", areas_array );
 
-    QJsonArray array_lines;
-    for ( const auto& next_line : lines )
-    {
-        QJsonObject temp_obj;
-        temp_obj.insert( "text", QJsonValue( next_line.text ) );
-        temp_obj.insert( "start_block", QJsonValue( next_line.startBlock ) );
-        temp_obj.insert( "end_block", QJsonValue( next_line.endBlock ) );
-        array_lines.push_back( temp_obj );
-    }
-    data.insert( "lines", array_lines );
+    json_object.insert( "Header", header );
+    json_object.insert( "Body", body );
 
-    QJsonArray array_areas;
-    for ( const auto& next_area : areas )
-    {
-        QJsonObject temp_obj;
-        temp_obj.insert( "name", QJsonValue( next_area.name ) );
-        temp_obj.insert( "polygon", jsonArrayFromPolygon( next_area.polygon ) );
-        temp_obj.insert( "pos_x", next_area.pos.x() );
-        temp_obj.insert( "pos_y", next_area.pos.y() );
-        array_areas.push_back( temp_obj );
-    }
-    data.insert( "areas", array_areas );
-
-    json_object.insert( "type", QJsonValue( "sparql" ) );
-    json_object.insert( "data", QJsonValue( data ) );
     return json_object;
 }
 
 BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlockSettings* settings )
 {
+    /*
     QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
                      "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
                      "xmlHttp.open(\"POST\", \"/\");\n"
@@ -146,6 +163,8 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
     setting->script = script + "\"query=" + QUrl::toPercentEncoding( request ) + "\");\ny.push(answer);";
 
     return setting;
+    */
+    return {};
 }
 
 QPixmap SparqlBlockSettings::image() const
@@ -156,6 +175,23 @@ QPixmap SparqlBlockSettings::image() const
 SparqlBlockSettings* SparqlBlockSettings::CreateTemplateSparqlSettings()
 {
     auto settings = new SparqlBlockSettings();
-    settings->areas.push_back( { AtomBlockSettings::GetDefaultAreaPolygon(), QPointF( 2500, 2500 ), "ORIGIN" } );
+    AreaSaver area_saver;
+    area_saver.settings = AtomBlockSettings::GetAreaAtomBlock();
+    area_saver.settings->pos = QPointF( 2500, 2500 );
+    settings->areas.push_back( area_saver );
     return settings;
+}
+
+void SparqlBlockSettings::clear()
+{
+    /*for ( auto& area : areas )
+    {
+        delete areas.first().settings;
+        for ( auto& block : area.blocks )
+        {
+            delete block;
+        }
+        area.blocks.clear();
+    }
+    areas.clear();*/
 }

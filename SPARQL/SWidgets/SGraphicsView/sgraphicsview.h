@@ -57,6 +57,7 @@ private slots:
 
 signals:
     void blockCreated( DiagramItemSettings* );
+    void ERROR( QString );
 
 private:
     DiagramScene* diagram_scene;

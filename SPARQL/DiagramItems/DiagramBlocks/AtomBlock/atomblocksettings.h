@@ -30,13 +30,16 @@ public:
 
     QString type_block;
 
-    bool transparent;
+    bool transparent_background;
 
     void setSettingFromJson( const QJsonValue& value ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
 
     static QVector<DiagramItemSettings*> GetBasedAtomBlocks();
+    static AtomBlockSettings* GetAreaAtomBlock();
+    static AtomBlockSettings* GetVarAtomBlock();
+    static AtomBlockSettings* GetValueAtomBlock();
     static QPolygonF GetDefaultAreaPolygon();
 };
 
