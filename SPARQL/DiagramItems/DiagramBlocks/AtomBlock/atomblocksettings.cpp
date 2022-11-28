@@ -110,7 +110,7 @@ AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()
     settings->transparent_background = true;
     settings->polygon = GetDefaultAreaPolygon();
     settings->pixmap = settings->image();
-    settings->transparent_background = true;
+    settings->transparent_background = false;
     settings->support_add_item = true;
     settings->z_value = 0;
     return settings;

@@ -1,4 +1,4 @@
-QT       += core gui network script qml
+QT       += core gui network script
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
