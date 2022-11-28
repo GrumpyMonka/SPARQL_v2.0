@@ -15,7 +15,7 @@ public:
 
     void setScript( const QString& );
 
-    static QString ConvertDiagramItemToScript( QVector<DiagramItem*>& );
+    QString ConvertDiagramItemToScript( QVector<DiagramItem*>& );
 
 private:
     void createWindow();
@@ -28,6 +28,7 @@ private:
     QScriptEngine* script_engine;
     QTextEdit* text_edit_script;
     QTextEdit* text_edit_output;
+    int end_item;
 };
 
 #endif // DIAGRAMEXECUTOR_H

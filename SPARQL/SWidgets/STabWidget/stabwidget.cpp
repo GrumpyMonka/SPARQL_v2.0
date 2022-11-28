@@ -64,15 +64,16 @@ void STabWidget::setSceneMode( int mode )
 
 QVector<DiagramItem*> STabWidget::getBlocksForRun()
 {
-    // if ( SWidget::SGraphicsViewType == ( static_cast<SGraphicsView*>( currentWidget() )->type() ) )
-    //{
-    //     auto window = static_cast<ProjectWindow*>( currentWidget() );
-    //     return window->getDiagramItems();
-    // }
-    // else
-    //{
-    //     return {};
-    // }
+    if ( SWidget::SGraphicsViewType == currentSWidget()->typeSWidget()
+        && SGraphicsView::ProjectWindowType == ( static_cast<SGraphicsView*>( currentSWidget() ) )->typeSGView() )
+    {
+        auto window = static_cast<ProjectWindow*>( currentWidget() );
+        return window->getDiagramItems();
+    }
+    else
+    {
+        return {};
+    }
 }
 
 SWidget* STabWidget::currentSWidget()
