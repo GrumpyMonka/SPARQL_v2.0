@@ -152,18 +152,18 @@ int BlocksLibrary::getSize()
 
 BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings )
 {
-    switch ( settings->type() )
+    switch ( settings->typeSettings() )
     {
-    case BasedBlockSettings::Type:
+    case DiagramItemSettings::BasedItemSettingsType:
         return Based;
         break;
     // case CompositeBlockSettings:
     //      return Composite
     //      break;
-    case SparqlBlockSettings::Type:
+    case DiagramItemSettings::SparqlItemSettinsType:
         return SPARQL;
         break;
-    case AtomBlockSettings::Type:
+    case DiagramItemSettings::AtomItemSettingsType:
         return Atom;
         break;
     default:

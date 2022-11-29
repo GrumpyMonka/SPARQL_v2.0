@@ -12,11 +12,7 @@
 class AtomBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 4
-    };
-    int type() override { return Type; }
+    int typeSettings() const override { return AtomItemSettingsType; }
 
     AtomBlockSettings();
 

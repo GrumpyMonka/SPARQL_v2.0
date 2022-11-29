@@ -20,6 +20,8 @@ public slots:
     void itemForAdd( DiagramItemSettings* );
     void resetBlocks();
     void deleteItemOnScene();
+    void saveProject();
+    void openProject();
 
 private:
     void createTabWidgets();

@@ -8,11 +8,8 @@
 class BasedBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 1
-    };
-    int type() override { return Type; };
+    int typeSettings() const override { return BasedItemSettingsType; };
+
     BasedBlockSettings();
 
     void setSettingFromJson( const QJsonValue& value ) override;

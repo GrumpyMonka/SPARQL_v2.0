@@ -7,12 +7,7 @@
 class SparqlBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 3
-    };
-
-    int type() override { return Type; }
+    int typeSettings() const override { return SparqlItemSettinsType; }
 
     SparqlBlockSettings();
     ~SparqlBlockSettings();

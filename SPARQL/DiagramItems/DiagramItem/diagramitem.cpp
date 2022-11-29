@@ -160,13 +160,13 @@ bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     DiagramItemSettings* settings, QGraphicsItem* parent )
 {
-    switch ( settings->type() )
+    switch ( settings->typeSettings() )
     {
-    case BasedBlockSettings::Type:
+    case DiagramItemSettings::BasedItemSettingsType:
         return new DiagramItemBased( context_menu, parent,
             new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ) );
         break;
-    case AtomBlockSettings::Type:
+    case DiagramItemSettings::AtomItemSettingsType:
         return new DiagramItemAtom( context_menu, parent,
             new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ) );
     default:

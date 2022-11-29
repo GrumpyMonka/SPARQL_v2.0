@@ -15,6 +15,8 @@ public:
     explicit ProjectWindow( QWidget* parent = nullptr );
 
     QVector<DiagramItem*> getDiagramItems();
+    void saveProject() override;
+    void openProject() override;
 
 private:
     QWidget* addCustomWidget() override;

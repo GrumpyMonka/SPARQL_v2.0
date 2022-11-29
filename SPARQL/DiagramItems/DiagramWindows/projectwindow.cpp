@@ -31,3 +31,11 @@ QVector<DiagramItem*> ProjectWindow::getDiagramItems()
     }
     return result;
 }
+
+void ProjectWindow::saveProject()
+{
+}
+
+void ProjectWindow::openProject()
+{
+}

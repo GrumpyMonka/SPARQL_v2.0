@@ -8,7 +8,17 @@
 class DiagramItemSettings
 {
 public:
-    virtual int type() = 0;
+    enum
+    {
+        DiagramItemSettingsType = 0,
+        BasedItemSettingsType = 2,
+        CompositeItemSettingsType = 4,
+        SparqlItemSettinsType = 6,
+        AtomItemSettingsType = 8,
+        ProjectWindowSettingsType = 10
+    };
+    virtual int typeSettings() const { return DiagramItemSettingsType; }
+
     DiagramItemSettings();
 
     QString block_name;

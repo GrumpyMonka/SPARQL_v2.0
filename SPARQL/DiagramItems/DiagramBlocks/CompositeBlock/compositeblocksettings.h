@@ -6,11 +6,7 @@
 class CompositeBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 1
-    };
-    int type() override { return Type; };
+    int typeSettings() const override { return CompositeItemSettingsType; };
 
     CompositeBlockSettings();
 };
