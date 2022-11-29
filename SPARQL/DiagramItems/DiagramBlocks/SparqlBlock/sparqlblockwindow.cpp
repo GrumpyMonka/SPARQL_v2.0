@@ -56,7 +56,7 @@ QWidget* SparqlBlockWindow::addCustomBotWidget()
 
 void SparqlBlockWindow::slotOnCreateButtonClicked()
 {
-    emit blockCreated( getSettings() );
+    emit blockCreated( SparqlBlockSettings::ConvertToBasedBlockSetting( getSettings() ) );
 }
 
 void SparqlBlockWindow::slotOnSaveButtonClicked()
@@ -218,6 +218,7 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
     }
 
     settings->start_area = area_list.indexOf( start_area );
+    settings->block_name = line_name_block->text();
     return settings;
 }
 

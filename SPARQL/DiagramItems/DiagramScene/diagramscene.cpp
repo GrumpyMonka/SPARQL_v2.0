@@ -186,6 +186,7 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
 void DiagramScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
+    QGraphicsScene::mouseDoubleClickEvent( mouseEvent );
 }
 
 void DiagramScene::removeSelectedItems()

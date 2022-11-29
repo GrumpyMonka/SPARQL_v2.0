@@ -59,7 +59,7 @@ void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
             if ( "basic" == type )
             {
                 BasedBlockSettings* setting = new BasedBlockSettings();
-                setting->setSettingFromString( text );
+                setting->setSettingFromJson( json["data"] );
                 addBlock( setting );
             }
             // else if ( "sparql" == type )

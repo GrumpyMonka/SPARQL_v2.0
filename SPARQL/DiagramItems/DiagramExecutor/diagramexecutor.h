@@ -5,6 +5,7 @@
 #include <QTextEdit>
 
 #include <diagramitem.h>
+#include <snetwork.h>
 #include <swidget.h>
 
 class DiagramExecutor : public SWidget
@@ -15,7 +16,7 @@ public:
 
     void setScript( const QString& );
 
-    static QString ConvertDiagramItemToScript( QVector<DiagramItem*>& );
+    QString ConvertDiagramItemToScript( QVector<DiagramItem*>& );
 
 private:
     void createWindow();
@@ -28,6 +29,8 @@ private:
     QScriptEngine* script_engine;
     QTextEdit* text_edit_script;
     QTextEdit* text_edit_output;
+    SNetwork* network_api;
+    int end_item;
 };
 
 #endif // DIAGRAMEXECUTOR_H

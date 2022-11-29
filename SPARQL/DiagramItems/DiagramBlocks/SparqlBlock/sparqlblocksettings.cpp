@@ -9,6 +9,7 @@ SparqlBlockSettings::SparqlBlockSettings()
 {
     block_name = "SparqlBlock";
     pixmap = image();
+    limit = 20;
 }
 
 SparqlBlockSettings::~SparqlBlockSettings()
@@ -55,6 +56,12 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
             area_saver.settings = new AtomBlockSettings();
             area_saver.settings->setSettingFromJson( settings );
             areas.push_back( area_saver );
+        }
+
+        QJsonArray lines_array = body["Lines"].toArray();
+        for ( const QJsonValue& line : lines_array )
+        {
+            lines.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
         }
     }
 }
@@ -112,7 +119,6 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
 
 BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlockSettings* settings )
 {
-    /*
     QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
                      "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
                      "xmlHttp.open(\"POST\", \"/\");\n"
@@ -127,28 +133,34 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
                       "PREFIX : <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA_project#>\n\n"
                       "SELECT *";
 
-    QMap<QString, QString> area_body;
-    for ( auto line : settings->lines )
+    QString body = "";
+    QMap<int, QString> stack = { { settings->start_area, "" } };
+    while ( !stack.empty() )
     {
-        QString path = settings->blocks[line.startBlock].path;
-        QString str = settings->blocks[line.startBlock].text;
-        str += " " + line.text;
-        str += " " + settings->blocks[line.endBlock].text;
-        str += ".\n";
-        area_body[path] += str;
-    }
+        int index = stack.keys().at( 0 );
+        QString name = stack[index];
+        AreaSaver area = settings->areas.at( index );
+        stack.remove( index );
 
-    QString body;
-    if ( area_body.end() != area_body.find( "ORIGIN" ) )
-    {
-        body += "{\n" + area_body["ORIGIN"] + "}";
-    }
-    area_body.remove( "ORIGIN" );
+        QString area_str = name + "\n{\n";
+        for ( const auto& line : area.lines )
+        {
+            QString str = area.blocks.at( line.start_block )->text;
+            str += " " + line.text;
+            str += " " + area.blocks.at( line.end_block )->text;
+            str += ".\n";
+            area_str += str;
+        }
+        area_str += "}\n";
+        body += area_str;
 
-    auto keys = area_body.keys();
-    for ( const auto& key : keys )
-    {
-        body += key + "{\n" + area_body[key] + "}";
+        for ( const auto& line : settings->lines )
+        {
+            if ( line.start_block == index )
+            {
+                stack.insert( line.end_block, line.text );
+            }
+        }
     }
 
     request += "\nWHERE\n"
@@ -159,12 +171,10 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
     BasedBlockSettings* setting = new BasedBlockSettings();
     setting->label = false;
     setting->line_edit = false;
-    setting->block_name = "SPARQL";
+    setting->block_name = settings->block_name;
     setting->script = script + "\"query=" + QUrl::toPercentEncoding( request ) + "\");\ny.push(answer);";
 
     return setting;
-    */
-    return {};
 }
 
 QPixmap SparqlBlockSettings::image() const

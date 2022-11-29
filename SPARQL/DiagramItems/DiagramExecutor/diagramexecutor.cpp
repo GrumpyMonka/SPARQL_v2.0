@@ -3,6 +3,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 
+#include <diagramarrow.h>
 #include <diagramitembased.h>
 #include <diagramitemsparql.h>
 
@@ -12,12 +13,14 @@ DiagramExecutor::DiagramExecutor( QWidget* parent )
     createWindow();
 
     script_engine = new QScriptEngine( this );
+    network_api = new SNetwork( this );
 
     QScriptValue outputVal = script_engine->newQObject( text_edit_output );
     script_engine->globalObject().setProperty( "output", outputVal );
+    saveGeometry();
 
-    // QScriptValue networkVal = engine->newQObject( network );
-    // engine->globalObject().setProperty( "network", networkVal );
+    QScriptValue networkVal = script_engine->newQObject( network_api );
+    script_engine->globalObject().setProperty( "network", networkVal );
 }
 
 void DiagramExecutor::setScript( const QString& script )
@@ -89,14 +92,14 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
 
     QString temp = "[ ";
 
-    // foreach ( Arrow* arrow, api->block_list[index]->getArrows() )
-    //{
-    //     if ( arrow->startItem() != api->block_list[index] )
-    //     {
-    //         temp += QString::number( api->block_list.indexOf( arrow->startItem() ) );
-    //         temp += ", ";
-    //     }
-    // }
+    foreach ( DiagramArrow* arrow, block_list[index]->getArrows() )
+    {
+        if ( arrow->startItem() != block_list[index] )
+        {
+            temp += QString::number( block_list.indexOf( arrow->startItem() ) );
+            temp += ", ";
+        }
+    }
 
     if ( temp[temp.size() - 2] == "," )
         temp.remove( temp.size() - 2, 1 );
@@ -111,14 +114,14 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
 
 QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& block_list )
 {
-    int end_block = -1;
+    end_item = -1;
     QString script = "<p style=\"white-space: pre-wrap;\">";
     for ( int i = 0; i < block_list.size(); i++ )
     {
         script += CreateScriptForBlock( block_list, i );
         if ( DiagramItem::BasedItemType == block_list[i]->type() && ( ( DiagramItemBased* )( block_list[i] ) )->getName() == "END" )
         {
-            end_block = i;
+            end_item = i;
         }
     }
     script += "</p>";
@@ -129,7 +132,9 @@ void DiagramExecutor::createWindow()
 {
     QGridLayout* grid_layout = new QGridLayout( this );
     text_edit_script = new QTextEdit( this );
+    text_edit_script->setTabStopDistance( 30 );
     text_edit_output = new QTextEdit( this );
+    text_edit_output->setTabStopDistance( 30 );
     text_edit_output->setMaximumHeight( 300 );
     QPushButton* button_exec = new QPushButton( "Execute", this );
     connect( button_exec, SIGNAL( clicked() ), this, SLOT( execute() ) );
@@ -200,7 +205,7 @@ void DiagramExecutor::execute()
         return;
     }
 
-    result = script_engine->evaluate( "indexOfEnd = " + QString::number( -1 ) + ";" );
+    result = script_engine->evaluate( "indexOfEnd = " + QString::number( end_item ) + ";" );
     if ( result.isError() )
     {
         text_edit_output->setText( "Failed run script: " + result.toString() );
