@@ -12,8 +12,20 @@ public:
 
     ProjectWindowSettings();
 
+    struct LineSaver
+    {
+        int start_block;
+        int end_block;
+        QString text;
+    };
+
+    QVector<DiagramItemSettings*> blocks_list;
+    QVector<LineSaver> lines_list;
+
     void setSettingFromJson( const QJsonValue& value ) override;
     QJsonObject getJsonFromSetting() override;
+
+    QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& lines );
 };
 
 #endif // PROJECTWINDOWSETTINGS_H
