@@ -145,9 +145,12 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
         QString area_str = name + "\n{\n";
         for ( const auto& line : area.lines )
         {
-            QString str = area.blocks.at( line.start_block )->text;
+            QString str = ( ( DEFAULT_VAR == area.blocks.at( line.start_block )->type_block ) ? "?" : "" )
+                + area.blocks.at( line.start_block )->text;
             str += " " + line.text;
-            str += " " + area.blocks.at( line.end_block )->text;
+            str += " "
+                + QString( ( DEFAULT_VAR == area.blocks.at( line.end_block )->type_block ) ? "?" : "" )
+                + area.blocks.at( line.end_block )->text;
             str += ".\n";
             area_str += str;
         }
