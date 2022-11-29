@@ -57,6 +57,12 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
             area_saver.settings->setSettingFromJson( settings );
             areas.push_back( area_saver );
         }
+
+        QJsonArray lines_array = body["Lines"].toArray();
+        for ( const QJsonValue& line : lines_array )
+        {
+            lines.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
+        }
     }
 }
 
