@@ -13,13 +13,14 @@ DiagramExecutor::DiagramExecutor( QWidget* parent )
     createWindow();
 
     script_engine = new QScriptEngine( this );
+    network_api = new SNetwork( this );
 
     QScriptValue outputVal = script_engine->newQObject( text_edit_output );
     script_engine->globalObject().setProperty( "output", outputVal );
     saveGeometry();
 
-    // QScriptValue networkVal = engine->newQObject( network );
-    // engine->globalObject().setProperty( "network", networkVal );
+    QScriptValue networkVal = script_engine->newQObject( network_api );
+    script_engine->globalObject().setProperty( "network", networkVal );
 }
 
 void DiagramExecutor::setScript( const QString& script )
@@ -118,7 +119,7 @@ QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& bloc
     for ( int i = 0; i < block_list.size(); i++ )
     {
         script += CreateScriptForBlock( block_list, i );
-        if ( DiagramItem::BasedItemType == block_list[i]->type() && ( (DiagramItemBased*)( block_list[i] ) )->getName() == "END" )
+        if ( DiagramItem::BasedItemType == block_list[i]->type() && ( ( DiagramItemBased* )( block_list[i] ) )->getName() == "END" )
         {
             end_item = i;
         }

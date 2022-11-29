@@ -5,6 +5,7 @@
 #include <QTextEdit>
 
 #include <diagramitem.h>
+#include <snetwork.h>
 #include <swidget.h>
 
 class DiagramExecutor : public SWidget
@@ -28,6 +29,7 @@ private:
     QScriptEngine* script_engine;
     QTextEdit* text_edit_script;
     QTextEdit* text_edit_output;
+    SNetwork* network_api;
     int end_item;
 };
 

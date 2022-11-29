@@ -9,6 +9,7 @@ SparqlBlockSettings::SparqlBlockSettings()
 {
     block_name = "SparqlBlock";
     pixmap = image();
+    limit = 20;
 }
 
 SparqlBlockSettings::~SparqlBlockSettings()
