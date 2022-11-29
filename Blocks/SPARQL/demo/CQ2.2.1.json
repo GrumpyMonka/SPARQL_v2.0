@@ -449,11 +449,6 @@
                 ],
                 "Lines": [
                     {
-                        "End": -1,
-                        "Start": 1,
-                        "Text": ""
-                    },
-                    {
                         "End": 4,
                         "Start": 2,
                         "Text": ":partOf+"
