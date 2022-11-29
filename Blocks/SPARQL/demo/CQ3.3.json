@@ -211,16 +211,6 @@
                         "Text": ":interfaceTo"
                     },
                     {
-                        "End": -1,
-                        "Start": 1,
-                        "Text": ""
-                    },
-                    {
-                        "End": -1,
-                        "Start": 1,
-                        "Text": ""
-                    },
-                    {
                         "End": 0,
                         "Start": 2,
                         "Text": ":associatedWithDidLevel"
