@@ -66,6 +66,7 @@ void AtomBlockSettings::setSettingFromJson( const QJsonValue& value )
     transparent_background = body["Transparent_Background"].toBool();
     polygon = polygonFromJsonArray( body["Polygon"].toArray() );
     pos = pointFromJsonObject( body["Pos"] );
+    support_add_item = body["Support_Add_Item"].toBool();
 }
 
 QJsonObject AtomBlockSettings::getJsonFromSetting()
@@ -85,6 +86,7 @@ QJsonObject AtomBlockSettings::getJsonFromSetting()
     body.insert( "Transparent_Background", QJsonValue( transparent_background ) );
     body.insert( "Polygon", jsonArrayFromPolygon( polygon ) );
     body.insert( "Pos", jsonFromPointF( pos ) );
+    body.insert( "Support_Add_Item", support_add_item );
 
     object.insert( "Header", header );
     object.insert( "Body", body );
