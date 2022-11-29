@@ -27,7 +27,7 @@ void BasedBlockWindow::setBlockOnRework( DiagramItemBased* item )
     if ( ReworkMode == mode_ )
         emit error( tr( "BasedBlockWindow, this not rework mode!" ) );
     item_on_rework = item;
-    setSettings( item->getSetting() );
+    setSettings( item->getSettings() );
 }
 
 void BasedBlockWindow::setSettings( BasedBlockSettings* settings )
@@ -205,7 +205,7 @@ void BasedBlockWindow::setWindowToSetting()
 
     if ( ReworkMode == mode_ && item_on_rework != nullptr )
     {
-        item_on_rework->setSetting( settings_ );
+        item_on_rework->setSettings( settings_ );
     }
 }
 

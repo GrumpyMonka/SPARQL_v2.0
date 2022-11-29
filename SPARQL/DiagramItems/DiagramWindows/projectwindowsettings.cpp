@@ -3,9 +3,17 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+#include <basedblocksettings.h>
+#include <sparqlblocksettings.h>
+
 ProjectWindowSettings::ProjectWindowSettings()
 {
     block_name = "Project";
+}
+
+ProjectWindowSettings::~ProjectWindowSettings()
+{
+    clear();
 }
 
 QJsonArray ProjectWindowSettings::getJsonArrayFromLineSaver( const QVector<LineSaver>& lines )
@@ -24,6 +32,43 @@ QJsonArray ProjectWindowSettings::getJsonArrayFromLineSaver( const QVector<LineS
 
 void ProjectWindowSettings::setSettingFromJson( const QJsonValue& value )
 {
+    QJsonObject header = value["Header"].toObject();
+    QJsonObject body = value["Body"].toObject();
+
+    QJsonArray blocks_array = body["Blocks"].toArray();
+    QJsonArray lines_array = body["Lines"].toArray();
+
+    for ( const QJsonValue& line : lines_array )
+    {
+        lines_list.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
+    }
+
+    for ( const QJsonValue& block : blocks_array )
+    {
+        auto type_block = block["type"].toString();
+        if ( "basic" == type_block )
+        {
+            BasedBlockSettings* settings = new BasedBlockSettings();
+            settings->setSettingFromJson( block );
+            blocks_list.push_back( settings );
+        }
+        else
+        {
+            type_block = block["Type"].toString();
+            if ( "Sparql" == type_block )
+            {
+                SparqlBlockSettings* settings = new SparqlBlockSettings();
+                settings->setSettingFromJson( block );
+                blocks_list.push_back( settings );
+            }
+        }
+    }
+}
+
+QJsonObject ProjectWindowSettings::getJsonFromSetting()
+{
+    QJsonObject json_object;
+
     QJsonObject header;
     QJsonObject body;
 
@@ -32,27 +77,25 @@ void ProjectWindowSettings::setSettingFromJson( const QJsonValue& value )
 
     body.insert( "Lines", getJsonArrayFromLineSaver( lines_list ) );
 
-    QJsonArray areas_array;
-    for ( const auto& area : areas )
+    QJsonArray blocks_array;
+    for ( const auto& block : blocks_list )
     {
-        QJsonObject area_obj;
-        area_obj.insert( "Settings", area.settings->getJsonFromSetting() );
-        area_obj.insert( "Lines", getJsonArrayFromLineSaver( area.lines ) );
-        QJsonArray blocks_array;
-        for ( const auto& block : area.blocks )
-        {
-            blocks_array.push_back( block->getJsonFromSetting() );
-        }
-        area_obj.insert( "Blocks", blocks_array );
-        areas_array.push_back( area_obj );
+        blocks_array.push_back( block->getJsonFromSetting() );
     }
-    body.insert( "Areas", areas_array );
+    body.insert( "Blocks", blocks_array );
 
     json_object.insert( "Header", header );
     json_object.insert( "Body", body );
+
+    return json_object;
 }
 
-QJsonObject ProjectWindowSettings::getJsonFromSetting()
+void ProjectWindowSettings::clear()
 {
-    return {};
+    for ( auto& block : blocks_list )
+    {
+        if ( block != nullptr )
+            delete block;
+    }
+    blocks_list.clear();
 }

@@ -11,6 +11,7 @@ public:
     int typeSettings() const override { return ProjectWindowSettingsType; }
 
     ProjectWindowSettings();
+    ~ProjectWindowSettings();
 
     struct LineSaver
     {
@@ -22,6 +23,7 @@ public:
     QVector<DiagramItemSettings*> blocks_list;
     QVector<LineSaver> lines_list;
 
+    void clear();
     void setSettingFromJson( const QJsonValue& value ) override;
     QJsonObject getJsonFromSetting() override;
 

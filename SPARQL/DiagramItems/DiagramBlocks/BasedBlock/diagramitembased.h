@@ -18,9 +18,9 @@ public:
     virtual int type() const override { return BasedItemType; }
 
     DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent = nullptr, BasedBlockSettings* setting = new BasedBlockSettings() );
-    void setSetting( BasedBlockSettings* setting );
+    void setSettings( BasedBlockSettings* setting );
     QString getName();
-    BasedBlockSettings* getSetting();
+    BasedBlockSettings* getSettings();
     QString GetInputData();
     void setDrawPicture( bool );
 

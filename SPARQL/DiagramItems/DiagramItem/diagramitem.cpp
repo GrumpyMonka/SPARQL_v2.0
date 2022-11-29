@@ -28,6 +28,10 @@ DiagramItem::~DiagramItem()
 {
     removeArrows();
 }
+DiagramItemSettings* getSettings()
+{
+    return {};
+}
 
 void DiagramItem::setSupportAddItem( bool flag )
 {

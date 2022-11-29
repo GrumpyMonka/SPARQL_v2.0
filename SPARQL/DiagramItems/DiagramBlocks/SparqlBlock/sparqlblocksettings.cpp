@@ -194,14 +194,16 @@ SparqlBlockSettings* SparqlBlockSettings::CreateTemplateSparqlSettings()
 
 void SparqlBlockSettings::clear()
 {
-    /*for ( auto& area : areas )
+    for ( auto& area : areas )
     {
-        delete areas.first().settings;
+        /*if ( area.settings != nullptr )
+            delete area.settings;
         for ( auto& block : area.blocks )
         {
-            delete block;
-        }
+            if ( block != nullptr )
+                delete block;
+        }*/
         area.blocks.clear();
     }
-    areas.clear();*/
+    areas.clear();
 }
