@@ -94,11 +94,11 @@ QJsonObject AtomBlockSettings::getJsonFromSetting()
 
 QPolygonF AtomBlockSettings::GetDefaultAreaPolygon()
 {
-    return QPolygonF() << QPointF( -300, 200 )
-                       << QPointF( 300, 200 )
-                       << QPointF( 300, -200 )
-                       << QPointF( -300, -200 )
-                       << QPointF( -300, 200 );
+    return QPolygonF() << QPointF( -400, 250 )
+                       << QPointF( 400, 250 )
+                       << QPointF( 400, -250 )
+                       << QPointF( -400, -250 )
+                       << QPointF( -400, 250 );
 }
 
 AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()
