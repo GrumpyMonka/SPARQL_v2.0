@@ -16,31 +16,23 @@ BasedBlockSettings::BasedBlockSettings()
 
 void BasedBlockSettings::setSettingFromJson( const QJsonObject& object )
 {
-    QJsonObject data = object;
-    if ( object["type"].toString() == "basic" )
+    if ( object["Header"]["Type"] == "Based" )
     {
-        data = object["data"].toObject();
+
+        QJsonObject header = object["Header"].toObject();
+        QJsonObject body = object["Body"].toObject();
+
+        block_name = header["Name"].toString();
+
+        pixmap = pixmapFrom( body["Image"] );
+        flag_custom_image = body["Flag_Custom_Image"].toBool();
+        label = body["Flag_Label"].toBool();
+        line_edit = body["Flag_Edit"].toBool();
+        label_text = body["Text_Label"].toString();
+        line_edit_text = body["Text_Edit"].toString();
+        pos = pointFromJsonObject( body["Pos"] );
+        script = body["Script"].toString();
     }
-    block_name = data["name"].toString();
-
-    label = data["label"].toBool();
-    label_text = data["label_text"].toString();
-
-    line_edit = data["line_edit"].toBool();
-    line_edit_text = data["line_edit_text"].toString();
-
-    script = data["script"].toString();
-
-    type_image = data["type_img"].toString();
-    if ( type_image != "self" )
-    {
-        flag_custom_image = true;
-    }
-    else
-    {
-        flag_custom_image = false;
-    }
-    pixmap = pixmapFrom( data["image"] );
 }
 
 QJsonObject BasedBlockSettings::getJsonFromSetting()
