@@ -26,6 +26,7 @@ public:
     QString script;
 
     QString type_image;
+    bool flag_custom_image;
 };
 
 #endif // BASEDBLOCKSETTINGS_H

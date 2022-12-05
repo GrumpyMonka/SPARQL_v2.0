@@ -1,8 +1,6 @@
 {
     "Body": {
-        "Color_Text": "blue",
         "Flag_Text": true,
-        "Flag_Label": false,
         "Flag_Edit": false,
         "Text_Edit": "edit", 
         "Text_Label": "label",
@@ -12,7 +10,6 @@
             "X": 38,
             "Y": -112
         },
-        "Transparent_Background": false,
         "Script":"...",
         "Flag_Custom_Image": true,
         "Image": "..."
