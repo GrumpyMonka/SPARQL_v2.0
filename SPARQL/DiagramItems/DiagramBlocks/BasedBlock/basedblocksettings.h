@@ -8,14 +8,11 @@
 class BasedBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 1
-    };
-    int type() override { return Type; };
+    int typeSettings() const override { return BasedItemSettingsType; };
+
     BasedBlockSettings();
 
-    void setSettingFromJson( const QJsonValue& value ) override;
+    void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
 
@@ -29,6 +26,7 @@ public:
     QString script;
 
     QString type_image;
+    bool flag_custom_image;
 };
 
 #endif // BASEDBLOCKSETTINGS_H

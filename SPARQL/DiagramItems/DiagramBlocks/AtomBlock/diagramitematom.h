@@ -16,7 +16,7 @@ public:
         AtomBlockSettings* settings = new AtomBlockSettings() );
 
     void setItemPolygon( QPolygonF& polygon );
-    AtomBlockSettings* getSettings();
+    AtomBlockSettings* getSettings() override;
     void setText( const QString& text );
     QString getText();
 

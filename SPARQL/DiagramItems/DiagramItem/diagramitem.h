@@ -74,7 +74,7 @@ public:
     };
 
     int type() const override { return DiagramItemType; }
-    // virtual DiagramItemSettings* getSettings();
+    virtual DiagramItemSettings* getSettings();
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
     ~DiagramItem();

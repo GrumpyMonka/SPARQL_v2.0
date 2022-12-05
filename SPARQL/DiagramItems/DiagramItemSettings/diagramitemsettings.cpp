@@ -33,7 +33,7 @@ void DiagramItemSettings::setSettingFromString( const QString& str )
     QJsonDocument json = QJsonDocument::fromJson( str.toUtf8() );
     if ( json.isObject() )
     {
-        setSettingFromJson( json.toVariant().toJsonValue() );
+        setSettingFromJson( json.object() );
     }
 }
 

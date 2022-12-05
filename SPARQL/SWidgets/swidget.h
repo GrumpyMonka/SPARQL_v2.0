@@ -17,6 +17,8 @@ public:
     };
     virtual SWidgetTypes typeSWidget() { return SWidgetType; }
     virtual int modeDiagramBlocks() { return BlocksLibrary::ModeBlocks::None; }
+    virtual void saveProject() {}
+    virtual void openProject() {}
 
     explicit SWidget( QWidget* parent = nullptr );
 };

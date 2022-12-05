@@ -7,12 +7,7 @@
 class SparqlBlockSettings : public DiagramItemSettings
 {
 public:
-    enum
-    {
-        Type = 3
-    };
-
-    int type() override { return Type; }
+    int typeSettings() const override { return SparqlItemSettinsType; }
 
     SparqlBlockSettings();
     ~SparqlBlockSettings();
@@ -45,7 +40,7 @@ public:
     QVector<AreaSaver> areas;
     int start_area;
 
-    void setSettingFromJson( const QJsonValue& value ) override;
+    void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
     QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& );

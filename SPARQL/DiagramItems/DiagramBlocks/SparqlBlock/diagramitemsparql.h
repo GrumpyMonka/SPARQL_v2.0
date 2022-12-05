@@ -3,7 +3,7 @@
 
 #include <diagramitembased.h>
 #include <sparqlblocksettings.h>
-
+/*
 class DiagramItemSparql : public DiagramItemBased
 {
 public:
@@ -11,5 +11,5 @@ public:
 
     DiagramItemSparql( QMenu* contextMenu, QGraphicsItem* parent = nullptr, SparqlBlockSettings* setting = new SparqlBlockSettings() );
 };
-
+*/
 #endif // DIAGRAMITEMSPARQL_H

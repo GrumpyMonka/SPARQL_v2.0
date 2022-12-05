@@ -27,13 +27,25 @@ void BasedBlockWindow::setBlockOnRework( DiagramItemBased* item )
     if ( ReworkMode == mode_ )
         emit error( tr( "BasedBlockWindow, this not rework mode!" ) );
     item_on_rework = item;
-    setSettings( item->getSetting() );
+    setSettings( item->getSettings() );
 }
 
 void BasedBlockWindow::setSettings( BasedBlockSettings* settings )
 {
-    settings_ = settings;
-    setSettingOnWindow();
+    line_name->setText( settings->block_name );
+    line_label->setText( settings->label_text );
+    line_line_edit->setText( settings->line_edit_text );
+
+    check_label->setChecked( settings->label );
+    check_line_edit->setChecked( settings->line_edit );
+
+    text_edit->setText( settings->script );
+
+    if ( settings->pixmap.isNull() )
+    {
+        settings->pixmap = settings->image().scaled( 70, 70 );
+    }
+    label_pixmap->setPixmap( settings->pixmap.scaled( 70, 70 ) );
 }
 
 void BasedBlockWindow::createWidget()
@@ -107,14 +119,10 @@ void BasedBlockWindow::slotInfo()
 
 void BasedBlockWindow::slotSave()
 {
-    setWindowToSetting();
 }
 
 void BasedBlockWindow::slotSaveAs()
 {
-    if ( nullptr == settings_ )
-        emit error( tr( "BasedBlockWindow settings_ = nullptr" ) );
-    setWindowToSetting();
     QString file_name = QFileDialog::getSaveFileName( this, "Save as", QDir::currentPath(), tr( "JSON (*.json);;All files (*)" ) );
     QStringList list = file_name.split( "." );
     if ( list.size() == 1 || list.back() != "json" )
@@ -126,8 +134,10 @@ void BasedBlockWindow::slotSaveAs()
     if ( file.open( QIODevice::WriteOnly ) )
     {
         QJsonDocument json;
-        json.setObject( settings_->getJsonFromSetting() );
+        BasedBlockSettings* settings = getSettings();
+        json.setObject( settings->getJsonFromSetting() );
         file.write( json.toJson() );
+        delete settings;
         QMessageBox::about( this, tr( "Based Block" ), tr( "Block is saved!" ) );
     }
     else
@@ -143,9 +153,11 @@ void BasedBlockWindow::slotOpen()
     QFile file( file_name );
     if ( file.open( QIODevice::ReadOnly ) )
     {
-        settings_->setSettingFromString( file.readAll() );
+        BasedBlockSettings* settings = new BasedBlockSettings();
+        settings->setSettingFromString( file.readAll() );
         slotSetName( getName( file_name ) );
-        setSettingOnWindow();
+        setSettings( settings );
+        delete settings;
         QMessageBox::about( this, tr( "Based Block" ), tr( "Block is open!" ) );
     }
     else
@@ -172,41 +184,16 @@ void BasedBlockWindow::slotSetName( const QString& name )
     emit changeNameWindow( name );
 }
 
-void BasedBlockWindow::setSettingOnWindow()
+BasedBlockSettings* BasedBlockWindow::getSettings()
 {
-    if ( nullptr == settings_ )
-        emit error( tr( "BasedBlockWindow settings_ = nullptr" ) );
-    line_name->setText( settings_->block_name );
-    line_label->setText( settings_->label_text );
-    line_line_edit->setText( settings_->line_edit_text );
-
-    check_label->setChecked( settings_->label );
-    check_line_edit->setChecked( settings_->line_edit );
-
-    text_edit->setText( settings_->script );
-
-    if ( settings_->pixmap.isNull() )
-    {
-        settings_->pixmap = settings_->image().scaled( 70, 70 );
-    }
-    label_pixmap->setPixmap( settings_->pixmap.scaled( 70, 70 ) );
-}
-
-void BasedBlockWindow::setWindowToSetting()
-{
-    if ( nullptr == settings_ )
-        emit error( tr( "BasedBlockWindow settings_ = nullptr" ) );
-    settings_->block_name = line_name->text();
-    settings_->label = check_label->isChecked();
-    settings_->line_edit = check_line_edit->isChecked();
-    settings_->label_text = line_label->text();
-    settings_->line_edit_text = line_line_edit->text();
-    settings_->script = text_edit->toPlainText();
-
-    if ( ReworkMode == mode_ && item_on_rework != nullptr )
-    {
-        item_on_rework->setSetting( settings_ );
-    }
+    BasedBlockSettings* settings = new BasedBlockSettings();
+    settings->block_name = line_name->text();
+    settings->label = check_label->isChecked();
+    settings->line_edit = check_line_edit->isChecked();
+    settings->label_text = line_label->text();
+    settings->line_edit_text = line_line_edit->text();
+    settings->script = text_edit->toPlainText();
+    return settings;
 }
 
 QString BasedBlockWindow::getName( const QString& path )

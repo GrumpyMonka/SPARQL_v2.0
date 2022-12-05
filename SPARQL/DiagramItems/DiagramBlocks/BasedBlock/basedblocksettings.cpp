@@ -14,47 +14,58 @@ BasedBlockSettings::BasedBlockSettings()
     pixmap = image();
 }
 
-void BasedBlockSettings::setSettingFromJson( const QJsonValue& value )
+void BasedBlockSettings::setSettingFromJson( const QJsonObject& object )
 {
-    if ( value.isObject() )
+    QJsonObject data = object;
+    if ( object["type"].toString() == "basic" )
     {
-        block_name = value["name"].toString();
-
-        label = value["label"].toBool();
-        label_text = value["label_text"].toString();
-
-        line_edit = value["line_edit"].toBool();
-        line_edit_text = value["line_edit_text"].toString();
-
-        script = value["script"].toString();
-
-        type_image = value["type_img"].toString();
-        pixmap = pixmapFrom( value["image"] );
+        data = object["data"].toObject();
     }
+    block_name = data["name"].toString();
+
+    label = data["label"].toBool();
+    label_text = data["label_text"].toString();
+
+    line_edit = data["line_edit"].toBool();
+    line_edit_text = data["line_edit_text"].toString();
+
+    script = data["script"].toString();
+
+    type_image = data["type_img"].toString();
+    if ( type_image != "self" )
+    {
+        flag_custom_image = true;
+    }
+    else
+    {
+        flag_custom_image = false;
+    }
+    pixmap = pixmapFrom( data["image"] );
 }
 
 QJsonObject BasedBlockSettings::getJsonFromSetting()
 {
-    QJsonObject obj;
+    QJsonObject object;
 
-    QJsonObject temp_obj;
-    temp_obj.insert( "name", QJsonValue( block_name ) );
+    QJsonObject header;
+    QJsonObject body;
 
-    temp_obj.insert( "label", QJsonValue( label ) );
-    temp_obj.insert( "label_text", QJsonValue( label_text ) );
+    header.insert( "Name", block_name );
+    header.insert( "Type", "Based" );
 
-    temp_obj.insert( "line_edit", QJsonValue( line_edit ) );
-    temp_obj.insert( "line_edit_text", QJsonValue( line_edit_text ) );
+    body.insert( "Image", jsonValFromPixmap( pixmap ) );
+    body.insert( "Flag_Custom_Image", flag_custom_image );
+    body.insert( "Flag_Label", label );
+    body.insert( "Flag_Edit", line_edit );
+    body.insert( "Text_Label", label_text );
+    body.insert( "Text_Edit", line_edit_text );
+    body.insert( "Pos", jsonFromPointF( pos ) );
+    body.insert( "Script", script );
 
-    temp_obj.insert( "script", QJsonValue( script ) );
+    object.insert( "Header", header );
+    object.insert( "Body", body );
 
-    temp_obj.insert( "type_img", QJsonValue( type_image ) );
-    temp_obj.insert( "image", jsonValFromPixmap( pixmap ) );
-
-    obj.insert( "type", QJsonValue( "basic" ) );
-    obj.insert( "data", QJsonValue( temp_obj ) );
-
-    return obj;
+    return object;
 }
 
 QPixmap BasedBlockSettings::image() const

@@ -28,6 +28,7 @@ SOURCES += \
     DiagramItems/DiagramItemSettings/diagramitemsettings.cpp \
     DiagramItems/DiagramScene/diagramscene.cpp \
     DiagramItems/DiagramWindows/projectwindow.cpp \
+    DiagramItems/DiagramWindows/projectwindowsettings.cpp \
     SWidgets/SGraphicsView/sgraphicsview.cpp \
     SWidgets/STabWidget/stabwidget.cpp \
     SWidgets/SToolBar/stoolbar.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     DiagramItems/DiagramItemSettings/diagramitemsettings.h \
     DiagramItems/DiagramScene/diagramscene.h \
     DiagramItems/DiagramWindows/projectwindow.h \
+    DiagramItems/DiagramWindows/projectwindowsettings.h \
     MainForm/mainwindow.h \
     SWidgets/SGraphicsView/sgraphicsview.h \
     SWidgets/STabWidget/stabwidget.h \

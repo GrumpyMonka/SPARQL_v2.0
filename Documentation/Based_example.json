@@ -1,0 +1,21 @@
+{
+    "Body": {
+        "Flag_Text": true,
+        "Flag_Edit": false,
+        "Text_Edit": "edit", 
+        "Text_Label": "label",
+        "Polygon": [
+        ],
+        "Pos": {
+            "X": 38,
+            "Y": -112
+        },
+        "Script":"...",
+        "Flag_Custom_Image": true,
+        "Image": "..."
+    },
+    "Header": {
+        "Name": "BasedBlock",
+        "Type": "Based"
+    }
+}

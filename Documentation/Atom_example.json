@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Color_Text": "blue",
+        "Flag_Text": true,
+        "Polygon": [
+        ],
+        "Pos": {
+            "X": 38,
+            "Y": -112
+        },
+        "Text": "val",
+        "Transparent_Background": false
+    },
+    "Header": {
+        "Name": "AtomBlock",
+        "Type": "Atom",
+        "Type_Block": "VALUE"
+    }
+}

@@ -31,11 +31,11 @@ DiagramItemBased::DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent, B
     picture->setGeometry( getEndPos().x() - 32, getStartPos().y() + 2, 30, 30 );
     proxy_picture->setWidget( picture );
 
-    setSetting( setting );
+    setSettings( setting );
     // delete setting;
 }
 
-void DiagramItemBased::setSetting( BasedBlockSettings* setting )
+void DiagramItemBased::setSettings( BasedBlockSettings* setting )
 {
     setting_ = setting;
     name->setHtml( "<span style=\"font-size: 15px; text-decoration: underline;\">" + setting->block_name + "</span>" );
@@ -84,7 +84,7 @@ QString DiagramItemBased::getName()
     return setting_->block_name;
 }
 
-BasedBlockSettings* DiagramItemBased::getSetting()
+BasedBlockSettings* DiagramItemBased::getSettings()
 {
     return setting_;
 }

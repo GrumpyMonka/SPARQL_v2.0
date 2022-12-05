@@ -61,7 +61,7 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     switch ( diagram_item->type() )
     {
     case DiagramItem::BasedItemType:
-        list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSetting()->script.split( "\n" );
+        list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSettings()->script.split( "\n" );
         break;
 
         // case DiagramItemSparql :

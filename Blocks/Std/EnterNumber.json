@@ -1,0 +1,18 @@
+{
+    "Body": {
+        "Flag_Edit": true,
+        "Flag_Label": true,
+        "Image": "",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "y.push(Number(input));",
+        "Text_Edit": "0",
+        "Text_Label": "Число:"
+    },
+    "Header": {
+        "Name": "EnterNumber",
+        "Type": "Based"
+    }
+}
