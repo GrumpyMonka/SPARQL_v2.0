@@ -20,7 +20,7 @@ public:
     DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent = nullptr, BasedBlockSettings* setting = new BasedBlockSettings() );
     void setSettings( BasedBlockSettings* setting );
     QString getName();
-    BasedBlockSettings* getSettings();
+    BasedBlockSettings* getSettings() override;
     QString GetInputData();
     void setDrawPicture( bool );
 

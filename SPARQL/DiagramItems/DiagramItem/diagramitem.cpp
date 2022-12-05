@@ -28,7 +28,7 @@ DiagramItem::~DiagramItem()
 {
     removeArrows();
 }
-DiagramItemSettings* getSettings()
+DiagramItemSettings* DiagramItem::getSettings()
 {
     return {};
 }
