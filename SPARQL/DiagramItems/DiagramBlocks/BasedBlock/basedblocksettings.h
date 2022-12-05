@@ -12,7 +12,7 @@ public:
 
     BasedBlockSettings();
 
-    void setSettingFromJson( const QJsonValue& value ) override;
+    void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
 

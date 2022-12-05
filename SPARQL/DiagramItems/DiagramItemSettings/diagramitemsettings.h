@@ -27,7 +27,7 @@ public:
     int z_value;
     QPointF pos;
 
-    virtual void setSettingFromJson( const QJsonValue& value ) = 0;
+    virtual void setSettingFromJson( const QJsonObject& object ) = 0;
     virtual QJsonObject getJsonFromSetting() = 0;
     virtual QPixmap image() const;
     virtual ~DiagramItemSettings() = default;

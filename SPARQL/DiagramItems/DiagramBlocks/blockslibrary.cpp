@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
+#include <QJsonObject>
 
 #include <compositeblocksettings.h>
 #include <sparqlblocksettings.h>
@@ -59,7 +60,7 @@ void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
             if ( "basic" == type )
             {
                 BasedBlockSettings* setting = new BasedBlockSettings();
-                setting->setSettingFromJson( json["data"] );
+                setting->setSettingFromJson( json["data"].toObject() );
                 addBlock( setting );
             }
             // else if ( "sparql" == type )

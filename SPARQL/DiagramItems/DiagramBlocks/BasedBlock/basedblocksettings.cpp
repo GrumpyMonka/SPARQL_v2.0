@@ -14,22 +14,23 @@ BasedBlockSettings::BasedBlockSettings()
     pixmap = image();
 }
 
-void BasedBlockSettings::setSettingFromJson( const QJsonValue& value )
+void BasedBlockSettings::setSettingFromJson( const QJsonObject& object )
 {
-    if ( value.isObject() )
+    if ( object["type"].toString() == "basic" )
     {
-        block_name = value["name"].toString();
+        QJsonObject data = object["data"].toObject();
+        block_name = data["name"].toString();
 
-        label = value["label"].toBool();
-        label_text = value["label_text"].toString();
+        label = data["label"].toBool();
+        label_text = data["label_text"].toString();
 
-        line_edit = value["line_edit"].toBool();
-        line_edit_text = value["line_edit_text"].toString();
+        line_edit = data["line_edit"].toBool();
+        line_edit_text = data["line_edit_text"].toString();
 
-        script = value["script"].toString();
+        script = data["script"].toString();
 
-        type_image = value["type_img"].toString();
-        pixmap = pixmapFrom( value["image"] );
+        type_image = data["type_img"].toString();
+        pixmap = pixmapFrom( data["image"] );
     }
 }
 

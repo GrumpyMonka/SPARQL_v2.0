@@ -30,36 +30,39 @@ QJsonArray ProjectWindowSettings::getJsonArrayFromLineSaver( const QVector<LineS
     return lines_array;
 }
 
-void ProjectWindowSettings::setSettingFromJson( const QJsonValue& value )
+void ProjectWindowSettings::setSettingFromJson( const QJsonObject& object )
 {
-    QJsonObject header = value["Header"].toObject();
-    QJsonObject body = value["Body"].toObject();
-
-    QJsonArray blocks_array = body["Blocks"].toArray();
-    QJsonArray lines_array = body["Lines"].toArray();
-
-    for ( const QJsonValue& line : lines_array )
+    if ( object["Header"]["Type"].toString() == "Project" )
     {
-        lines_list.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
-    }
+        QJsonObject header = object["Header"].toObject();
+        QJsonObject body = object["Body"].toObject();
 
-    for ( const QJsonValue& block : blocks_array )
-    {
-        auto type_block = block["type"].toString();
-        if ( "basic" == type_block )
+        QJsonArray blocks_array = body["Blocks"].toArray();
+        QJsonArray lines_array = body["Lines"].toArray();
+
+        for ( const QJsonValue& line : lines_array )
         {
-            BasedBlockSettings* settings = new BasedBlockSettings();
-            settings->setSettingFromJson( block );
-            blocks_list.push_back( settings );
+            lines_list.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
         }
-        else
+
+        for ( const QJsonValue& block : blocks_array )
         {
-            type_block = block["Type"].toString();
-            if ( "Sparql" == type_block )
+            auto type_block = block["type"].toString();
+            if ( "basic" == type_block )
             {
-                SparqlBlockSettings* settings = new SparqlBlockSettings();
-                settings->setSettingFromJson( block );
+                BasedBlockSettings* settings = new BasedBlockSettings();
+                settings->setSettingFromJson( block.toObject() );
                 blocks_list.push_back( settings );
+            }
+            else
+            {
+                type_block = block["Type"].toString();
+                if ( "Sparql" == type_block )
+                {
+                    SparqlBlockSettings* settings = new SparqlBlockSettings();
+                    settings->setSettingFromJson( block.toObject() );
+                    blocks_list.push_back( settings );
+                }
             }
         }
     }

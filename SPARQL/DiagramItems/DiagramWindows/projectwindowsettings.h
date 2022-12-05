@@ -24,7 +24,7 @@ public:
     QVector<LineSaver> lines_list;
 
     void clear();
-    void setSettingFromJson( const QJsonValue& value ) override;
+    void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;
 
     QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& lines );

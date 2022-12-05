@@ -52,20 +52,23 @@ AtomBlockSettings::AtomBlockSettings()
     z_value = 2;
 }
 
-void AtomBlockSettings::setSettingFromJson( const QJsonValue& value )
+void AtomBlockSettings::setSettingFromJson( const QJsonObject& object )
 {
-    QJsonValue header = value["Header"];
-    QJsonValue body = value["Body"];
+    if ( object["Header"]["Type"].toString() == "Atom" )
+    {
+        QJsonValue header = object["Header"];
+        QJsonValue body = object["Body"];
 
-    block_name = header["Name"].toString();
-    type_block = header["Type_Block"].toString();
+        block_name = header["Name"].toString();
+        type_block = header["Type_Block"].toString();
 
-    flag_text = body["Flag_Text"].toBool();
-    text = body["Text"].toString();
-    color_text = body["Color_Text"].toString();
-    transparent_background = body["Transparent_Background"].toBool();
-    polygon = polygonFromJsonArray( body["Polygon"].toArray() );
-    pos = pointFromJsonObject( body["Pos"] );
+        flag_text = body["Flag_Text"].toBool();
+        text = body["Text"].toString();
+        color_text = body["Color_Text"].toString();
+        transparent_background = body["Transparent_Background"].toBool();
+        polygon = polygonFromJsonArray( body["Polygon"].toArray() );
+        pos = pointFromJsonObject( body["Pos"] );
+    }
 }
 
 QJsonObject AtomBlockSettings::getJsonFromSetting()
