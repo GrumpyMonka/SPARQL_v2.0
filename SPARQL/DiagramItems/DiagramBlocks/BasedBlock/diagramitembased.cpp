@@ -32,14 +32,12 @@ DiagramItemBased::DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent, B
     proxy_picture->setWidget( picture );
 
     setSettings( setting );
-    // delete setting;
 }
 
 void DiagramItemBased::setSettings( BasedBlockSettings* setting )
 {
-    setting_ = setting;
     name->setHtml( "<span style=\"font-size: 15px; text-decoration: underline;\">" + setting->block_name + "</span>" );
-    if ( setting_->label )
+    if ( setting->label )
     {
         label->setHtml( "<span style=\"font-size: 12px;\">" + setting->label_text + "</span>" );
     }
@@ -56,6 +54,7 @@ void DiagramItemBased::setSettings( BasedBlockSettings* setting )
     {
         line_edit->hide();
     }
+    pixmap = setting->pixmap;
     picture->setPixmap( setting->pixmap.scaled( 30, 30 ) );
 }
 /*
@@ -81,12 +80,20 @@ QPixmap DiagramItemBased::image() const
 */
 QString DiagramItemBased::getName()
 {
-    return setting_->block_name;
+    return name->toPlainText();
 }
 
 BasedBlockSettings* DiagramItemBased::getSettings()
 {
-    return setting_;
+    BasedBlockSettings* settings = new BasedBlockSettings();
+    settings->block_name = getName();
+    settings->label = label->isActive();
+    settings->label_text = label->toPlainText();
+    settings->line_edit = !line_edit->isHidden();
+    settings->line_edit_text = line_edit->text();
+    settings->pixmap = pixmap;
+    settings->pos = pos();
+    return settings;
 }
 
 QString DiagramItemBased::GetInputData()
