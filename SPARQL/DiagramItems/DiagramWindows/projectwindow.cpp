@@ -60,10 +60,7 @@ void ProjectWindow::saveProject()
 
     for ( auto& item : item_list )
     {
-        if ( DiagramItem::BasedItemType == item->type() )
-        {
-            settings.blocks_list.push_back( ( static_cast<DiagramItemBased*>( item ) )->getSettings() );
-        }
+        settings.blocks_list.push_back( item->getSettings() );
     }
 
     for ( auto& arrow : arrow_list )

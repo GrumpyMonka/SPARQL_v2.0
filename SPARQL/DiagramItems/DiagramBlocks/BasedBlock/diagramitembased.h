@@ -36,8 +36,8 @@ private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
     QGraphicsProxyWidget* proxy_picture;
-    BasedBlockSettings* setting_;
     QLabel* picture;
+    QPixmap pixmap;
 };
 
 #endif // DIAGRAMITEMBASED_H
