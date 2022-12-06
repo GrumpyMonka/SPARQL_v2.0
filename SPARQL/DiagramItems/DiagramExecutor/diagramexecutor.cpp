@@ -47,31 +47,12 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     result += getHtmlLine( "\nblocks_list.push( new Block( " );
     result += getHtmlLine( "\tfunction( x ) {" );
 
-    switch ( diagram_item->type() )
-    {
-    case DiagramItem::BasedItemType:
-        if ( ( static_cast<DiagramItemBased*>( diagram_item ) )->GetInputData() != "" )
-            result += getHtmlLine( "\t\tvar input = " + ( static_cast<DiagramItemBased*>( diagram_item ) )->GetInputData() + ";" );
-        break;
-
-    case DiagramItem::SparqlItemType:
-        result += getHtmlLine( "\t\tvar input = \"\";" );
-        break;
-    }
+    if ( diagram_item->getInputData() != "" )
+        result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
 
     result += getHtmlLine( "\t\tvar y = [];" );
 
-    QStringList list;
-    switch ( diagram_item->type() )
-    {
-    case DiagramItem::BasedItemType:
-        list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSettings()->script.split( "\n" );
-        break;
-
-        // case DiagramItemSparql :
-        //     list = ( static_cast<DiagramItemSparql*>( diagram_item ) )->getSetting()->ConvertToBasedBlockSetting()->script.split( "\n" );
-        //     break;
-    }
+    QStringList list = diagram_item->getScript().split( "\n" );
 
     foreach ( QString iter, list )
     {

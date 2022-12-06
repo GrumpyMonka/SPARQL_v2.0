@@ -164,7 +164,7 @@ bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 {
     if ( DiagramItem::BasedItemType == code
         //    || DiagramItemComposite  == code
-        //    || DiagramItemSparql  == code
+        || DiagramItem::SparqlItemType == code
         || DiagramItem::AtomItemType == code
         || DiagramItem::IOItemType == code )
     {
@@ -182,6 +182,10 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
         return new DiagramItemBased( context_menu, parent,
             new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ) );
         break;
+    case DiagramItemSettings::SparqlItemSettinsType:
+        return new DiagramItemSparql( context_menu, parent,
+            new SparqlBlockSettings( *static_cast<SparqlBlockSettings*>( settings ) ) );
+        break;
     case DiagramItemSettings::AtomItemSettingsType:
         return new DiagramItemAtom( context_menu, parent,
             new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ) );
@@ -190,6 +194,7 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
         return new DiagramItemIO( context_menu, parent,
             new IOBlockSettings( *static_cast<IOBlockSettings*>( settings ) ) );
         break;
+
     default:
         break;
     }

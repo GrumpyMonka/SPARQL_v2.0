@@ -31,6 +31,7 @@ public:
     // void addBlocks( QVector<DiagramItem*>& items );
 
     // void deleteBlock( DiagramItem* item );
+    void addBlockFromJson( QString& text );
     void deleteBlocks( int modes_blocks );
 
     QVector<DiagramItemSettings*> getBlocks( int modes_blocks );

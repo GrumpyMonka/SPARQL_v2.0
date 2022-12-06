@@ -76,6 +76,8 @@ public:
 
     int type() const override { return DiagramItemType; }
     virtual DiagramItemSettings* getSettings();
+    virtual QString getScript() { return {}; }
+    virtual QString getInputData() { return {}; }
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
     ~DiagramItem();
