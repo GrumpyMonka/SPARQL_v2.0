@@ -50,6 +50,7 @@ private:
     BasedMode mode_;
     DiagramItemBased* item_on_rework;
 
+    QPixmap pixmap;
     QLabel* label_pixmap;
     QLineEdit* line_name;
     QLineEdit* line_line_edit;

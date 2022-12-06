@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Flag_Custom_Image": false,
+        "Flag_Edit": false,
+        "Flag_Label": false,
+        "Image": "",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "",
+        "Text_Edit": "",
+        "Text_Label": "label"
+    },
+    "Header": {
+        "Name": "END",
+        "Type": "Based"
+    }
+}
