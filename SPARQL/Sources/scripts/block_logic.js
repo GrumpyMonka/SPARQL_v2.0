@@ -10,6 +10,7 @@ function workingBlocks()
             input.push(blocks_list[blocks_list[indexOfWorkingBlock[i]].input_blocks[j]].output);
         }
         blocks_list[indexOfWorkingBlock[i]].output.push(blocks_list[indexOfWorkingBlock[i]].script(input));
+        api.setOutputForDiagramItem( indexOfWorkingBlock[i], blocks_list[indexOfWorkingBlock[i]].output );
         blocks_list[indexOfWorkingBlock[i]].flagOfWorking = true;
     }  
     indexOfWorkingBlock = [];

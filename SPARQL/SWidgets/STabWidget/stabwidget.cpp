@@ -90,3 +90,13 @@ void STabWidget::deleteItemOnScene()
         ( static_cast<SGraphicsView*>( widget ) )->removeSelectedGraphicsItems();
     }
 }
+
+void STabWidget::saveProject()
+{
+    currentSWidget()->saveProject();
+}
+
+void STabWidget::openProject()
+{
+    currentSWidget()->openProject();
+}

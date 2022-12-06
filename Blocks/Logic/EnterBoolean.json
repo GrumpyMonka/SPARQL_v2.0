@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Flag_Custom_Image": false,
+        "Flag_Edit": true,
+        "Flag_Label": true,
+        "Image": "",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "y.push(input);",
+        "Text_Edit": "true",
+        "Text_Label": "Bool:"
+    },
+    "Header": {
+        "Name": "EnterBool",
+        "Type": "Based"
+    }
+}

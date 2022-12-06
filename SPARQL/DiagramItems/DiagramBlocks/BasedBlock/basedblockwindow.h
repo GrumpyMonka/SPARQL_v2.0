@@ -40,8 +40,7 @@ private slots:
     void slotDeleteImage();
     void slotSetName( const QString& name );
 
-    void setSettingOnWindow();
-    void setWindowToSetting();
+    BasedBlockSettings* getSettings();
 
 signals:
     void changeNameWindow( QString );
@@ -49,9 +48,9 @@ signals:
 
 private:
     BasedMode mode_;
-    BasedBlockSettings* settings_ = nullptr;
     DiagramItemBased* item_on_rework;
 
+    QPixmap pixmap;
     QLabel* label_pixmap;
     QLineEdit* line_name;
     QLineEdit* line_line_edit;

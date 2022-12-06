@@ -22,12 +22,14 @@ SOURCES += \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.cpp \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.cpp \
     DiagramItems/DiagramBlocks/blockslibrary.cpp \
+    DiagramItems/DiagramExecutor/apijs.cpp \
     DiagramItems/DiagramExecutor/diagramexecutor.cpp \
     DiagramItems/DiagramExecutor/snetwork.cpp \
     DiagramItems/DiagramItem/diagramitem.cpp \
     DiagramItems/DiagramItemSettings/diagramitemsettings.cpp \
     DiagramItems/DiagramScene/diagramscene.cpp \
     DiagramItems/DiagramWindows/projectwindow.cpp \
+    DiagramItems/DiagramWindows/projectwindowsettings.cpp \
     SWidgets/SGraphicsView/sgraphicsview.cpp \
     SWidgets/STabWidget/stabwidget.cpp \
     SWidgets/SToolBar/stoolbar.cpp \
@@ -51,12 +53,14 @@ HEADERS += \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.h \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.h \
     DiagramItems/DiagramBlocks/blockslibrary.h \
+    DiagramItems/DiagramExecutor/apijs.h \
     DiagramItems/DiagramExecutor/diagramexecutor.h \
     DiagramItems/DiagramExecutor/snetwork.h \
     DiagramItems/DiagramItem/diagramitem.h \
     DiagramItems/DiagramItemSettings/diagramitemsettings.h \
     DiagramItems/DiagramScene/diagramscene.h \
     DiagramItems/DiagramWindows/projectwindow.h \
+    DiagramItems/DiagramWindows/projectwindowsettings.h \
     MainForm/mainwindow.h \
     SWidgets/SGraphicsView/sgraphicsview.h \
     SWidgets/STabWidget/stabwidget.h \

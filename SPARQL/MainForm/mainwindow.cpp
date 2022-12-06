@@ -108,3 +108,13 @@ void MainWindow::slotOnDeleteItemOnScene()
 {
     tab_widget->deleteItemOnScene();
 }
+
+void MainWindow::slotOnOpenProject()
+{
+    tab_widget->openProject();
+}
+
+void MainWindow::slotOnSaveProject()
+{
+    tab_widget->saveProject();
+}

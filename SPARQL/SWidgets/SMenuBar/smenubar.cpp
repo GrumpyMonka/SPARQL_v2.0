@@ -34,17 +34,17 @@ void SMenuBar::CreateActions()
     connect( createNewProjectAction, SIGNAL( triggered() ),
         parent(), SLOT( slotCreateNewProject() ) );
 
-    openProjectAction = new QAction( QIcon( ":/Sources/images/open.png" ), tr( "Open" ), this );
+    openProjectAction = new QAction( QIcon( ":/Sources/images/open.png" ), tr( "Open project" ), this );
     openProjectAction->setShortcut( tr( "Ctrl+O" ) );
     openProjectAction->setStatusTip( tr( "Open Project" ) );
-    // connect( openProjectAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( slotOpenProject() ) );
+    connect( openProjectAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotOnOpenProject() ) );
 
-    saveProjectAction = new QAction( QIcon( ":/Sources/images/save.png" ), tr( "Save" ), this );
+    saveProjectAction = new QAction( QIcon( ":/Sources/images/save.png" ), tr( "Save project" ), this );
     saveProjectAction->setShortcut( tr( "Ctrl+S" ) );
     saveProjectAction->setStatusTip( tr( "Save Project" ) );
-    // connect( saveProjectAction, SIGNAL( triggered() ),
-    //          parent(), SLOT( slotSaveProject() ) );
+    connect( saveProjectAction, SIGNAL( triggered() ),
+        parent(), SLOT( slotOnSaveProject() ) );
 
     createBasedBlockAction = new QAction( QIcon( ":/Sources/images/based.png" ), tr( "Based" ), this );
     createBasedBlockAction->setShortcut( tr( "Ctrl+Q" ) );

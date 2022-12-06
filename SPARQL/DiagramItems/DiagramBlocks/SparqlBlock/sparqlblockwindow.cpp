@@ -65,6 +65,7 @@ void SparqlBlockWindow::slotOnSaveButtonClicked()
     QJsonDocument json;
     json.setObject( settings->getJsonFromSetting() );
     saveFile( json.toJson() );
+    delete settings;
 }
 
 void SparqlBlockWindow::slotOnOpenButtonClicked()

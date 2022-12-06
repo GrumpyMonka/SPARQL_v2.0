@@ -17,15 +17,15 @@ SparqlBlockSettings::~SparqlBlockSettings()
     clear();
 }
 
-void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
+void SparqlBlockSettings::setSettingFromJson( const QJsonObject& object )
 {
-    if ( value.isObject() )
+    if ( object["Header"]["Type"].toString() == "Sparql" )
     {
         areas.clear();
         lines.clear();
 
-        QJsonValue header = value["Header"];
-        QJsonValue body = value["Body"];
+        QJsonValue header = object["Header"];
+        QJsonValue body = object["Body"];
 
         block_name = header["Name"].toString();
         // type_image = value["type_img"].toString();
@@ -44,7 +44,7 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
             for ( const QJsonValue& block : blocks_array )
             {
                 AtomBlockSettings* setting = new AtomBlockSettings();
-                setting->setSettingFromJson( block );
+                setting->setSettingFromJson( block.toObject() );
                 area_saver.blocks.push_back( setting );
             }
 
@@ -54,7 +54,7 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonValue& value )
             }
 
             area_saver.settings = new AtomBlockSettings();
-            area_saver.settings->setSettingFromJson( settings );
+            area_saver.settings->setSettingFromJson( settings.toObject() );
             areas.push_back( area_saver );
         }
 
@@ -198,14 +198,16 @@ SparqlBlockSettings* SparqlBlockSettings::CreateTemplateSparqlSettings()
 
 void SparqlBlockSettings::clear()
 {
-    /*for ( auto& area : areas )
+    for ( auto& area : areas )
     {
-        delete areas.first().settings;
+        /*if ( area.settings != nullptr )
+            delete area.settings;
         for ( auto& block : area.blocks )
         {
-            delete block;
-        }
+            if ( block != nullptr )
+                delete block;
+        }*/
         area.blocks.clear();
     }
-    areas.clear();*/
+    areas.clear();
 }

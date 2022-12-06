@@ -18,9 +18,9 @@ public:
     virtual int type() const override { return BasedItemType; }
 
     DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent = nullptr, BasedBlockSettings* setting = new BasedBlockSettings() );
-    void setSetting( BasedBlockSettings* setting );
+    void setSettings( BasedBlockSettings* setting );
     QString getName();
-    BasedBlockSettings* getSetting();
+    BasedBlockSettings* getSettings() override;
     QString GetInputData();
     void setDrawPicture( bool );
 
@@ -36,8 +36,8 @@ private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
     QGraphicsProxyWidget* proxy_picture;
-    BasedBlockSettings* setting_;
     QLabel* picture;
+    QPixmap pixmap;
 };
 
 #endif // DIAGRAMITEMBASED_H

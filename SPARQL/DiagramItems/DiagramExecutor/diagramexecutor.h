@@ -4,6 +4,7 @@
 #include <QScriptEngine>
 #include <QTextEdit>
 
+#include <apijs.h>
 #include <diagramitem.h>
 #include <snetwork.h>
 #include <swidget.h>
@@ -30,6 +31,7 @@ private:
     QTextEdit* text_edit_script;
     QTextEdit* text_edit_output;
     SNetwork* network_api;
+    ApiJS* api;
     int end_item;
 };
 

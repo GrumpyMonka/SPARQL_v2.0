@@ -1,0 +1,82 @@
+{
+    "Body": {
+        "Areas": [
+            {
+                "Blocks": [
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                            ],
+                            "Pos": {
+                                "X": 38,
+                                "Y": -112
+                            },
+                            "Text": "val",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VALUE"
+                        }
+                    },
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                            ],
+                            "Pos": {
+                                "X": -198,
+                                "Y": -123
+                            },
+                            "Text": "var",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VAR"
+                        }
+                    }
+                ],
+                "Lines": [
+                    {
+                        "End": 0,
+                        "Start": 1,
+                        "Text": ""
+                    }
+                ],
+                "Settings": {
+                    "Body": {
+                        "Color_Text": "blue",
+                        "Flag_Text": false,
+                        "Polygon": [
+                        ],
+                        "Pos": {
+                            "X": 2500,
+                            "Y": 2500
+                        },
+                        "Text": "",
+                        "Transparent_Background": false
+                    },
+                    "Header": {
+                        "Name": "AtomBlock",
+                        "Type": "Atom",
+                        "Type_Block": "AREA"
+                    }
+                }
+            }
+        ],
+        "Limit": 20,
+        "Lines": [
+        ],
+        "Start_Area": 0
+    },
+    "Header": {
+        "Name": "SparqlBlock",
+        "Type": "Sparql"
+    }
+}

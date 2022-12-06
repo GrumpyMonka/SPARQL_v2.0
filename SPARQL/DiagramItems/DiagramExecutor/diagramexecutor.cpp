@@ -14,13 +14,17 @@ DiagramExecutor::DiagramExecutor( QWidget* parent )
 
     script_engine = new QScriptEngine( this );
     network_api = new SNetwork( this );
+    api = new ApiJS( this );
 
-    QScriptValue outputVal = script_engine->newQObject( text_edit_output );
-    script_engine->globalObject().setProperty( "output", outputVal );
+    QScriptValue output_val = script_engine->newQObject( text_edit_output );
+    script_engine->globalObject().setProperty( "output", output_val );
     saveGeometry();
 
-    QScriptValue networkVal = script_engine->newQObject( network_api );
-    script_engine->globalObject().setProperty( "network", networkVal );
+    QScriptValue network_val = script_engine->newQObject( network_api );
+    script_engine->globalObject().setProperty( "network", network_val );
+
+    QScriptValue api_val = script_engine->newQObject( api );
+    script_engine->globalObject().setProperty( "api", api_val );
 }
 
 void DiagramExecutor::setScript( const QString& script )
@@ -61,7 +65,7 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     switch ( diagram_item->type() )
     {
     case DiagramItem::BasedItemType:
-        list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSetting()->script.split( "\n" );
+        list = ( static_cast<DiagramItemBased*>( diagram_item ) )->getSettings()->script.split( "\n" );
         break;
 
         // case DiagramItemSparql :
@@ -125,6 +129,7 @@ QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& bloc
         }
     }
     script += "</p>";
+    api->setDiagramItem( block_list );
     return script;
 }
 

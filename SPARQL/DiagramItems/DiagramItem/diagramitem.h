@@ -74,7 +74,7 @@ public:
     };
 
     int type() const override { return DiagramItemType; }
-    // virtual DiagramItemSettings* getSettings();
+    virtual DiagramItemSettings* getSettings();
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
     ~DiagramItem();
@@ -99,6 +99,9 @@ public:
     static bool CheckItemOnDiagramItem( const qint64 code );
     static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
         DiagramItemSettings* settings, QGraphicsItem* parent = 0 );
+
+public slots:
+    void setOutputText( const QString& output_text );
 
 protected:
     void contextMenuEvent( QGraphicsSceneContextMenuEvent* event ) override;
