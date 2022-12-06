@@ -17,7 +17,8 @@ public:
         Based = 1,
         Composite = 2,
         SPARQL = 4,
-        Atom = 8
+        Atom = 8,
+        IO = 16
     };
 
     BlocksLibrary();
@@ -30,6 +31,7 @@ public:
     // void addBlocks( QVector<DiagramItem*>& items );
 
     // void deleteBlock( DiagramItem* item );
+    void addBlockFromJson( QString& text );
     void deleteBlocks( int modes_blocks );
 
     QVector<DiagramItemSettings*> getBlocks( int modes_blocks );

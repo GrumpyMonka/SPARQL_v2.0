@@ -9,6 +9,7 @@
 #include <compositeblocksettings.h>
 #include <compositeblockwindow.h>
 #include <diagramexecutor.h>
+#include <ioblocksettings.h>
 #include <sparqlblockwindow.h>
 
 MainWindow::MainWindow( QWidget* parent )
@@ -20,6 +21,7 @@ MainWindow::MainWindow( QWidget* parent )
     library = new BlocksLibrary();
     library->loadBlocksFromFiles( FOLDER_FOR_BLOCKS );
     library->addBlocks( AtomBlockSettings::GetBasedAtomBlocks() );
+    library->addBlocks( IOBlockSettings::GetBasedIOBlocks() );
 
     createMainForm();
 }

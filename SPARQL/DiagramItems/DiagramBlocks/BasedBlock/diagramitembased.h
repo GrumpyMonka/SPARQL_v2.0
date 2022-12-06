@@ -21,23 +21,19 @@ public:
     void setSettings( BasedBlockSettings* setting );
     QString getName();
     BasedBlockSettings* getSettings() override;
-    QString GetInputData();
+    QString getInputData() override;
     void setDrawPicture( bool );
-
-public slots:
-    void setInputData( QString );
-    void setOutputData( QString );
+    QString getScript() override;
 
 private:
     QGraphicsTextItem* name;
     QGraphicsTextItem* label;
-    QGraphicsTextItem* input_data;
-    QGraphicsTextItem* output_data;
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
     QGraphicsProxyWidget* proxy_picture;
     QLabel* picture;
     QPixmap pixmap;
+    QString script;
 };
 
 #endif // DIAGRAMITEMBASED_H

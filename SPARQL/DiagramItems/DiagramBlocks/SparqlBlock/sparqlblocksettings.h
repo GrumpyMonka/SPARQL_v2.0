@@ -46,7 +46,7 @@ public:
     QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& );
     void clear();
 
-    static BasedBlockSettings* ConvertToBasedBlockSetting( SparqlBlockSettings* );
+    QString convertToScript();
     static SparqlBlockSettings* CreateTemplateSparqlSettings();
 };
 

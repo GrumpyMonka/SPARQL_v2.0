@@ -7,8 +7,6 @@ DiagramItemBased::DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent, B
 
     name = new QGraphicsTextItem( this );
     label = new QGraphicsTextItem( this );
-    input_data = new QGraphicsTextItem( this );
-    output_data = new QGraphicsTextItem( this );
 
     proxy_line_edit = new QGraphicsProxyWidget( this );
     proxy_picture = new QGraphicsProxyWidget( this );
@@ -24,8 +22,6 @@ DiagramItemBased::DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent, B
 
     name->setPos( getStartPos() );
     label->setPos( getStartPos().x(), getEndPos().y() - 50 );
-    input_data->setPos( getStartPos().x(), getStartPos().y() - 25 );
-    output_data->setPos( getStartPos().x(), getEndPos().y() - 5 );
 
     picture = new QLabel();
     picture->setGeometry( getEndPos().x() - 32, getStartPos().y() + 2, 30, 30 );
@@ -55,32 +51,18 @@ void DiagramItemBased::setSettings( BasedBlockSettings* setting )
         line_edit->hide();
     }
     pixmap = setting->pixmap;
+    script = setting->script;
     picture->setPixmap( setting->pixmap.scaled( 30, 30 ) );
 }
-/*
-QPixmap DiagramItemBased::image() const
-{
-    if ( setting_->type_image == "self" )
-    {
-        QPixmap pixmap( 150, 150 );
-        pixmap.fill( Qt::transparent );
-        QPainter painter( &pixmap );
-        painter.setPen( QPen( Qt::black, 8 ) );
-        painter.translate( 75, 75 );
-        painter.drawPolyline( my_polygon );
 
-        painter.setPen( QPen( Qt::black, 4 ) );
-        int index = 150 / setting_->block_name.size() * 0.75;
-        painter.setFont( QFont( "Consolas", index ) );
-        painter.drawText( -75, -75, 150, 150, Qt::AlignCenter, setting_->block_name );
-        return pixmap;
-    }
-    return setting_->pixmap;
-}
-*/
 QString DiagramItemBased::getName()
 {
     return name->toPlainText();
+}
+
+QString DiagramItemBased::getScript()
+{
+    return script;
 }
 
 BasedBlockSettings* DiagramItemBased::getSettings()
@@ -93,10 +75,11 @@ BasedBlockSettings* DiagramItemBased::getSettings()
     settings->line_edit_text = line_edit->text();
     settings->pixmap = pixmap;
     settings->pos = pos();
+    settings->script = script;
     return settings;
 }
 
-QString DiagramItemBased::GetInputData()
+QString DiagramItemBased::getInputData()
 {
     return line_edit->text();
 }
@@ -104,20 +87,4 @@ QString DiagramItemBased::GetInputData()
 void DiagramItemBased::setDrawPicture( bool flag )
 {
     picture->setVisible( flag );
-}
-
-void DiagramItemBased::setInputData( QString vec )
-{
-    QString result = "<span style=\"color: green; font-size: 15px;\">";
-    result += vec;
-    result += "</span>";
-    input_data->setHtml( result );
-}
-
-void DiagramItemBased::setOutputData( QString vec )
-{
-    QString result = "<span style=\"color: red; font-size: 15px\">";
-    result += vec;
-    result += "</span>";
-    output_data->setHtml( result );
 }

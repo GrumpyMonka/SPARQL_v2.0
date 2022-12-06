@@ -18,6 +18,8 @@ SOURCES += \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblocksettings.cpp \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblockwindow.cpp \
     DiagramItems/DiagramBlocks/CompositeBlock/diagramitemcomposite.cpp \
+    DiagramItems/DiagramBlocks/IOBlock/diagramitemio.cpp \
+    DiagramItems/DiagramBlocks/IOBlock/ioblocksettings.cpp \
     DiagramItems/DiagramBlocks/SparqlBlock/diagramitemsparql.cpp \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.cpp \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.cpp \
@@ -49,6 +51,8 @@ HEADERS += \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblocksettings.h \
     DiagramItems/DiagramBlocks/CompositeBlock/compositeblockwindow.h \
     DiagramItems/DiagramBlocks/CompositeBlock/diagramitemcomposite.h \
+    DiagramItems/DiagramBlocks/IOBlock/diagramitemio.h \
+    DiagramItems/DiagramBlocks/IOBlock/ioblocksettings.h \
     DiagramItems/DiagramBlocks/SparqlBlock/diagramitemsparql.h \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblocksettings.h \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.h \
@@ -89,6 +93,7 @@ INCLUDEPATH += \
     DiagramItems/DiagramBlocks/CompositeBlock \
     DiagramItems/DiagramBlocks/SparqlBlock \
     DiagramItems/DiagramBlocks/AtomBlock \
+    DiagramItems/DiagramBlocks/IOBlock \
     DiagramItems/DiagramBlocks \
     DiagramItems/DiagramExecutor \
 

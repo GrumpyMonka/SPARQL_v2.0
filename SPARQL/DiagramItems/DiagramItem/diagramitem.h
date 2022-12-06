@@ -70,11 +70,14 @@ public:
         BasedItemType = UserType + 4,
         CompositeItemType = UserType + 6,
         SparqlItemType = UserType + 8,
-        AtomItemType = UserType + 10
+        AtomItemType = UserType + 10,
+        IOItemType = UserType + 12
     };
 
     int type() const override { return DiagramItemType; }
     virtual DiagramItemSettings* getSettings();
+    virtual QString getScript() { return {}; }
+    virtual QString getInputData() { return {}; }
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
     ~DiagramItem();

@@ -56,7 +56,7 @@ QWidget* SparqlBlockWindow::addCustomBotWidget()
 
 void SparqlBlockWindow::slotOnCreateButtonClicked()
 {
-    emit blockCreated( SparqlBlockSettings::ConvertToBasedBlockSetting( getSettings() ) );
+    emit blockCreated( getSettings() );
 }
 
 void SparqlBlockWindow::slotOnSaveButtonClicked()

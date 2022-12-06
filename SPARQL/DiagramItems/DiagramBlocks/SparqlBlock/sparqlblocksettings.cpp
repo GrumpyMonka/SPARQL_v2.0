@@ -29,7 +29,7 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonObject& object )
 
         block_name = header["Name"].toString();
         // type_image = value["type_img"].toString();
-        pixmap = pixmapFrom( body["Image"] );
+        // pixmap = pixmapFrom( body["Image"] );
         limit = body["Limit"].toInt();
         start_area = body["Start_Area"].toInt();
 
@@ -117,7 +117,7 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
     return json_object;
 }
 
-BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlockSettings* settings )
+QString SparqlBlockSettings::convertToScript()
 {
     QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
                      "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
@@ -135,12 +135,12 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
                       "SELECT *";
 
     QString body = "";
-    QMap<int, QString> stack = { { settings->start_area, "" } };
+    QMap<int, QString> stack = { { start_area, "" } };
     while ( !stack.empty() )
     {
         int index = stack.keys().at( 0 );
         QString name = stack[index];
-        AreaSaver area = settings->areas.at( index );
+        AreaSaver area = areas.at( index );
         stack.remove( index );
 
         QString area_str = name + "\n{\n";
@@ -158,7 +158,7 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
         area_str += "}\n";
         body += area_str;
 
-        for ( const auto& line : settings->lines )
+        for ( const auto& line : lines )
         {
             if ( line.start_block == index )
             {
@@ -170,20 +170,16 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
     request += "\nWHERE\n"
                "{\n";
     request += "  " + body;
-    request += "} LIMIT " + QString::number( settings->limit );
+    request += "} LIMIT " + QString::number( limit );
 
-    BasedBlockSettings* setting = new BasedBlockSettings();
-    setting->label = false;
-    setting->line_edit = false;
-    setting->block_name = settings->block_name;
-    setting->script = script + "\"query=" + QUrl::toPercentEncoding( request ) + "\");\ny.push(answer);";
+    script = script + "\"query=" + QUrl::toPercentEncoding( request ) + "\");\ny.push(answer);";
 
-    return setting;
+    return script;
 }
 
 QPixmap SparqlBlockSettings::image() const
 {
-    return {};
+    return QPixmap( ":/Sources/images/sparqlicon.jpg" );
 }
 
 SparqlBlockSettings* SparqlBlockSettings::CreateTemplateSparqlSettings()

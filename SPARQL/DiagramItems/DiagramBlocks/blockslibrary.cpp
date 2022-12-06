@@ -54,19 +54,27 @@ void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
         if ( file.open( QIODevice::ReadOnly ) )
         {
             QString text = file.readAll();
-
-            BasedBlockSettings* setting = new BasedBlockSettings();
-            setting->setSettingFromString( text );
-            addBlock( setting );
-            // else if ( "sparql" == type )
-            //{
-            //     SparqlBlockSetting* setting = new SparqlBlockSetting();
-            //     setting->setSettingFromJson( text );
-            //     virtual_blocks_list.push_back( setting );
-            // }
+            addBlockFromJson( text );
         }
         file.close();
     }
+}
+
+void BlocksLibrary::addBlockFromJson( QString& text )
+{
+    QJsonDocument json = QJsonDocument::fromJson( text.toUtf8() );
+    QString type = json["Header"]["Type"].toString();
+    DiagramItemSettings* settings;
+    if ( "Based" == type )
+    {
+        settings = new BasedBlockSettings();
+    }
+    else if ( "Sparql" == type )
+    {
+        settings = new SparqlBlockSettings();
+    }
+    settings->setSettingFromString( text );
+    addBlock( settings );
 }
 
 void BlocksLibrary::addBlock( DiagramItemSettings* settings )
@@ -130,6 +138,10 @@ QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
     {
         mode_list.insert( Atom );
     }
+    if ( ( modes_blocks & IO ) )
+    {
+        mode_list.insert( IO );
+    }
 
     for ( auto lib : library.keys() )
     {
@@ -153,14 +165,17 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings 
     case DiagramItemSettings::BasedItemSettingsType:
         return Based;
         break;
-    // case CompositeBlockSettings:
-    //      return Composite
-    //      break;
+    case DiagramItemSettings::CompositeItemSettingsType:
+        return Composite;
+        break;
     case DiagramItemSettings::SparqlItemSettinsType:
         return SPARQL;
         break;
     case DiagramItemSettings::AtomItemSettingsType:
         return Atom;
+        break;
+    case DiagramItemSettings::IOItemSettingsType:
+        return IO;
         break;
     default:
         return None;

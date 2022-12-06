@@ -7,7 +7,10 @@ class CompositeBlockWindow : public SGraphicsView
 {
 public:
     SGViewTypes typeSGView() override { return CompositeBlockWindowType; }
-    int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::None; }
+    int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::Based
+        | BlocksLibrary::ModeBlocks::Composite
+        | BlocksLibrary::ModeBlocks::SPARQL
+        | BlocksLibrary::ModeBlocks::IO; }
 
     explicit CompositeBlockWindow( QWidget* parent = nullptr );
 
