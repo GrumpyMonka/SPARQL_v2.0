@@ -157,6 +157,7 @@ QList<DiagramArrow*> DiagramItem::getArrows()
 #include <diagramitematom.h>
 #include <diagramitembased.h>
 #include <diagramitemcomposite.h>
+#include <diagramitemio.h>
 #include <diagramitemsparql.h>
 
 bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
@@ -164,7 +165,8 @@ bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
     if ( DiagramItem::BasedItemType == code
         //    || DiagramItemComposite  == code
         //    || DiagramItemSparql  == code
-        || DiagramItem::AtomItemType == code )
+        || DiagramItem::AtomItemType == code
+        || DiagramItem::IOItemType == code )
     {
         return true;
     }
@@ -183,6 +185,11 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     case DiagramItemSettings::AtomItemSettingsType:
         return new DiagramItemAtom( context_menu, parent,
             new AtomBlockSettings( *static_cast<AtomBlockSettings*>( settings ) ) );
+        break;
+    case DiagramItemSettings::IOItemSettingsType:
+        return new DiagramItemIO( context_menu, parent,
+            new IOBlockSettings( *static_cast<IOBlockSettings*>( settings ) ) );
+        break;
     default:
         break;
     }

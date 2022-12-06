@@ -17,7 +17,8 @@ public:
         Based = 1,
         Composite = 2,
         SPARQL = 4,
-        Atom = 8
+        Atom = 8,
+        IO = 16
     };
 
     BlocksLibrary();

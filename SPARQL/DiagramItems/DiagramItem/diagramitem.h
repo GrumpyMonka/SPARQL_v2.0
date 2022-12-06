@@ -70,7 +70,8 @@ public:
         BasedItemType = UserType + 4,
         CompositeItemType = UserType + 6,
         SparqlItemType = UserType + 8,
-        AtomItemType = UserType + 10
+        AtomItemType = UserType + 10,
+        IOItemType = UserType + 12
     };
 
     int type() const override { return DiagramItemType; }

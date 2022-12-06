@@ -15,7 +15,8 @@ public:
         CompositeItemSettingsType = 4,
         SparqlItemSettinsType = 6,
         AtomItemSettingsType = 8,
-        ProjectWindowSettingsType = 10
+        IOItemSettingsType = 10,
+        ProjectWindowSettingsType = 12
     };
     virtual int typeSettings() const { return DiagramItemSettingsType; }
 

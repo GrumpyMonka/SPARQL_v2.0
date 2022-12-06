@@ -130,6 +130,10 @@ QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
     {
         mode_list.insert( Atom );
     }
+    if ( ( modes_blocks & IO ) )
+    {
+        mode_list.insert( IO );
+    }
 
     for ( auto lib : library.keys() )
     {
@@ -161,6 +165,9 @@ BlocksLibrary::ModeBlocks BlocksLibrary::getMode( DiagramItemSettings* settings 
         break;
     case DiagramItemSettings::AtomItemSettingsType:
         return Atom;
+        break;
+    case DiagramItemSettings::IOItemSettingsType:
+        return IO;
         break;
     default:
         return None;
