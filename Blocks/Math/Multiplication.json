@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Flag_Custom_Image": false,
+        "Flag_Edit": false,
+        "Flag_Label": false,
+        "Image": "",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "var result = 1;\nfor(var i = 0; i < x.length; i++){\n\tresult *= Number(x[i]);\n}\ny.push(result);",
+        "Text_Edit": "",
+        "Text_Label": "label"
+    },
+    "Header": {
+        "Name": "Multiplication ",
+        "Type": "Based"
+    }
+}
