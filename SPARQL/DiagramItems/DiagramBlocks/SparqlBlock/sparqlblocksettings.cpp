@@ -130,7 +130,8 @@ BasedBlockSettings* SparqlBlockSettings::ConvertToBasedBlockSetting( SparqlBlock
                       "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
                       "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
                       "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n"
-                      "PREFIX : <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA_project#>\n\n"
+                      "PREFIX : <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA_project#>\n"
+                      "PREFIX USEPR: <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA/USEPR#>\n\n"
                       "SELECT *";
 
     QString body = "";

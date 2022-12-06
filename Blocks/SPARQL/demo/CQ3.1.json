@@ -1,0 +1,279 @@
+{
+    "Body": {
+        "Areas": [
+            {
+                "Blocks": [
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                }
+                            ],
+                            "Pos": {
+                                "X": 169,
+                                "Y": -10
+                            },
+                            "Text": "toSC",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VAR"
+                        }
+                    },
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                }
+                            ],
+                            "Pos": {
+                                "X": 10,
+                                "Y": 160
+                            },
+                            "Text": "fromSC",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VAR"
+                        }
+                    },
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                }
+                            ],
+                            "Pos": {
+                                "X": -223,
+                                "Y": 63
+                            },
+                            "Text": "fromSystem",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VAR"
+                        }
+                    },
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                }
+                            ],
+                            "Pos": {
+                                "X": -13,
+                                "Y": -171
+                            },
+                            "Text": "toSystem",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VAR"
+                        }
+                    },
+                    {
+                        "Body": {
+                            "Color_Text": "blue",
+                            "Flag_Text": true,
+                            "Polygon": [
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": -50
+                                },
+                                {
+                                    "X": 50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": 50
+                                },
+                                {
+                                    "X": -50,
+                                    "Y": -50
+                                }
+                            ],
+                            "Pos": {
+                                "X": -270,
+                                "Y": -146
+                            },
+                            "Text": "interface",
+                            "Transparent_Background": false
+                        },
+                        "Header": {
+                            "Name": "AtomBlock",
+                            "Type": "Atom",
+                            "Type_Block": "VAR"
+                        }
+                    }
+                ],
+                "Lines": [
+                    {
+                        "End": 1,
+                        "Start": 0,
+                        "Text": ":isHigherClassThan"
+                    },
+                    {
+                        "End": 1,
+                        "Start": 2,
+                        "Text": ":hasSafetyClass"
+                    },
+                    {
+                        "End": 0,
+                        "Start": 3,
+                        "Text": ":hasSafetyClass"
+                    },
+                    {
+                        "End": 3,
+                        "Start": 4,
+                        "Text": ":interfaceTo"
+                    },
+                    {
+                        "End": 2,
+                        "Start": 4,
+                        "Text": ":interfaceFrom"
+                    }
+                ],
+                "Settings": {
+                    "Body": {
+                        "Color_Text": "blue",
+                        "Flag_Text": false,
+                        "Polygon": [
+                            {
+                                "X": -400,
+                                "Y": 250
+                            },
+                            {
+                                "X": 400,
+                                "Y": 250
+                            },
+                            {
+                                "X": 400,
+                                "Y": -250
+                            },
+                            {
+                                "X": -400,
+                                "Y": -250
+                            },
+                            {
+                                "X": -400,
+                                "Y": 250
+                            }
+                        ],
+                        "Pos": {
+                            "X": 2498,
+                            "Y": 2497
+                        },
+                        "Text": "",
+                        "Transparent_Background": false
+                    },
+                    "Header": {
+                        "Name": "AtomBlock",
+                        "Type": "Atom",
+                        "Type_Block": "AREA"
+                    }
+                }
+            }
+        ],
+        "Limit": 20,
+        "Lines": [
+        ],
+        "Start_Area": 0
+    },
+    "Header": {
+        "Name": "CQ3.1",
+        "Type": "Sparql"
+    }
+}

@@ -68,6 +68,7 @@ void AtomBlockSettings::setSettingFromJson( const QJsonObject& object )
         transparent_background = body["Transparent_Background"].toBool();
         polygon = polygonFromJsonArray( body["Polygon"].toArray() );
         pos = pointFromJsonObject( body["Pos"] );
+        support_add_item = body["Support_Add_Item"].toBool();
     }
 }
 
@@ -88,6 +89,7 @@ QJsonObject AtomBlockSettings::getJsonFromSetting()
     body.insert( "Transparent_Background", QJsonValue( transparent_background ) );
     body.insert( "Polygon", jsonArrayFromPolygon( polygon ) );
     body.insert( "Pos", jsonFromPointF( pos ) );
+    body.insert( "Support_Add_Item", support_add_item );
 
     object.insert( "Header", header );
     object.insert( "Body", body );
@@ -97,11 +99,11 @@ QJsonObject AtomBlockSettings::getJsonFromSetting()
 
 QPolygonF AtomBlockSettings::GetDefaultAreaPolygon()
 {
-    return QPolygonF() << QPointF( -300, 200 )
-                       << QPointF( 300, 200 )
-                       << QPointF( 300, -200 )
-                       << QPointF( -300, -200 )
-                       << QPointF( -300, 200 );
+    return QPolygonF() << QPointF( -400, 250 )
+                       << QPointF( 400, 250 )
+                       << QPointF( 400, -250 )
+                       << QPointF( -400, -250 )
+                       << QPointF( -400, 250 );
 }
 
 AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()
