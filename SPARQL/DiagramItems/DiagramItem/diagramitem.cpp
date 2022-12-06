@@ -28,6 +28,16 @@ DiagramItem::~DiagramItem()
 {
     removeArrows();
 }
+
+void DiagramItem::setOutputText( const QString& output_text )
+{
+    auto arrows = getStartArrows();
+    for ( auto arrow : arrows )
+    {
+        arrow->setText( output_text );
+    }
+}
+
 DiagramItemSettings* DiagramItem::getSettings()
 {
     return {};
