@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Flag_Custom_Image": false,
+        "Flag_Edit": false,
+        "Flag_Label": false,
+        "Image": "",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "for(var  i = 0; i < x.length; i++){\n\tfor(var j = 0; j < x.length; j++){\n\t\ty.push(!Boolean(x[i][j]));\n\t}\n}\n",
+        "Text_Edit": "",
+        "Text_Label": "label"
+    },
+    "Header": {
+        "Name": "NOT",
+        "Type": "Based"
+    }
+}
