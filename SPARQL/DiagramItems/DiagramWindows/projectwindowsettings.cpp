@@ -47,22 +47,18 @@ void ProjectWindowSettings::setSettingFromJson( const QJsonObject& object )
 
         for ( const QJsonValue& block : blocks_array )
         {
-            auto type_block = block["type"].toString();
-            if ( "basic" == type_block )
+            auto type_block = block["Header"]["Type"].toString();
+            if ( "Based" == type_block )
             {
                 BasedBlockSettings* settings = new BasedBlockSettings();
                 settings->setSettingFromJson( block.toObject() );
                 blocks_list.push_back( settings );
             }
-            else
+            else if ( "Sparql" == type_block )
             {
-                type_block = block["Type"].toString();
-                if ( "Sparql" == type_block )
-                {
-                    SparqlBlockSettings* settings = new SparqlBlockSettings();
-                    settings->setSettingFromJson( block.toObject() );
-                    blocks_list.push_back( settings );
-                }
+                SparqlBlockSettings* settings = new SparqlBlockSettings();
+                settings->setSettingFromJson( block.toObject() );
+                blocks_list.push_back( settings );
             }
         }
     }

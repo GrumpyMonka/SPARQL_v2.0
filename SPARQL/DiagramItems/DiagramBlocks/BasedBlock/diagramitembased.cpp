@@ -92,6 +92,7 @@ BasedBlockSettings* DiagramItemBased::getSettings()
     settings->line_edit = !line_edit->isHidden();
     settings->line_edit_text = line_edit->text();
     settings->pixmap = pixmap;
+    settings->pos = pos();
     return settings;
 }
 

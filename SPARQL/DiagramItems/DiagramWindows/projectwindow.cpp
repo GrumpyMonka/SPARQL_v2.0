@@ -85,6 +85,7 @@ void ProjectWindow::openProject()
     {
         blocks_list.push_back( DiagramItem::FactoryDiagramItem( nullptr, block ) );
         getScene()->addItem( blocks_list.back() );
+        blocks_list.back()->setPos( block->pos );
     }
 
     for ( auto& line : settings.lines_list )

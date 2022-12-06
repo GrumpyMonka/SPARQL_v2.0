@@ -54,15 +54,10 @@ void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
         if ( file.open( QIODevice::ReadOnly ) )
         {
             QString text = file.readAll();
-            QJsonDocument json = QJsonDocument::fromJson( text.toUtf8() );
 
-            QString type = json["type"].toString();
-            if ( "basic" == type )
-            {
-                BasedBlockSettings* setting = new BasedBlockSettings();
-                setting->setSettingFromJson( json["data"].toObject() );
-                addBlock( setting );
-            }
+            BasedBlockSettings* setting = new BasedBlockSettings();
+            setting->setSettingFromString( text );
+            addBlock( setting );
             // else if ( "sparql" == type )
             //{
             //     SparqlBlockSetting* setting = new SparqlBlockSetting();

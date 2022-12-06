@@ -45,6 +45,7 @@ void BasedBlockWindow::setSettings( BasedBlockSettings* settings )
     {
         settings->pixmap = settings->image().scaled( 70, 70 );
     }
+    pixmap = settings->pixmap;
     label_pixmap->setPixmap( settings->pixmap.scaled( 70, 70 ) );
 }
 
@@ -193,6 +194,7 @@ BasedBlockSettings* BasedBlockWindow::getSettings()
     settings->label_text = line_label->text();
     settings->line_edit_text = line_line_edit->text();
     settings->script = text_edit->toPlainText();
+    settings->pixmap = pixmap;
     return settings;
 }
 
