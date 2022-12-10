@@ -3,7 +3,7 @@
 DiagramItemBased::DiagramItemBased( QMenu* contextMenu, QGraphicsItem* parent, BasedBlockSettings* setting )
     : DiagramItem( contextMenu, parent )
 {
-    setBrush( Qt::white );
+    setBrush( Qt::yellow );
 
     name = new QGraphicsTextItem( this );
     label = new QGraphicsTextItem( this );

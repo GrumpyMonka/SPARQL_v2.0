@@ -25,7 +25,7 @@ void STabWidget::createTabWidgets()
     setStyleSheet( "QTabBar::tab "
                    "{ "
                    "    height: 25px; "
-                   "    width: 175px; "
+                   "    width: 250px; "
                    "}" );
     connect( this, SIGNAL( tabCloseRequested( int ) ),
         this, SLOT( tabClose( int ) ) );
