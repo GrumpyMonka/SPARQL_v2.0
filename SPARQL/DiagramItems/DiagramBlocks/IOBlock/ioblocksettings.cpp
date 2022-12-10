@@ -37,10 +37,10 @@ void IOBlockSettings::setType( TypeIO type )
     {
         polygon << QPointF( -80, -30 )
                 << QPointF( 80, -30 )
-                << QPointF( 60, 0 )
+                << QPointF( 100, 0 )
                 << QPointF( 80, 30 )
                 << QPointF( -80, 30 )
-                << QPointF( -100, 0 )
+                << QPointF( -60, 0 )
                 << QPointF( -80, -30 );
     }
     type_block = type;

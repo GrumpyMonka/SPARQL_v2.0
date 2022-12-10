@@ -9,7 +9,7 @@
         },
         "Script": "y.push(Number(input));",
         "Text_Edit": "0",
-        "Text_Label": "Число:"
+        "Text_Label": "Number:"
     },
     "Header": {
         "Name": "EnterNumber",
