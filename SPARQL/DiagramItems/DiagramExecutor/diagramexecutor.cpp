@@ -99,15 +99,10 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
 
 QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& block_list )
 {
-    end_item = -1;
     QString script = "<p style=\"white-space: pre-wrap;\">";
     for ( int i = 0; i < block_list.size(); i++ )
     {
         script += CreateScriptForBlock( block_list, i );
-        if ( DiagramItem::BasedItemType == block_list[i]->type() && ( ( DiagramItemBased* )( block_list[i] ) )->getName() == "END" )
-        {
-            end_item = i;
-        }
     }
     script += "</p>";
     api->setDiagramItem( block_list );
@@ -157,19 +152,19 @@ void DiagramExecutor::execute()
     text_edit_output->clear();
     QScriptValue result;
 
-    QString temp = loadScript( ":/Sources/scripts/script.js" );
+    QString temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js" ); // loadScript( ":/Sources/scripts/script.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Defult script: " + temp );
     }
 
-    temp = loadScript( ":/Sources/scripts/XMLHttpRequest.js" );
+    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/XMLHttpRequest.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Defult script: " + temp );
     }
 
-    temp = loadScript( ":/Sources/scripts/progress.js" );
+    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/progress.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Progress script: " + temp );
@@ -184,17 +179,10 @@ void DiagramExecutor::execute()
     }
 
     // temp = loadScript("C:/Temp/Study/6 semestr/Kurs/Kurs/scripts/block_logic.js");
-    temp = loadScript( ":/Sources/scripts/block_logic.js" );
+    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/block_logic.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Failed script: " + temp );
-        return;
-    }
-
-    result = script_engine->evaluate( "indexOfEnd = " + QString::number( end_item ) + ";" );
-    if ( result.isError() )
-    {
-        text_edit_output->setText( "Failed run script: " + result.toString() );
         return;
     }
 

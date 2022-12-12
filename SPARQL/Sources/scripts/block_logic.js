@@ -52,11 +52,9 @@ function main(typeOfWorking)
         {
             while(true) 
             {
-                if (checkInputBlocks(indexOfEnd))
-                {
-                    break;
-                }
                 checkForReadyBlocks();
+                if ( indexOfWorkingBlock.length == 0 )
+                    break;
                 workingBlocks();
             }
         }

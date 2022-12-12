@@ -32,7 +32,6 @@ private:
     QTextEdit* text_edit_output;
     SNetwork* network_api;
     ApiJS* api;
-    int end_item;
 };
 
 #endif // DIAGRAMEXECUTOR_H
