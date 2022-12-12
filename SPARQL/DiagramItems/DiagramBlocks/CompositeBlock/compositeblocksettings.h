@@ -9,6 +9,24 @@ public:
     int typeSettings() const override { return CompositeItemSettingsType; };
 
     CompositeBlockSettings();
+
+    struct LineSaver
+    {
+        int start_block;
+        int end_block;
+        QString text;
+    };
+
+    QVector<DiagramItemSettings*> blocks;
+    QVector<LineSaver> lines;
+    QVector<QString> input_names;
+    QVector<QString> output_names;
+
+    void setSettingFromJson( const QJsonObject& object ) override;
+    QJsonObject getJsonFromSetting() override;
+    QPixmap image() const override;
+
+    static CompositeBlockSettings* CreateTemplateCompositeSettings();
 };
 
 #endif // COMPOSITEBLOCKSETTINGS_H

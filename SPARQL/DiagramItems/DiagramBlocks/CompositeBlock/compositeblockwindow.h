@@ -3,6 +3,8 @@
 
 #include <sgraphicsview.h>
 
+#include <compositeblocksettings.h>
+
 class CompositeBlockWindow : public SGraphicsView
 {
 public:
@@ -14,9 +16,17 @@ public:
 
     explicit CompositeBlockWindow( QWidget* parent = nullptr );
 
+    CompositeBlockSettings* getSettings();
+
+public slots:
+    void slotOnCreateButtonClicked() override;
+    void slotOnSaveButtonClicked() override;
+    void slotOnOpenButtonClicked() override;
+
 private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
+    QLineEdit* line_name_block;
 };
 
 #endif // COMPOSITEBLOCKWINDOW_H

@@ -75,6 +75,7 @@ void MainWindow::slotCreateCompositeBlock()
 {
     auto window = new CompositeBlockWindow( this );
     tab_widget->addWidget( window, tr( "Composite Block" ) );
+    connect( window, SIGNAL( blockCreated( DiagramItemSettings* ) ), this, SLOT( slotOnCreateBlock( DiagramItemSettings* ) ) );
 }
 
 void MainWindow::slotCreateSparqlBlock()

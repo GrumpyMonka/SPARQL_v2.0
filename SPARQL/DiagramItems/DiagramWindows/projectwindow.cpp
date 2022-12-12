@@ -67,7 +67,7 @@ void ProjectWindow::saveProject()
     {
         settings.lines_list.push_back( { item_list.indexOf( arrow->startItem() ),
             item_list.indexOf( arrow->endItem() ),
-            arrow->getText() } );
+            {} } );
     }
 
     QJsonDocument json;

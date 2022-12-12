@@ -163,7 +163,7 @@ QList<DiagramArrow*> DiagramItem::getArrows()
 bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 {
     if ( DiagramItem::BasedItemType == code
-        //    || DiagramItemComposite  == code
+        || DiagramItem::CompositeItemType == code
         || DiagramItem::SparqlItemType == code
         || DiagramItem::AtomItemType == code
         || DiagramItem::IOItemType == code )
@@ -181,6 +181,10 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     case DiagramItemSettings::BasedItemSettingsType:
         return new DiagramItemBased( context_menu, parent,
             new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ) );
+        break;
+    case DiagramItemSettings::CompositeItemSettingsType:
+        return new DiagramItemComposite( context_menu, parent,
+            new CompositeBlockSettings( *static_cast<CompositeBlockSettings*>( settings ) ) );
         break;
     case DiagramItemSettings::SparqlItemSettinsType:
         return new DiagramItemSparql( context_menu, parent,
