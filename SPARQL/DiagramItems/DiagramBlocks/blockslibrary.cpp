@@ -63,18 +63,7 @@ void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
 void BlocksLibrary::addBlockFromJson( QString& text )
 {
     QJsonDocument json = QJsonDocument::fromJson( text.toUtf8() );
-    QString type = json["Header"]["Type"].toString();
-    DiagramItemSettings* settings;
-    if ( "Based" == type )
-    {
-        settings = new BasedBlockSettings();
-    }
-    else if ( "Sparql" == type )
-    {
-        settings = new SparqlBlockSettings();
-    }
-    settings->setSettingFromString( text );
-    addBlock( settings );
+    addBlock( DiagramItemSettings::getDiagramSettingsFromJson( json.object() ) );
 }
 
 void BlocksLibrary::addBlock( DiagramItemSettings* settings )

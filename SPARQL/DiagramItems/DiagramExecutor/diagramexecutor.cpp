@@ -5,6 +5,7 @@
 
 #include <diagramarrow.h>
 #include <diagramitembased.h>
+#include <diagramitemio.h>
 #include <diagramitemsparql.h>
 
 DiagramExecutor::DiagramExecutor( QWidget* parent )
@@ -38,12 +39,10 @@ QString getHtmlLine( QString line, QString style = "" )
 {
     return "<span style=\"margin-top:0px; " + style + "\">" + line + "</span><br>";
 }
-
-QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
+/*
+QString CreateInputScript( QString& str )
 {
-    QString result = "";
-    DiagramItem* diagram_item = block_list[index];
-
+    QString result;
     result += getHtmlLine( "\nblocks_list.push( new Block( " );
     result += getHtmlLine( "\tfunction( x ) {" );
 
@@ -94,15 +93,82 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     result += getHtmlLine( "\t" + temp );
     result += getHtmlLine( "));\n" );
     return result;
+
+}
+*/
+QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index, int item_insert_pos )
+{
+    QString result = "";
+    DiagramItem* diagram_item = block_list[index];
+
+    result += getHtmlLine( "\nblocks_list.push( new Block( " );
+    result += getHtmlLine( "\tfunction( x ) {" );
+
+    if ( diagram_item->getInputData() != "" )
+        result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
+
+    result += getHtmlLine( "\t\tvar y = [];" );
+
+    QStringList list;
+    if ( DiagramItem::IOItemType == diagram_item->type() )
+    {
+        list = QString( "y.push( cons (\"" + ( static_cast<DiagramItemIO*>( diagram_item ) )->block_name + "\", x ) ); " ).split( "\n" );
+    }
+    else
+    {
+        list = diagram_item->getScript().split( "\n" );
+    }
+
+    foreach ( QString iter, list )
+    {
+        for ( int i = 0; i < iter.size(); i++ )
+        {
+            if ( iter[i] == "<" )
+            {
+                iter = iter.mid( 0, i ) + "&lt;" + iter.mid( i + 1, iter.size() );
+            }
+            if ( iter[i] == ">" )
+            {
+                iter = iter.mid( 0, i ) + "&gt;" + iter.mid( i + 1, iter.size() );
+            }
+        }
+        result += getHtmlLine( "\t\t" + iter );
+    }
+
+    result += getHtmlLine( "\t\treturn y;" );
+    result += getHtmlLine( "\t}," );
+
+    result += getHtmlLine( "\t[ ]," );
+
+    QString temp = "[ ";
+
+    foreach ( DiagramArrow* arrow, block_list[index]->getArrows() )
+    {
+        if ( arrow->startItem() != block_list[index] )
+        {
+            temp += QString::number( block_list.indexOf( arrow->startItem() ) );
+            temp += ", ";
+        }
+    }
+
+    if ( temp[temp.size() - 2] == "," )
+        temp.remove( temp.size() - 2, 1 );
+
+    temp += "]";
+
+    result += getHtmlLine( "\t" + temp );
+    result += getHtmlLine( "));\n" );
+    return result;
 }
 } // namespace
 
 QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& block_list )
 {
+    int itemInsertPos = block_list.size();
     QString script = "<p style=\"white-space: pre-wrap;\">";
     for ( int i = 0; i < block_list.size(); i++ )
     {
-        script += CreateScriptForBlock( block_list, i );
+        script += CreateScriptForBlock( block_list, i, itemInsertPos );
     }
     script += "</p>";
     api->setDiagramItem( block_list );

@@ -12,6 +12,11 @@ public:
         Output
     };
 
+    QMap<TypeIO, QString> ConvertTypeBlock = {
+        { Input, "Input" },
+        { Output, "Output" }
+    };
+
     TypeIO type_block;
     QString text;
     QPolygonF polygon;

@@ -91,13 +91,15 @@ public:
     void setItemPolygon( QPolygonF& polygon );
 
     void addArrow( DiagramArrow* arrow );
-    QList<DiagramArrow*> getArrows();
-    QList<DiagramArrow*> getStartArrows();
-    QList<DiagramArrow*> getEndArrows();
+    QVector<DiagramArrow*> getArrows();
+    QVector<DiagramArrow*> getStartArrows();
+    QVector<DiagramArrow*> getEndArrows();
     QPointF getStartPos();
     QPointF getEndPos();
     void setSupportAddItem( bool );
     bool getSupportAddItem();
+    void setAllowLineToChild( bool );
+    bool getAllowLineToChild();
 
     static bool CheckItemOnDiagramItem( const qint64 code );
     static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
@@ -112,9 +114,10 @@ protected:
 
 protected:
     QMenu* my_context_menu;
-    QList<DiagramArrow*> arrows;
+    QVector<DiagramArrow*> arrows;
     QPolygonF my_polygon;
     bool support_add_item;
+    bool allow_line_to_child;
 };
 
 #endif // DIAGRAMITEM_H

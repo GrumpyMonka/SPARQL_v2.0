@@ -17,6 +17,7 @@ public:
     explicit CompositeBlockWindow( QWidget* parent = nullptr );
 
     CompositeBlockSettings* getSettings();
+    void setSettings( CompositeBlockSettings* settings = new CompositeBlockSettings() );
 
 public slots:
     void slotOnCreateButtonClicked() override;

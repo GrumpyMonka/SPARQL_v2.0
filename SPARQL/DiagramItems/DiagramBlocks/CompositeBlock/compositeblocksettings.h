@@ -25,6 +25,7 @@ public:
     void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
+    QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& lines );
 
     static CompositeBlockSettings* CreateTemplateCompositeSettings();
 };

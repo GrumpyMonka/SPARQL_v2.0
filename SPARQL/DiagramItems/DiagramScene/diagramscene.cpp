@@ -137,7 +137,7 @@ QGraphicsItem* DiagramScene::getParentItem( QGraphicsItem* item )
         auto parent = temp->parentItem();
         if ( nullptr != parent
             && DiagramItem::CheckItemOnDiagramItem( parent->type() )
-            && !static_cast<DiagramItem*>( parent )->getSupportAddItem() )
+            && !static_cast<DiagramItem*>( parent )->getAllowLineToChild() )
         {
             temp = parent;
         }

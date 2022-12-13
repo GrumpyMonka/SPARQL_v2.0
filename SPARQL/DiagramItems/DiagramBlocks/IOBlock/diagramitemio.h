@@ -21,11 +21,12 @@ public:
     QString getScript() override { return script; }
     void setString( QString& str ) { script = str; }
 
+    QString block_name;
+
 private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
     IOBlockSettings::TypeIO type_block;
-    QString block_name;
     QString script;
 };
 

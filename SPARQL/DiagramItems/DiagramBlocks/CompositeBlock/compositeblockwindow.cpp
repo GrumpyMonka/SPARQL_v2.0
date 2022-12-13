@@ -1,5 +1,7 @@
 #include "compositeblockwindow.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QPushButton>
 
 #include <diagramitemio.h>
@@ -19,7 +21,7 @@ QWidget* CompositeBlockWindow::addCustomWidget()
     QLabel* label = new QLabel( "Name block:", this );
     label->setMaximumHeight( 30 );
     line_name_block = new QLineEdit( this );
-    line_name_block->setText( "Sparql" );
+    line_name_block->setText( "Composite" );
 
     grid_layout->addWidget( label, 0, 0 );
     grid_layout->addWidget( line_name_block, 1, 0 );
@@ -56,10 +58,36 @@ void CompositeBlockWindow::slotOnCreateButtonClicked()
 
 void CompositeBlockWindow::slotOnSaveButtonClicked()
 {
+    auto settings = getSettings();
+    QJsonDocument json;
+    json.setObject( settings->getJsonFromSetting() );
+    saveFile( json.toJson() );
+    delete settings;
 }
 
 void CompositeBlockWindow::slotOnOpenButtonClicked()
 {
+    CompositeBlockSettings* settings = new CompositeBlockSettings();
+    settings->setSettingFromString( openFile() );
+    setSettings( settings );
+}
+
+void CompositeBlockWindow::setSettings( CompositeBlockSettings* settings )
+{
+    line_name_block->setText( settings->block_name );
+    QVector<DiagramItem*> blocks_list;
+    for ( auto& block : settings->blocks )
+    {
+        blocks_list.push_back( DiagramItem::FactoryDiagramItem( nullptr, block ) );
+        getScene()->addItem( blocks_list.back() );
+        blocks_list.back()->setPos( block->pos );
+    }
+
+    for ( auto& line : settings->lines )
+    {
+        getScene()->createArrow( blocks_list.at( line.start_block ),
+            blocks_list.at( line.end_block ) );
+    }
 }
 
 CompositeBlockSettings* CompositeBlockWindow::getSettings()

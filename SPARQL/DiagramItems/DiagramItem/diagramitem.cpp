@@ -22,6 +22,7 @@ DiagramItem::DiagramItem( QMenu* contextMenu, QGraphicsItem* parent )
     setFlag( QGraphicsItem::ItemIsSelectable, true );
     setFlag( QGraphicsItem::ItemSendsGeometryChanges, true );
     setSupportAddItem( false );
+    setAllowLineToChild( false );
 }
 
 DiagramItem::~DiagramItem()
@@ -51,6 +52,16 @@ void DiagramItem::setSupportAddItem( bool flag )
 bool DiagramItem::getSupportAddItem()
 {
     return support_add_item;
+}
+
+void DiagramItem::setAllowLineToChild( bool flag )
+{
+    allow_line_to_child = flag;
+}
+
+bool DiagramItem::getAllowLineToChild()
+{
+    return allow_line_to_child;
 }
 
 void DiagramItem::setContextMenu( QMenu* contextMenu )
@@ -149,7 +160,7 @@ QVariant DiagramItem::itemChange( GraphicsItemChange change, const QVariant& val
     return value;
 }
 
-QList<DiagramArrow*> DiagramItem::getArrows()
+QVector<DiagramArrow*> DiagramItem::getArrows()
 {
     return arrows;
 }
@@ -205,9 +216,9 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     return nullptr;
 }
 
-QList<DiagramArrow*> DiagramItem::getStartArrows()
+QVector<DiagramArrow*> DiagramItem::getStartArrows()
 {
-    QList<DiagramArrow*> result;
+    QVector<DiagramArrow*> result;
     auto arrows = getArrows();
     for ( auto arrow : arrows )
     {
@@ -217,9 +228,9 @@ QList<DiagramArrow*> DiagramItem::getStartArrows()
     return result;
 }
 
-QList<DiagramArrow*> DiagramItem::getEndArrows()
+QVector<DiagramArrow*> DiagramItem::getEndArrows()
 {
-    QList<DiagramArrow*> result;
+    QVector<DiagramArrow*> result;
     auto arrows = getArrows();
     for ( auto arrow : arrows )
     {

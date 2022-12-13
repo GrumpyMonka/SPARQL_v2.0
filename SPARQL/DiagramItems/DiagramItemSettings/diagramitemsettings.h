@@ -41,6 +41,7 @@ public:
     QPolygonF polygonFromJsonArray( const QJsonArray& array );
     QJsonObject jsonFromPointF( const QPointF& point );
     QPointF pointFromJsonObject( const QJsonValue& value );
+    static DiagramItemSettings* getDiagramSettingsFromJson( const QJsonObject& object );
 };
 
 #endif // DIAGRAMITEMSETTINGS_H

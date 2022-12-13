@@ -90,8 +90,7 @@ void ProjectWindow::openProject()
 
     for ( auto& line : settings.lines_list )
     {
-        auto arrow = getScene()->createArrow( blocks_list.at( line.start_block ),
+        getScene()->createArrow( blocks_list.at( line.start_block ),
             blocks_list.at( line.end_block ) );
-        arrow->setText( line.text );
     }
 }
