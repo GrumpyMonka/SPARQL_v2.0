@@ -26,6 +26,7 @@ public:
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
     QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& lines );
+    QString getScript() override;
 
     static CompositeBlockSettings* CreateTemplateCompositeSettings();
 };

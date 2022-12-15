@@ -3,8 +3,11 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+#include <ioblocksettings.h>
+
 CompositeBlockSettings::CompositeBlockSettings()
 {
+    pixmap = image();
 }
 
 void CompositeBlockSettings::setSettingFromJson( const QJsonObject& object )
@@ -69,6 +72,7 @@ QJsonObject CompositeBlockSettings::getJsonFromSetting()
     header.insert( "Name", block_name );
 
     body.insert( "Lines", getJsonArrayFromLineSaver( lines ) );
+    body.insert( "Pos", jsonFromPointF( pos ) );
 
     QJsonArray blocks_array;
     for ( const auto& block : blocks )
@@ -89,7 +93,7 @@ QJsonObject CompositeBlockSettings::getJsonFromSetting()
     {
         output_array.push_back( output );
     }
-    body.insert( "Output", input_array );
+    body.insert( "Output", output_array );
 
     json_object.insert( "Header", header );
     json_object.insert( "Body", body );
@@ -99,5 +103,70 @@ QJsonObject CompositeBlockSettings::getJsonFromSetting()
 
 QPixmap CompositeBlockSettings::image() const
 {
-    return {};
+    return QPixmap( ":/Sources/images/chip.png" );
+}
+
+QString CompositeBlockSettings::getScript()
+{
+    QString script = "blocks_list_size = blocks_list.length;\n";
+
+    QVector<DiagramItemSettings*> block_list;
+    for ( auto& block : blocks )
+    {
+        if ( DiagramItemSettings::IOItemSettingsType == block->typeSettings() )
+            continue;
+        QString temp = "blocks_list.push( new Block( \n";
+        temp += "\tfunction( x, index ) {\n";
+        temp += "\t\tvar y = [];";
+
+        if ( DiagramItemSettings::BasedItemSettingsType == block->typeSettings() )
+        {
+            auto based_block = static_cast<BasedBlockSettings*>( block );
+            if ( based_block->line_edit_text != "" )
+            {
+                temp += "\t\tvar input = " + based_block->line_edit_text + ";";
+            }
+        }
+
+        temp += block->getScript();
+
+        temp += "\t\treturn y;\n";
+        temp += "\t},\n";
+        temp += "\t[ ],\n";
+
+        temp += "[ ]));\n\n";
+        block_list.push_back( block );
+        script += temp;
+    }
+
+    for ( const auto& line : lines )
+    {
+        if ( DiagramItemSettings::IOItemSettingsType != blocks[line.end_block]->typeSettings() )
+        {
+            int index_end = block_list.indexOf( blocks[line.end_block] );
+            QVector<int> index_start;
+            if ( DiagramItemSettings::IOItemSettingsType == blocks[line.start_block]->typeSettings() )
+            {
+                script += "addInputDependBlockForComposite( \""
+                    + ( static_cast<IOBlockSettings*>( blocks[line.start_block] ) )->text
+                    + "\", blocks_list_size + " + QString::number( index_end ) + " );\n";
+            }
+            else
+            {
+                index_start.push_back( block_list.indexOf( blocks[line.start_block] ) );
+            }
+            for ( auto index : index_start )
+            {
+                script += "blocks_list[blocks_list_size + " + QString::number( index_end ) + "].input_blocks.push( blocks_list_size + " + QString::number( index ) + " );\n";
+            }
+        }
+        else
+        {
+            int index_start = block_list.indexOf( blocks[line.start_block] );
+            script += "addOutputDependBlockForComposite( \""
+                + ( static_cast<IOBlockSettings*>( blocks[line.end_block] ) )->text
+                + "\", blocks_list_size + " + QString::number( index_start ) + " );\n";
+        }
+    }
+    return script;
 }

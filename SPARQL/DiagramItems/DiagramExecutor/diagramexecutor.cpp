@@ -96,13 +96,13 @@ QString CreateInputScript( QString& str )
 
 }
 */
-QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index, int item_insert_pos )
+QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
 {
     QString result = "";
     DiagramItem* diagram_item = block_list[index];
 
     result += getHtmlLine( "\nblocks_list.push( new Block( " );
-    result += getHtmlLine( "\tfunction( x ) {" );
+    result += getHtmlLine( "\tfunction( x, index ) {" );
 
     if ( diagram_item->getInputData() != "" )
         result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
@@ -110,11 +110,7 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index, int 
     result += getHtmlLine( "\t\tvar y = [];" );
 
     QStringList list;
-    if ( DiagramItem::IOItemType == diagram_item->type() )
-    {
-        list = QString( "y.push( cons (\"" + ( static_cast<DiagramItemIO*>( diagram_item ) )->block_name + "\", x ) ); " ).split( "\n" );
-    }
-    else
+    if ( DiagramItem::IOItemType != diagram_item->type() )
     {
         list = diagram_item->getScript().split( "\n" );
     }
@@ -138,7 +134,14 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index, int 
     result += getHtmlLine( "\t\treturn y;" );
     result += getHtmlLine( "\t}," );
 
-    result += getHtmlLine( "\t[ ]," );
+    if ( DiagramItem::IOItemType == diagram_item->type() )
+    {
+        result += "\t[ \"" + ( static_cast<DiagramItemIO*>( diagram_item ) )->block_name + "\" ],";
+    }
+    else
+    {
+        result += getHtmlLine( "\t[ ]," );
+    }
 
     QString temp = "[ ";
 
@@ -164,13 +167,13 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index, int 
 
 QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& block_list )
 {
-    int itemInsertPos = block_list.size();
     QString script = "<p style=\"white-space: pre-wrap;\">";
     for ( int i = 0; i < block_list.size(); i++ )
     {
-        script += CreateScriptForBlock( block_list, i, itemInsertPos );
+        script += CreateScriptForBlock( block_list, i );
     }
     script += "</p>";
+    script += "max_size_blocks = blocks_list.length;";
     api->setDiagramItem( block_list );
     return script;
 }

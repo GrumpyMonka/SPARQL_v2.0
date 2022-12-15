@@ -15,6 +15,7 @@ public:
     void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;
     QPixmap image() const override;
+    QString getScript() override { return script; }
 
 public:
     bool label;

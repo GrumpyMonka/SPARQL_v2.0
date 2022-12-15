@@ -94,6 +94,7 @@ CompositeBlockSettings* CompositeBlockWindow::getSettings()
 {
     CompositeBlockSettings* settings = new CompositeBlockSettings();
     auto full_items = getScene()->items();
+    settings->block_name = line_name_block->text();
     QVector<DiagramItem*> blocks;
     for ( auto item : full_items )
     {
@@ -114,6 +115,7 @@ CompositeBlockSettings* CompositeBlockWindow::getSettings()
             {
                 settings->output_names.push_back( setting->text );
             }
+            delete setting;
         }
         blocks.push_back( diagram_item );
         settings->blocks.push_back( diagram_item->getSettings() );
@@ -131,6 +133,5 @@ CompositeBlockSettings* CompositeBlockWindow::getSettings()
         }
     }
 
-    settings->block_name = line_name_block->text();
     return settings;
 }

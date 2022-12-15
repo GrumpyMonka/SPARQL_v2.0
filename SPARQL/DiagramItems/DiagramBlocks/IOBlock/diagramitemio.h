@@ -20,11 +20,12 @@ public:
     void setText( const QString& text );
     QString getScript() override { return script; }
     void setString( QString& str ) { script = str; }
+    void setTypeBlock( IOBlockSettings::TypeIO type ) { type_block = type; }
 
     QString block_name;
 
 private:
-    QLineEdit* line_edit;
+    QLineEdit* line_edit = nullptr;
     QGraphicsProxyWidget* proxy_line_edit;
     IOBlockSettings::TypeIO type_block;
     QString script;

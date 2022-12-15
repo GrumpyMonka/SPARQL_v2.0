@@ -22,4 +22,4 @@ function Block(func, output, input_blocks) {
 }
 
 var blocks_list = [];
-var indexOfEnd = 0;
+

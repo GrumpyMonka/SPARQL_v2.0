@@ -5,7 +5,6 @@ DiagramItemIO::DiagramItemIO( QMenu* context_menu, QGraphicsItem* parent, IOBloc
 {
     if ( settings == nullptr )
         return;
-
     proxy_line_edit = new QGraphicsProxyWidget( this );
     line_edit = new QLineEdit();
     QRect rect( getStartPos().x() + 5, -12,
@@ -57,6 +56,8 @@ IOBlockSettings* DiagramItemIO::getSettings()
 
 QString DiagramItemIO::getText()
 {
+    if ( line_edit == nullptr )
+        return block_name;
     return line_edit->text();
 };
 

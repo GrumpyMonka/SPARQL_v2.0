@@ -77,6 +77,15 @@ void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         {
             item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert );
             addItem( item );
+            if ( DiagramItem::CompositeItemType == item->type() )
+            {
+                auto arrows = item->getArrows();
+                for ( auto& arrow : arrows )
+                {
+                    addItem( arrow );
+                    arrow->updatePosition();
+                }
+            };
             item->setPos( mouseEvent->scenePos() );
         }
         setMode( MoveItem );

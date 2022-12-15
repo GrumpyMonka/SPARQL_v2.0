@@ -33,5 +33,6 @@
         <file>Sources/scripts/progress.js</file>
         <file>Sources/scripts/script.js</file>
         <file>Sources/style/project_style.qss</file>
+        <file>Sources/images/chip.png</file>
     </qresource>
 </RCC>

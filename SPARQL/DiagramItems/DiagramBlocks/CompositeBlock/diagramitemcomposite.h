@@ -19,6 +19,8 @@ public:
     CompositeBlockSettings* getSettings() override;
     QString getScript() override;
     void setSettings( CompositeBlockSettings* );
+    DiagramItemIO* getInputBlock( QString& name );
+    DiagramItemIO* getOutputBlock( QString& name );
     QVector<DiagramArrow*> getArrowForInputBlock( QString& name );
     QVector<DiagramArrow*> getArrowForOutputBlock( QString& name );
 

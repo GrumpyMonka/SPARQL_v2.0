@@ -1,9 +1,12 @@
 #include "diagramitemcomposite.h"
 
+#include <diagramarrow.h>
+#include <diagramscene.h>
+
 DiagramItemComposite::DiagramItemComposite( QMenu* contextMenu, QGraphicsItem* parent, CompositeBlockSettings* setting )
     : DiagramItem( contextMenu, parent )
 {
-    setBrush( Qt::blue );
+    setBrush( QColor( 102, 205, 170 ) );
 
     setSettings( setting );
     setAllowLineToChild( true );
@@ -17,6 +20,7 @@ CompositeBlockSettings* DiagramItemComposite::getSettings()
 
 QString DiagramItemComposite::getScript()
 {
+    return settings->getScript();
 }
 
 void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
@@ -45,7 +49,7 @@ void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
 
     QGraphicsProxyWidget* proxy_picture = new QGraphicsProxyWidget( this );
     proxy_picture->setWidget( picture );
-    picture->setPixmap( QPixmap( ":/Sources/images/sparqlicon.jpg" ).scaled( 30, 30 ) );
+    picture->setPixmap( QPixmap( ":/Sources/images/chip.png" ).scaled( 30, 30 ) );
 
     QPolygonF polygon_io;
     polygon_io << QPointF( -10, -4 )
@@ -61,6 +65,14 @@ void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
         input_block->setBrush( Qt::black );
         input_block->setPos( -widht / 2 - 10, h_header - height / 2 + i * h_node + h_node / 2 );
         input_block->block_name = new_settings->input_names[i];
+        input_block->setTypeBlock( IOBlockSettings::Input );
+        input_block->setFlag( QGraphicsItem::ItemIsMovable, false );
+
+        DiagramArrow* arrow = new DiagramArrow( input_block, this );
+        input_block->addArrow( arrow );
+        this->addArrow( arrow );
+        arrow->setZValue( qMin( input_block->zValue(), this->zValue() ) - 1 );
+
         QGraphicsTextItem* input_name = new QGraphicsTextItem( new_settings->input_names[i], this );
         input_name->setPos( input_block->pos().x() + 10, input_block->pos().y() - 15 );
         input_blocks.push_back( input_block );
@@ -73,6 +85,14 @@ void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
         output_block->setBrush( Qt::black );
         output_block->setPos( widht / 2 + 10, h_header - height / 2 + i * h_node + h_node / 2 );
         output_block->block_name = new_settings->output_names[i];
+        output_block->setTypeBlock( IOBlockSettings::Output );
+        output_block->setFlag( QGraphicsItem::ItemIsMovable, false );
+
+        DiagramArrow* arrow = new DiagramArrow( this, output_block );
+        output_block->addArrow( arrow );
+        this->addArrow( arrow );
+        arrow->setZValue( qMin( output_block->zValue(), this->zValue() ) - 1 );
+
         QGraphicsTextItem* output_name = new QGraphicsTextItem( new_settings->output_names[i], this );
         output_name->setPos( output_block->pos().x() - 70, output_block->pos().y() - 15 );
         output_blocks.push_back( output_block );
@@ -81,24 +101,34 @@ void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
     settings = new_settings;
 }
 
-QVector<DiagramArrow*> DiagramItemComposite::getArrowForInputBlock( QString& name )
+DiagramItemIO* DiagramItemComposite::getInputBlock( QString& name )
 {
     for ( const auto& input : input_blocks )
     {
         if ( input->getSettings()->block_name == name )
         {
-            return input->getEndArrows();
+            return input;
         }
     }
 }
 
-QVector<DiagramArrow*> DiagramItemComposite::getArrowForOutputBlock( QString& name )
+DiagramItemIO* DiagramItemComposite::getOutputBlock( QString& name )
 {
     for ( const auto& output : output_blocks )
     {
         if ( output->getSettings()->block_name == name )
         {
-            return output->getStartArrows();
+            return output;
         }
     }
+}
+
+QVector<DiagramArrow*> DiagramItemComposite::getArrowForInputBlock( QString& name )
+{
+    return getInputBlock( name )->getEndArrows();
+}
+
+QVector<DiagramArrow*> DiagramItemComposite::getArrowForOutputBlock( QString& name )
+{
+    return getOutputBlock( name )->getStartArrows();
 }
