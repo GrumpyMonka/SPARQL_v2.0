@@ -221,19 +221,19 @@ void DiagramExecutor::execute()
     text_edit_output->clear();
     QScriptValue result;
 
-    QString temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js" ); // loadScript( ":/Sources/scripts/script.js" );
+    QString temp = loadScript( ":/Sources/scripts/script.js" ); // loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Defult script: " + temp );
     }
 
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/XMLHttpRequest.js" );
+    temp = loadScript( ":/Sources/scripts/XMLHttpRequest.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Defult script: " + temp );
     }
 
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/progress.js" );
+    temp = loadScript( ":/Sources/scripts/progress.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Progress script: " + temp );
@@ -248,7 +248,7 @@ void DiagramExecutor::execute()
     }
 
     // temp = loadScript("C:/Temp/Study/6 semestr/Kurs/Kurs/scripts/block_logic.js");
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/block_logic.js" );
+    temp = loadScript( ":/Sources/scripts/block_logic.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Failed script: " + temp );
