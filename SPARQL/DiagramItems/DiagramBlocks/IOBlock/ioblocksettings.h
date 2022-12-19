@@ -1,6 +1,8 @@
 #ifndef IOBLOCKSETTINGS_H
 #define IOBLOCKSETTINGS_H
 
+#include <QMap>
+
 #include "diagramitemsettings.h"
 
 class IOBlockSettings : public DiagramItemSettings

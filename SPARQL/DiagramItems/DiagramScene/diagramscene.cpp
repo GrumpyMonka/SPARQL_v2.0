@@ -40,13 +40,11 @@ DiagramArrow* DiagramScene::createArrow( DiagramItem* startItem, DiagramItem* en
     }
     else
     {
-
         arrow = new DiagramArrow( startItem, endItem, startItem->parentItem() );
     }
     startItem->addArrow( arrow );
     endItem->addArrow( arrow );
     arrow->setZValue( qMin( startItem->zValue(), endItem->zValue() ) - 1 );
-    // addItem( arrow );
     arrow->updatePosition();
     return arrow;
 }
@@ -146,7 +144,8 @@ QGraphicsItem* DiagramScene::getParentItem( QGraphicsItem* item )
         auto parent = temp->parentItem();
         if ( nullptr != parent
             && DiagramItem::CheckItemOnDiagramItem( parent->type() )
-            && !static_cast<DiagramItem*>( parent )->getAllowLineToChild() )
+            && !static_cast<DiagramItem*>( parent )->getAllowLineToChild()
+            && !static_cast<DiagramItem*>( parent )->getSupportAddItem() )
         {
             temp = parent;
         }
