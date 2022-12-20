@@ -31,6 +31,8 @@ DiagramArrow* DiagramScene::createArrow( DiagramItem* startItem, DiagramItem* en
 {
     DiagramArrow* arrow;
     // arrow->setColor(myLineColor);
+    auto par_start = startItem->parentItem();
+    auto end_start = endItem->parentItem();
     if ( nullptr == startItem->parentItem()
         || nullptr == endItem->parentItem()
         || startItem->parentItem() != endItem->parentItem() )

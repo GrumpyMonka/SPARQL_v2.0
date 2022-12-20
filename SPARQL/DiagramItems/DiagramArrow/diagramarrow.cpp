@@ -43,7 +43,15 @@ QPainterPath DiagramArrow::shape() const
 
 void DiagramArrow::updatePosition()
 {
-    QLineF line( myStartItem->scenePos(), myEndItem->scenePos() );
+    QLineF line;
+    if ( nullptr == parentItem() )
+    {
+        line = { myStartItem->scenePos(), myEndItem->scenePos() };
+    }
+    else
+    {
+        line = { myStartItem->pos(), myEndItem->pos() };
+    }
     setLine( line );
 }
 
@@ -53,21 +61,34 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
     if ( myStartItem->collidesWithItem( myEndItem ) )
         return;
 
+    QPointF start_item_pos;
+    QPointF end_item_pos;
+    if ( nullptr == parentItem() )
+    {
+        start_item_pos = myStartItem->scenePos();
+        end_item_pos = myEndItem->scenePos();
+    }
+    else
+    {
+        start_item_pos = myStartItem->pos();
+        end_item_pos = myEndItem->pos();
+    }
+
     QPen myPen = pen();
     myPen.setColor( myColor );
     qreal arrowSize = 20;
     painter->setPen( myPen );
     painter->setBrush( myColor );
 
-    QLineF centerLine( myStartItem->scenePos(), myEndItem->scenePos() );
+    QLineF centerLine( start_item_pos, end_item_pos );
     QPolygonF endPolygon = myEndItem->polygon();
-    QPointF p1 = endPolygon.first() + myEndItem->scenePos();
+    QPointF p1 = endPolygon.first() + end_item_pos;
     QPointF p2;
     QPointF intersectPoint;
     QLineF polyLine;
     for ( int i = 1; i < endPolygon.count(); ++i )
     {
-        p2 = endPolygon.at( i ) + myEndItem->scenePos();
+        p2 = endPolygon.at( i ) + end_item_pos;
         polyLine = QLineF( p1, p2 );
         QLineF::IntersectType intersectType = polyLine.intersect( centerLine, &intersectPoint );
         if ( intersectType == QLineF::BoundedIntersection )
@@ -75,7 +96,7 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
         p1 = p2;
     }
 
-    setLine( QLineF( intersectPoint, myStartItem->scenePos() ) );
+    setLine( QLineF( intersectPoint, start_item_pos ) );
 
     double angle = std::atan2( -line().dy(), line().dx() );
 
