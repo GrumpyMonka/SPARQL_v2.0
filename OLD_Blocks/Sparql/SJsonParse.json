@@ -1,0 +1,13 @@
+{
+    "data": {
+        "image": "",
+        "label": false,
+        "label_text": "label",
+        "line_edit": false,
+        "line_edit_text": "",
+        "name": "SJson",
+        "script": "json_obj = JSON.parse( x[0] );\narray = json_obj.results.bindings;\ny.push( array.length );",
+        "type_img": "self"
+    },
+    "type": "basic"
+}

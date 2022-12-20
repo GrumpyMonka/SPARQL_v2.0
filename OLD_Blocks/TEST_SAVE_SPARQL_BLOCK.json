@@ -1,0 +1,28 @@
+{
+    "data": {
+        "blocks": [
+            {
+                "pos_x": 2275,
+                "pos_y": 2219,
+                "text": "?lol"
+            },
+            {
+                "pos_x": 2573,
+                "pos_y": 2220,
+                "text": "?kek"
+            }
+        ],
+        "image": "",
+        "limit": 20,
+        "lines": [
+            {
+                "end_block": 1,
+                "start_block": 0,
+                "text": "?chel"
+            }
+        ],
+        "name": "SPARQL",
+        "type_img": ""
+    },
+    "type": "sparql"
+}

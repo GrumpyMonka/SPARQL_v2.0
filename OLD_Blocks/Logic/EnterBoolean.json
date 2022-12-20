@@ -1,0 +1,13 @@
+{
+    "data": {
+        "image": "iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABaklEQVR4nO3boU7DUABG4QMhCIJCIRAoBAJDgiYkyEkeAIlF8Qa8B68ADsk7oJBkDoJBF0GXlLK/WXfZYOx8SbOtube7PWsm1gwkSZKkZbDSc3w1k1XMz8Tn2yfMokcZmeicV2e9ikVlmGCtYG7f76ffMtVXgFdMYJjAMIFhAsMEhgkMExgmMExgmMAwgWECwwSGCQwTGCYwTPCTYap6e+wxPh3jHbjqGDfJsYqU/LTZ1venzjR+tH+nYC1zVbW25LDx/BzYBa7r15fAUeN4AENgE7hp7NsA7lvjTupt0DHvqWDdU+v7BnfAXmMuwAHw2tq31XqPke0x+wBewry3sI4/E2a/fnzgc/FnjfGnwEXjeADPfP/k14Hb1rjjeht0zBsWrPuLkjuRi3r7xDuRJQwTGCYwTGCYwDCBYQLDBIYJDBMYJjBMYJjAMIFhAsMEhgkME5TcPvkvf7oYyysmMEzgH7kkSZKkpfYBix5Js4mxab4AAAAASUVORK5CYII=",
+        "label": true,
+        "label_text": "Bool:",
+        "line_edit": true,
+        "line_edit_text": "true",
+        "name": "EnterBool",
+        "script": "y.push(input);",
+        "type_img": "self"
+    },
+    "type": "basic"
+}

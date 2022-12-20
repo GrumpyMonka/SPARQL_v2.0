@@ -1,0 +1,63 @@
+{
+    "data": {
+        "blocks": [
+            {
+                "pos_x": 2691,
+                "pos_y": 2538,
+                "text": "?systemSC"
+            },
+            {
+                "pos_x": 2482,
+                "pos_y": 2677,
+                "text": "?componentSC"
+            },
+            {
+                "pos_x": 2202,
+                "pos_y": 2572,
+                "text": "?component"
+            },
+            {
+                "pos_x": 2688,
+                "pos_y": 2313,
+                "text": ":ICSystem"
+            },
+            {
+                "pos_x": 2298,
+                "pos_y": 2311,
+                "text": "?system"
+            }
+        ],
+        "image": "",
+        "limit": 20,
+        "lines": [
+            {
+                "end_block": 1,
+                "start_block": 0,
+                "text": ":isHigherClassThan"
+            },
+            {
+                "end_block": 0,
+                "start_block": 4,
+                "text": ":hasSafetyClass"
+            },
+            {
+                "end_block": 1,
+                "start_block": 2,
+                "text": ":hasSafetyClass"
+            },
+            {
+                "end_block": 4,
+                "start_block": 2,
+                "text": ":partOf+"
+            },
+            {
+                "end_block": 3,
+                "start_block": 4,
+                "text": "rdf:type "
+            }
+        ],
+        "name": "bebra",
+        "type_img": ""
+    },
+    "type": "sparql"
+}

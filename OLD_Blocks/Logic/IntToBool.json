@@ -1,0 +1,13 @@
+{
+    "data": {
+        "image": "",
+        "label": false,
+        "label_text": "label",
+        "line_edit": false,
+        "line_edit_text": "",
+        "name": "IntToBool",
+        "script": "for( var i = 0; i < x.length; ++i)\n{\n\tfor( var k = 0; k < x[i].length; ++k)\n\t{\n\t\tif( x[i][k] != 0 )\n\t\t{\n\t\t\ty.push( true );\n\t\t\treturn y;\n\t\t}\n\t}\n}\ny.push( false );",
+        "type_img": "self"
+    },
+    "type": "basic"
+}

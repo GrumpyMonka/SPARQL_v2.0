@@ -1,0 +1,13 @@
+{
+    "data": {
+        "image": "",
+        "label": false,
+        "label_text": "label",
+        "line_edit": false,
+        "line_edit_text": "",
+        "name": "BoolSum",
+        "script": "var result = 0;\nfor(var i = 0; i < x.length; i++)\n{\n\tfor(var k = 0; k < x[i].length; k++ )\n\t{\n\t\tif( x[i][k] == true )\n\t\t{\n\t\t\tresult += 1;\n\t\t}\n\t}\n}\n		y.push(result);",
+        "type_img": "self"
+    },
+    "type": "basic"
+}
