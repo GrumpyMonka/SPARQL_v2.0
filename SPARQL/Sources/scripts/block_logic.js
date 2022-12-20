@@ -42,6 +42,7 @@ function addOutputDependBlockForComposite( name, index )
 
             // дабы на стрелках нормально выводились надписи (out у composite блок)
             blocks_list[i].input_blocks = [ index ];
+            blocks_list[i].output = [];
             blocks_list[i].script = function( x, indx )
             {
                 return x;
