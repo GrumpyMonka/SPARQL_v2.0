@@ -43,15 +43,8 @@ QPainterPath DiagramArrow::shape() const
 
 void DiagramArrow::updatePosition()
 {
-    QLineF line( mapFromItem( myStartItem, 0, 0 ), mapFromItem( myEndItem, 0, 0 ) );
+    QLineF line( myStartItem->scenePos(), myEndItem->scenePos() );
     setLine( line );
-    QRectF rect = boundingRect();
-    //костыль
-    if ( line_edit->text().isEmpty() )
-    {
-        line_edit->setVisible( false );
-    }
-    line_edit->setGeometry( rect.x() + rect.width() / 2 - 40, rect.y() + rect.height() / 2 - 12, 80, 25 );
 }
 
 void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
@@ -66,15 +59,15 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
     painter->setPen( myPen );
     painter->setBrush( myColor );
 
-    QLineF centerLine( myStartItem->pos(), myEndItem->pos() );
+    QLineF centerLine( myStartItem->scenePos(), myEndItem->scenePos() );
     QPolygonF endPolygon = myEndItem->polygon();
-    QPointF p1 = endPolygon.first() + myEndItem->pos();
+    QPointF p1 = endPolygon.first() + myEndItem->scenePos();
     QPointF p2;
     QPointF intersectPoint;
     QLineF polyLine;
     for ( int i = 1; i < endPolygon.count(); ++i )
     {
-        p2 = endPolygon.at( i ) + myEndItem->pos();
+        p2 = endPolygon.at( i ) + myEndItem->scenePos();
         polyLine = QLineF( p1, p2 );
         QLineF::IntersectType intersectType = polyLine.intersect( centerLine, &intersectPoint );
         if ( intersectType == QLineF::BoundedIntersection )
@@ -82,7 +75,7 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
         p1 = p2;
     }
 
-    setLine( QLineF( intersectPoint, myStartItem->pos() ) );
+    setLine( QLineF( intersectPoint, myStartItem->scenePos() ) );
 
     double angle = std::atan2( -line().dy(), line().dx() );
 
@@ -103,6 +96,13 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
         myLine.translate( 0, -8.0 );
         painter->drawLine( myLine );
     }
+
+    auto rect = boundingRect();
+    if ( line_edit->text().isEmpty() )
+    {
+        line_edit->setVisible( false );
+    }
+    line_edit->setGeometry( rect.x() + rect.width() / 2 - 40, rect.y() + rect.height() / 2 - 12, 80, 25 );
 }
 
 void DiagramArrow::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
@@ -112,7 +112,8 @@ void DiagramArrow::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
 void DiagramArrow::setText( const QString& str )
 {
-    line_edit->setVisible( true );
+    if ( !str.isEmpty() )
+        line_edit->setVisible( true );
     line_edit->setText( str );
 }
 

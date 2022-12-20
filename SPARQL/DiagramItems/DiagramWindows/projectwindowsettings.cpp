@@ -4,6 +4,7 @@
 #include <QJsonObject>
 
 #include <basedblocksettings.h>
+#include <compositeblocksettings.h>
 #include <sparqlblocksettings.h>
 
 ProjectWindowSettings::ProjectWindowSettings()
@@ -47,19 +48,7 @@ void ProjectWindowSettings::setSettingFromJson( const QJsonObject& object )
 
         for ( const QJsonValue& block : blocks_array )
         {
-            auto type_block = block["Header"]["Type"].toString();
-            if ( "Based" == type_block )
-            {
-                BasedBlockSettings* settings = new BasedBlockSettings();
-                settings->setSettingFromJson( block.toObject() );
-                blocks_list.push_back( settings );
-            }
-            else if ( "Sparql" == type_block )
-            {
-                SparqlBlockSettings* settings = new SparqlBlockSettings();
-                settings->setSettingFromJson( block.toObject() );
-                blocks_list.push_back( settings );
-            }
+            blocks_list.push_back( getDiagramSettingsFromJson( block.toObject() ) );
         }
     }
 }

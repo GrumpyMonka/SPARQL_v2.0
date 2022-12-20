@@ -19,13 +19,6 @@ public:
         QString text;
     };
 
-    struct BlockSaver
-    {
-        QString text;
-        QPointF pos;
-        QString type;
-    };
-
     struct AreaSaver
     {
         QVector<AtomBlockSettings*> blocks;

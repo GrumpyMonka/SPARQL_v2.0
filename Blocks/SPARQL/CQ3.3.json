@@ -265,7 +265,7 @@
         "Limit": 20,
         "Lines": [
         ],
-        "Start_Area": -1
+        "Start_Area": 0
     },
     "Header": {
         "Name": "CQ3.3",

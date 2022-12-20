@@ -31,6 +31,7 @@ public:
     virtual void setSettingFromJson( const QJsonObject& object ) = 0;
     virtual QJsonObject getJsonFromSetting() = 0;
     virtual QPixmap image() const;
+    virtual QString getScript() { return {}; }
     virtual ~DiagramItemSettings() = default;
 
     void setSettingFromString( const QString& str );
@@ -41,6 +42,7 @@ public:
     QPolygonF polygonFromJsonArray( const QJsonArray& array );
     QJsonObject jsonFromPointF( const QPointF& point );
     QPointF pointFromJsonObject( const QJsonValue& value );
+    static DiagramItemSettings* getDiagramSettingsFromJson( const QJsonObject& object );
 };
 
 #endif // DIAGRAMITEMSETTINGS_H

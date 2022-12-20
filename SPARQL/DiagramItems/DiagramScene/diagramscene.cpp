@@ -40,13 +40,11 @@ DiagramArrow* DiagramScene::createArrow( DiagramItem* startItem, DiagramItem* en
     }
     else
     {
-
         arrow = new DiagramArrow( startItem, endItem, startItem->parentItem() );
     }
     startItem->addArrow( arrow );
     endItem->addArrow( arrow );
     arrow->setZValue( qMin( startItem->zValue(), endItem->zValue() ) - 1 );
-    // addItem( arrow );
     arrow->updatePosition();
     return arrow;
 }
@@ -77,6 +75,15 @@ void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
         {
             item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert );
             addItem( item );
+            if ( DiagramItem::CompositeItemType == item->type() )
+            {
+                auto arrows = item->getArrows();
+                for ( auto& arrow : arrows )
+                {
+                    addItem( arrow );
+                    arrow->updatePosition();
+                }
+            };
             item->setPos( mouseEvent->scenePos() );
         }
         setMode( MoveItem );
@@ -137,6 +144,7 @@ QGraphicsItem* DiagramScene::getParentItem( QGraphicsItem* item )
         auto parent = temp->parentItem();
         if ( nullptr != parent
             && DiagramItem::CheckItemOnDiagramItem( parent->type() )
+            && !static_cast<DiagramItem*>( parent )->getAllowLineToChild()
             && !static_cast<DiagramItem*>( parent )->getSupportAddItem() )
         {
             temp = parent;

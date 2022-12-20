@@ -7,6 +7,8 @@
 #include <projectwindowsettings.h>
 
 #include <diagramitembased.h>
+#include <diagramitemcomposite.h>
+#include <diagramitemio.h>
 
 ProjectWindow::ProjectWindow( QWidget* parent )
     : SGraphicsView( parent )
@@ -58,16 +60,41 @@ void ProjectWindow::saveProject()
     auto item_list = getDiagramItems();
     auto arrow_list = getDiagramArrows();
 
+    QVector<DiagramItem*> blocks_list;
     for ( auto& item : item_list )
     {
-        settings.blocks_list.push_back( item->getSettings() );
+        if ( DiagramItem::IOItemType != item->type() )
+        {
+            auto setting = item->getSettings();
+            if ( setting != nullptr )
+                settings.blocks_list.push_back( setting );
+            blocks_list.push_back( item );
+        }
     }
 
     for ( auto& arrow : arrow_list )
     {
-        settings.lines_list.push_back( { item_list.indexOf( arrow->startItem() ),
-            item_list.indexOf( arrow->endItem() ),
-            arrow->getText() } );
+        ProjectWindowSettings::LineSaver line_saver;
+        line_saver.start_block = blocks_list.indexOf( arrow->startItem() );
+        line_saver.end_block = blocks_list.indexOf( arrow->endItem() );
+
+        if ( DiagramItem::IOItemType == arrow->startItem()->type() )
+        {
+            if ( arrow->endItem() == arrow->startItem()->parentItem() )
+                continue;
+            line_saver.start_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->startItem()->parentItem() ) );
+            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->startItem() ) )->block_name;
+        }
+
+        if ( DiagramItem::IOItemType == arrow->endItem()->type() )
+        {
+            if ( arrow->startItem() == arrow->endItem()->parentItem() )
+                continue;
+            line_saver.end_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->endItem()->parentItem() ) );
+            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->endItem() ) )->block_name;
+        }
+
+        settings.lines_list.push_back( line_saver );
     }
 
     QJsonDocument json;
@@ -90,8 +117,24 @@ void ProjectWindow::openProject()
 
     for ( auto& line : settings.lines_list )
     {
-        auto arrow = getScene()->createArrow( blocks_list.at( line.start_block ),
-            blocks_list.at( line.end_block ) );
-        arrow->setText( line.text );
+        DiagramItem* startItem = blocks_list.at( line.start_block );
+        DiagramItem* endItem = blocks_list.at( line.end_block );
+
+        if ( line.text != "" )
+        {
+            if ( DiagramItem::CompositeItemType == startItem->type() )
+            {
+                auto composite_item = static_cast<DiagramItemComposite*>( startItem );
+                startItem = composite_item->getOutputBlock( line.text );
+            }
+
+            if ( DiagramItem::CompositeItemType == endItem->type() )
+            {
+                auto composite_item = static_cast<DiagramItemComposite*>( endItem );
+                endItem = composite_item->getInputBlock( line.text );
+            }
+        }
+
+        getScene()->createArrow( startItem, endItem );
     }
 }

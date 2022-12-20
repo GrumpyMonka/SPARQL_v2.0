@@ -22,6 +22,7 @@ DiagramItem::DiagramItem( QMenu* contextMenu, QGraphicsItem* parent )
     setFlag( QGraphicsItem::ItemIsSelectable, true );
     setFlag( QGraphicsItem::ItemSendsGeometryChanges, true );
     setSupportAddItem( false );
+    setAllowLineToChild( false );
 }
 
 DiagramItem::~DiagramItem()
@@ -51,6 +52,16 @@ void DiagramItem::setSupportAddItem( bool flag )
 bool DiagramItem::getSupportAddItem()
 {
     return support_add_item;
+}
+
+void DiagramItem::setAllowLineToChild( bool flag )
+{
+    allow_line_to_child = flag;
+}
+
+bool DiagramItem::getAllowLineToChild()
+{
+    return allow_line_to_child;
 }
 
 void DiagramItem::setContextMenu( QMenu* contextMenu )
@@ -149,7 +160,7 @@ QVariant DiagramItem::itemChange( GraphicsItemChange change, const QVariant& val
     return value;
 }
 
-QList<DiagramArrow*> DiagramItem::getArrows()
+QVector<DiagramArrow*> DiagramItem::getArrows()
 {
     return arrows;
 }
@@ -163,7 +174,7 @@ QList<DiagramArrow*> DiagramItem::getArrows()
 bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 {
     if ( DiagramItem::BasedItemType == code
-        //    || DiagramItemComposite  == code
+        || DiagramItem::CompositeItemType == code
         || DiagramItem::SparqlItemType == code
         || DiagramItem::AtomItemType == code
         || DiagramItem::IOItemType == code )
@@ -181,6 +192,10 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     case DiagramItemSettings::BasedItemSettingsType:
         return new DiagramItemBased( context_menu, parent,
             new BasedBlockSettings( *static_cast<BasedBlockSettings*>( settings ) ) );
+        break;
+    case DiagramItemSettings::CompositeItemSettingsType:
+        return new DiagramItemComposite( context_menu, parent,
+            new CompositeBlockSettings( *static_cast<CompositeBlockSettings*>( settings ) ) );
         break;
     case DiagramItemSettings::SparqlItemSettinsType:
         return new DiagramItemSparql( context_menu, parent,
@@ -201,9 +216,9 @@ DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     return nullptr;
 }
 
-QList<DiagramArrow*> DiagramItem::getStartArrows()
+QVector<DiagramArrow*> DiagramItem::getStartArrows()
 {
-    QList<DiagramArrow*> result;
+    QVector<DiagramArrow*> result;
     auto arrows = getArrows();
     for ( auto arrow : arrows )
     {
@@ -213,9 +228,9 @@ QList<DiagramArrow*> DiagramItem::getStartArrows()
     return result;
 }
 
-QList<DiagramArrow*> DiagramItem::getEndArrows()
+QVector<DiagramArrow*> DiagramItem::getEndArrows()
 {
-    QList<DiagramArrow*> result;
+    QVector<DiagramArrow*> result;
     auto arrows = getArrows();
     for ( auto arrow : arrows )
     {

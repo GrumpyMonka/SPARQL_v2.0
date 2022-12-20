@@ -1,5 +1,6 @@
 #include "ioblocksettings.h"
 
+#include <QJsonArray>
 #include <QJsonObject>
 
 IOBlockSettings::IOBlockSettings()
@@ -8,11 +9,41 @@ IOBlockSettings::IOBlockSettings()
 
 void IOBlockSettings::setSettingFromJson( const QJsonObject& object )
 {
+    if ( object["Header"]["Type"].toString() == "IO" )
+    {
+        QJsonValue header = object["Header"];
+        QJsonValue body = object["Body"];
+
+        block_name = header["Name"].toString();
+        type_block = ConvertTypeBlock.key( header["Type_Block"].toString() );
+
+        text = body["Text"].toString();
+        pos = pointFromJsonObject( body["Pos"] );
+        support_add_item = body["Support_Add_Item"].toBool();
+        polygon = polygonFromJsonArray( body["Polygon"].toArray() );
+    }
 }
 
 QJsonObject IOBlockSettings::getJsonFromSetting()
 {
-    return {};
+    QJsonObject object;
+
+    QJsonObject header;
+    QJsonObject body;
+
+    header.insert( "Type", "IO" );
+    header.insert( "Name", block_name );
+    header.insert( "Type_Block", ConvertTypeBlock[type_block] );
+
+    body.insert( "Text", text );
+    body.insert( "Pos", jsonFromPointF( pos ) );
+    body.insert( "Support_Add_Item", support_add_item );
+    body.insert( "Polygon", jsonArrayFromPolygon( polygon ) );
+
+    object.insert( "Header", header );
+    object.insert( "Body", body );
+
+    return object;
 }
 
 QPixmap IOBlockSettings::image() const

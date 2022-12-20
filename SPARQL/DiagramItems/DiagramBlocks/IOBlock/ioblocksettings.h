@@ -1,6 +1,8 @@
 #ifndef IOBLOCKSETTINGS_H
 #define IOBLOCKSETTINGS_H
 
+#include <QMap>
+
 #include "diagramitemsettings.h"
 
 class IOBlockSettings : public DiagramItemSettings
@@ -10,6 +12,11 @@ public:
     {
         Input,
         Output
+    };
+
+    QMap<TypeIO, QString> ConvertTypeBlock = {
+        { Input, "Input" },
+        { Output, "Output" }
     };
 
     TypeIO type_block;

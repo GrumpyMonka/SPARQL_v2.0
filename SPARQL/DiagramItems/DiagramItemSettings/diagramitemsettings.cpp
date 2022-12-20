@@ -86,3 +86,38 @@ QPointF DiagramItemSettings::pointFromJsonObject( const QJsonValue& value )
 {
     return QPointF( value["X"].toDouble(), value["Y"].toDouble() );
 }
+
+#include <basedblocksettings.h>
+#include <compositeblocksettings.h>
+#include <ioblocksettings.h>
+#include <sparqlblocksettings.h>
+
+DiagramItemSettings* DiagramItemSettings::getDiagramSettingsFromJson( const QJsonObject& object )
+{
+    auto type_block = object["Header"]["Type"].toString();
+    if ( "Based" == type_block )
+    {
+        BasedBlockSettings* settings = new BasedBlockSettings();
+        settings->setSettingFromJson( object );
+        return settings;
+    }
+    else if ( "Sparql" == type_block )
+    {
+        SparqlBlockSettings* settings = new SparqlBlockSettings();
+        settings->setSettingFromJson( object );
+        return settings;
+    }
+    else if ( "Composite" == type_block )
+    {
+        CompositeBlockSettings* settings = new CompositeBlockSettings();
+        settings->setSettingFromJson( object );
+        return settings;
+    }
+    else if ( "IO" == type_block )
+    {
+        IOBlockSettings* settings = new IOBlockSettings();
+        settings->setSettingFromJson( object );
+        return settings;
+    }
+    return nullptr;
+}

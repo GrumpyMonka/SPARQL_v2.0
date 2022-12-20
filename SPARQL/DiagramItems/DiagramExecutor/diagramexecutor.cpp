@@ -5,6 +5,7 @@
 
 #include <diagramarrow.h>
 #include <diagramitembased.h>
+#include <diagramitemio.h>
 #include <diagramitemsparql.h>
 
 DiagramExecutor::DiagramExecutor( QWidget* parent )
@@ -38,12 +39,10 @@ QString getHtmlLine( QString line, QString style = "" )
 {
     return "<span style=\"margin-top:0px; " + style + "\">" + line + "</span><br>";
 }
-
-QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
+/*
+QString CreateInputScript( QString& str )
 {
-    QString result = "";
-    DiagramItem* diagram_item = block_list[index];
-
+    QString result;
     result += getHtmlLine( "\nblocks_list.push( new Block( " );
     result += getHtmlLine( "\tfunction( x ) {" );
 
@@ -94,6 +93,75 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     result += getHtmlLine( "\t" + temp );
     result += getHtmlLine( "));\n" );
     return result;
+
+}
+*/
+QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
+{
+    QString result = "";
+    DiagramItem* diagram_item = block_list[index];
+
+    result += getHtmlLine( "\nblocks_list.push( new Block( " );
+    result += getHtmlLine( "\tfunction( x, index ) {" );
+
+    if ( diagram_item->getInputData() != "" )
+        result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
+
+    result += getHtmlLine( "\t\tvar y = [];" );
+
+    QStringList list;
+    if ( DiagramItem::IOItemType != diagram_item->type() )
+    {
+        list = diagram_item->getScript().split( "\n" );
+    }
+
+    foreach ( QString iter, list )
+    {
+        for ( int i = 0; i < iter.size(); i++ )
+        {
+            if ( iter[i] == "<" )
+            {
+                iter = iter.mid( 0, i ) + "&lt;" + iter.mid( i + 1, iter.size() );
+            }
+            if ( iter[i] == ">" )
+            {
+                iter = iter.mid( 0, i ) + "&gt;" + iter.mid( i + 1, iter.size() );
+            }
+        }
+        result += getHtmlLine( "\t\t" + iter );
+    }
+
+    result += getHtmlLine( "\t\treturn y;" );
+    result += getHtmlLine( "\t}," );
+
+    if ( DiagramItem::IOItemType == diagram_item->type() )
+    {
+        result += "\t[ \"" + ( static_cast<DiagramItemIO*>( diagram_item ) )->block_name + "\" ],";
+    }
+    else
+    {
+        result += getHtmlLine( "\t[ ]," );
+    }
+
+    QString temp = "[ ";
+
+    foreach ( DiagramArrow* arrow, block_list[index]->getArrows() )
+    {
+        if ( arrow->startItem() != block_list[index] )
+        {
+            temp += QString::number( block_list.indexOf( arrow->startItem() ) );
+            temp += ", ";
+        }
+    }
+
+    if ( temp[temp.size() - 2] == "," )
+        temp.remove( temp.size() - 2, 1 );
+
+    temp += "]";
+
+    result += getHtmlLine( "\t" + temp );
+    result += getHtmlLine( "));\n" );
+    return result;
 }
 } // namespace
 
@@ -105,6 +173,7 @@ QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& bloc
         script += CreateScriptForBlock( block_list, i );
     }
     script += "</p>";
+    script += "max_size_blocks = blocks_list.length;";
     api->setDiagramItem( block_list );
     return script;
 }
@@ -152,19 +221,19 @@ void DiagramExecutor::execute()
     text_edit_output->clear();
     QScriptValue result;
 
-    QString temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js" ); // loadScript( ":/Sources/scripts/script.js" );
+    QString temp = loadScript( ":/Sources/scripts/script.js" ); // loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Defult script: " + temp );
     }
 
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/XMLHttpRequest.js" );
+    temp = loadScript( ":/Sources/scripts/XMLHttpRequest.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Defult script: " + temp );
     }
 
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/progress.js" );
+    temp = loadScript( ":/Sources/scripts/progress.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Progress script: " + temp );
@@ -179,7 +248,7 @@ void DiagramExecutor::execute()
     }
 
     // temp = loadScript("C:/Temp/Study/6 semestr/Kurs/Kurs/scripts/block_logic.js");
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/block_logic.js" );
+    temp = loadScript( ":/Sources/scripts/block_logic.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Failed script: " + temp );
