@@ -18,6 +18,8 @@ public:
 
     CompositeBlockSettings* getSettings();
     void setSettings( CompositeBlockSettings* settings = new CompositeBlockSettings() );
+    QVector<DiagramItem*> getDiagramItems();
+    QVector<DiagramArrow*> getDiagramArrows();
 
 public slots:
     void slotOnCreateButtonClicked() override;

@@ -45,13 +45,6 @@ void DiagramArrow::updatePosition()
 {
     QLineF line( myStartItem->scenePos(), myEndItem->scenePos() );
     setLine( line );
-    QRectF rect = boundingRect();
-    // костыль
-    if ( line_edit->text().isEmpty() )
-    {
-        line_edit->setVisible( false );
-    }
-    line_edit->setGeometry( rect.x() + rect.width() / 2 - 40, rect.y() + rect.height() / 2 - 12, 80, 25 );
 }
 
 void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
@@ -103,6 +96,13 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
         myLine.translate( 0, -8.0 );
         painter->drawLine( myLine );
     }
+
+    auto rect = boundingRect();
+    if ( line_edit->text().isEmpty() )
+    {
+        line_edit->setVisible( false );
+    }
+    line_edit->setGeometry( rect.x() + rect.width() / 2 - 40, rect.y() + rect.height() / 2 - 12, 80, 25 );
 }
 
 void DiagramArrow::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
@@ -112,7 +112,8 @@ void DiagramArrow::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
 void DiagramArrow::setText( const QString& str )
 {
-    line_edit->setVisible( true );
+    if ( !str.isEmpty() )
+        line_edit->setVisible( true );
     line_edit->setText( str );
 }
 

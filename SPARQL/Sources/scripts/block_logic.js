@@ -1,5 +1,5 @@
 var indexOfWorkingBlock = [];
-var max_size_blocks = 0;
+var max_size_block = blocks_list.length;
 
 function workingBlocks() 
 {
@@ -12,7 +12,9 @@ function workingBlocks()
         }
         blocks_list[indexOfWorkingBlock[i]].output.push(blocks_list[indexOfWorkingBlock[i]].script(input, indexOfWorkingBlock[i]));
         if ( indexOfWorkingBlock[i] < max_size_blocks )
+        {
             api.setOutputForDiagramItem( indexOfWorkingBlock[i], blocks_list[indexOfWorkingBlock[i]].output );
+        }
         blocks_list[indexOfWorkingBlock[i]].flagOfWorking = true;
     }  
     indexOfWorkingBlock = [];
@@ -37,6 +39,15 @@ function addOutputDependBlockForComposite( name, index )
         if ( blocks_list[i].output[0] == name )
         {
             index_output_block = i;
+
+            // дабы на стрелках нормально выводились надписи (out у composite блок)
+            blocks_list[i].input_blocks = [ index ];
+            blocks_list[i].script = function( x, indx )
+            {
+                return x;
+            };
+            blocks_list[i].flagOfWorking = false;
+
             break;
         }
     }

@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QPushButton>
 
+#include <diagramitemcomposite.h>
 #include <diagramitemio.h>
 
 CompositeBlockWindow::CompositeBlockWindow( QWidget* parent )
@@ -85,52 +86,115 @@ void CompositeBlockWindow::setSettings( CompositeBlockSettings* settings )
 
     for ( auto& line : settings->lines )
     {
-        getScene()->createArrow( blocks_list.at( line.start_block ),
-            blocks_list.at( line.end_block ) );
+        DiagramItem* startItem = blocks_list.at( line.start_block );
+        DiagramItem* endItem = blocks_list.at( line.end_block );
+
+        if ( line.text != "" )
+        {
+            if ( DiagramItem::CompositeItemType == startItem->type() )
+            {
+                auto composite_item = static_cast<DiagramItemComposite*>( startItem );
+                startItem = composite_item->getOutputBlock( line.text );
+            }
+
+            if ( DiagramItem::CompositeItemType == endItem->type() )
+            {
+                auto composite_item = static_cast<DiagramItemComposite*>( endItem );
+                endItem = composite_item->getInputBlock( line.text );
+            }
+        }
+
+        getScene()->createArrow( startItem, endItem );
     }
+}
+
+QVector<DiagramItem*> CompositeBlockWindow::getDiagramItems()
+{
+    QVector<DiagramItem*> result;
+    auto list = getScene()->items();
+    for ( auto item : list )
+    {
+        if ( DiagramItem::CheckItemOnDiagramItem( item->type() ) )
+        {
+            result.push_back( static_cast<DiagramItem*>( item ) );
+        }
+    }
+    return result;
+}
+
+QVector<DiagramArrow*> CompositeBlockWindow::getDiagramArrows()
+{
+    QVector<DiagramArrow*> result;
+    auto list = getScene()->items();
+    for ( auto item : list )
+    {
+        if ( DiagramItem::DiagramArrowType == item->type() )
+        {
+            result.push_back( static_cast<DiagramArrow*>( item ) );
+        }
+    }
+    return result;
 }
 
 CompositeBlockSettings* CompositeBlockWindow::getSettings()
 {
-    CompositeBlockSettings* settings = new CompositeBlockSettings();
-    auto full_items = getScene()->items();
+    auto settings = new CompositeBlockSettings();
     settings->block_name = line_name_block->text();
-    QVector<DiagramItem*> blocks;
-    for ( auto item : full_items )
-    {
-        if ( !DiagramItem::CheckItemOnDiagramItem( item->type() ) )
-        {
-            continue;
-        }
+    auto item_list = getDiagramItems();
+    auto arrow_list = getDiagramArrows();
+    QVector<DiagramItem*> blocks_list;
 
-        auto diagram_item = static_cast<DiagramItem*>( item );
-        if ( DiagramItem::IOItemType == diagram_item->type() )
+    for ( auto item : item_list )
+    {
+        if ( DiagramItem::IOItemType == item->type() )
         {
-            auto setting = ( static_cast<DiagramItemIO*>( diagram_item ) )->getSettings();
-            if ( IOBlockSettings::Input == setting->type_block )
+            if ( nullptr == item->parentItem() )
             {
-                settings->input_names.push_back( setting->text );
+                auto setting = ( static_cast<DiagramItemIO*>( item ) )->getSettings();
+                if ( IOBlockSettings::Input == setting->type_block )
+                {
+                    settings->input_names.push_back( setting->text );
+                }
+                else
+                {
+                    settings->output_names.push_back( setting->text );
+                }
+                delete setting;
             }
             else
             {
-                settings->output_names.push_back( setting->text );
+                continue;
             }
-            delete setting;
         }
-        blocks.push_back( diagram_item );
-        settings->blocks.push_back( diagram_item->getSettings() );
+        settings->blocks.push_back( item->getSettings() );
+        blocks_list.push_back( item );
     }
 
-    for ( auto block : blocks )
+    for ( auto arrow : arrow_list )
     {
-        auto lines = block->getStartArrows();
-        for ( auto line : lines )
+        CompositeBlockSettings::LineSaver line_saver;
+        line_saver.start_block = blocks_list.indexOf( arrow->startItem() );
+        line_saver.end_block = blocks_list.indexOf( arrow->endItem() );
+
+        if ( DiagramItem::IOItemType == arrow->startItem()->type()
+            && nullptr != arrow->startItem()->parentItem() )
         {
-            CompositeBlockSettings::LineSaver line_saver;
-            line_saver.start_block = blocks.indexOf( block );
-            line_saver.end_block = blocks.indexOf( line->endItem() );
-            settings->lines.push_back( line_saver );
+            if ( arrow->endItem() == arrow->startItem()->parentItem() )
+                continue;
+            line_saver.start_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->startItem()->parentItem() ) );
+            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->startItem() ) )->block_name;
         }
+
+        if ( DiagramItem::IOItemType == arrow->endItem()->type()
+            && nullptr != arrow->endItem()->parentItem() )
+        {
+            if ( arrow->startItem() == arrow->endItem()->parentItem() )
+                continue;
+            line_saver.end_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->endItem()->parentItem() ) );
+            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->endItem() ) )->block_name;
+        }
+
+        settings->lines.push_back( line_saver );
     }
 
     return settings;
