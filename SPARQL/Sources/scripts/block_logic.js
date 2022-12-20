@@ -52,16 +52,16 @@ function addOutputDependBlockForComposite( name, index )
         }
     }
 
-    for( var i = 0; i < blocks_list.length; i++ )
-    {
-        for( var j = 0; j < blocks_list[i].input_blocks.length; j++ )
-        {
-            if ( blocks_list[i].input_blocks[j] == index_output_block )
-            {
-                blocks_list[i].input_blocks[j] = index;
-            }
-        }
-    }
+//    for( var i = 0; i < blocks_list.length; i++ )
+//    {
+//        for( var j = 0; j < blocks_list[i].input_blocks.length; j++ )
+//        {
+//            if ( blocks_list[i].input_blocks[j] == index_output_block )
+//            {
+//                blocks_list[i].input_blocks[j] = index;
+//            }
+//        }
+//    }
 }
 
 function checkForReadyBlocks() 

@@ -38,8 +38,8 @@ public:
     QPixmap image() const override;
     QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& );
     void clear();
+    QString getScript() override;
 
-    QString convertToScript();
     static SparqlBlockSettings* CreateTemplateSparqlSettings();
 };
 

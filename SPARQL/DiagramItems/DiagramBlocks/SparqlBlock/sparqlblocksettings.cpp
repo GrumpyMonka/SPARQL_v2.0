@@ -32,6 +32,7 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonObject& object )
         // pixmap = pixmapFrom( body["Image"] );
         limit = body["Limit"].toInt();
         start_area = body["Start_Area"].toInt();
+        pos = pointFromJsonObject( body["Pos"] );
 
         QJsonArray areas_array = body["Areas"].toArray();
         for ( const QJsonValue& area : areas_array )
@@ -92,6 +93,7 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
 
     body.insert( "Limit", limit );
     body.insert( "Start_Area", start_area );
+    body.insert( "Pos", jsonFromPointF( pos ) );
 
     body.insert( "Lines", getJsonArrayFromLineSaver( lines ) );
 
@@ -117,7 +119,7 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
     return json_object;
 }
 
-QString SparqlBlockSettings::convertToScript()
+QString SparqlBlockSettings::getScript()
 {
     QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
                      "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
