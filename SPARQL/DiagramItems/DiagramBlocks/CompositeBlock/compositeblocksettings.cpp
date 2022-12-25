@@ -149,7 +149,7 @@ QString CompositeBlockSettings::getScript()
             {
                 script += "addInputDependBlockForComposite( \""
                     + ( static_cast<IOBlockSettings*>( blocks[line.start_block] ) )->text
-                    + "\", blocks_list_size + " + QString::number( index_end ) + " );\n";
+                    + "\", blocks_list_size + " + QString::number( index_end ) + ", index );\n";
             }
             else
             {
@@ -165,7 +165,7 @@ QString CompositeBlockSettings::getScript()
             int index_start = block_list.indexOf( blocks[line.start_block] );
             script += "addOutputDependBlockForComposite( \""
                 + ( static_cast<IOBlockSettings*>( blocks[line.end_block] ) )->text
-                + "\", blocks_list_size + " + QString::number( index_start ) + " );\n";
+                + "\", blocks_list_size + " + QString::number( index_start ) + ", index );\n";
         }
     }
     return script;
