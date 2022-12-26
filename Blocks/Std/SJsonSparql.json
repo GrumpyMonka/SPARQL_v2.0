@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Flag_Custom_Image": false,
+        "Flag_Edit": false,
+        "Flag_Label": false,
+        "Image": "iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcUlEQVR4nO3bwU3DQBRF0WfE1g0Aoo1I1EFKoABEIxRABYgGKIAgGqAABAWACzAL/oiJ4yfGsQMyuWdDcGYcz8XxIiYSAAAAsA+qgePbnRzF7yle75Awc4+SFK35YNdHMVeEMQ5HzB16fforW10COGMMwhiEMQhjEMYgjEEYgzAGYQzCGIQxCGMQxiCMQRiDMAZhDMIYU4SpJS3j8apw/Kt5Ls2/jXGKfR8V7LfktYtNecbUku7jcav1xbf6/uz1ozNvEc/lCzuR1PS8xirGplBpbt0Zsxh47BumDNNIush+P9b6AT/Gz/xD9FrSaWw7y7ZfanNxS0nnMfauMzdFbGM/T9suIpn6GvOir79mJekt216p/+3TSLrp2X4l6bmz7UHS9Q9zK0nvA47XGnMncq63T7gTOQZhDMIYhDEIYxDGIIxBGIMwBmEMwhiEMQhjEMYgjEEYgzAGYYwx/xn+X7500YszxiCMwRe5AAAAgL32CcZ/KjT+uZfQAAAAAElFTkSuQmCC",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "json_obj = JSON.parse( x[0] );\narray = json_obj.results.bindings;\ny.push( array.length );",
+        "Text_Edit": "",
+        "Text_Label": "label"
+    },
+    "Header": {
+        "Name": "SJsonParse",
+        "Type": "Based"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "Body": {
+        "Flag_Custom_Image": false,
+        "Flag_Edit": false,
+        "Flag_Label": false,
+        "Image": "iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcUlEQVR4nO3bwU3DQBRF0WfE1g0Aoo1I1EFKoABEIxRABYgGKIAgGqAABAWACzAL/oiJ4yfGsQMyuWdDcGYcz8XxIiYSAAAAsA+qgePbnRzF7yle75Awc4+SFK35YNdHMVeEMQ5HzB16fforW10COGMMwhiEMQhjEMYgjEEYgzAGYQzCGIQxCGMQxiCMQRiDMAZhDMIYU4SpJS3j8apw/Kt5Ls2/jXGKfR8V7LfktYtNecbUku7jcav1xbf6/uz1ozNvEc/lCzuR1PS8xirGplBpbt0Zsxh47BumDNNIush+P9b6AT/Gz/xD9FrSaWw7y7ZfanNxS0nnMfauMzdFbGM/T9suIpn6GvOir79mJekt216p/+3TSLrp2X4l6bmz7UHS9Q9zK0nvA47XGnMncq63T7gTOQZhDMIYhDEIYxDGIIxBGIMwBmEMwhiEMQhjEMYgjEEYgzAGYYwx/xn+X7500YszxiCMwRe5AAAAgL32CcZ/KjT+uZfQAAAAAElFTkSuQmCC",
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        },
+        "Script": "for( var i = 0; i < x.length; ++i)\n{\n\tfor( var k = 0; k < x[i].length; ++k)\n\t{\n\t\tif( x[i][k] != 0 )\n\t\t{\n\t\t\ty.push( true );\n\t\t\treturn y;\n\t\t}\n\t}\n}\ny.push( false );",
+        "Text_Edit": "",
+        "Text_Label": "label"
+    },
+    "Header": {
+        "Name": "IntToBool",
+        "Type": "Based"
+    }
+}

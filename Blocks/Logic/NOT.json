@@ -8,7 +8,7 @@
             "X": 0,
             "Y": 0
         },
-        "Script": "for(var  i = 0; i < x.length; i++){\n\tfor(var j = 0; j < x.length; j++){\n\t\ty.push(!Boolean(x[i][j]));\n\t}\n}\n",
+        "Script": "for(var  i = 0; i < x.length; i++){\n\tfor(var j = 0; j < x[i].length; j++){\n\t\tif ( x[i][j] == \"true\" ) { y.push( false ); }else { y.push( true ); };\n\t}\n}\n",
         "Text_Edit": "",
         "Text_Label": "label"
     },
