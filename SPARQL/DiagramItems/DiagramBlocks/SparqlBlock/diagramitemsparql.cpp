@@ -20,10 +20,11 @@ DiagramItemSparql::DiagramItemSparql( QMenu* contextMenu, QGraphicsItem* parent,
 
 SparqlBlockSettings* DiagramItemSparql::getSettings()
 {
+    settings->pos = pos();
     return settings;
 }
 
 QString DiagramItemSparql::getScript()
 {
-    return settings->convertToScript();
+    return settings->getScript();
 }

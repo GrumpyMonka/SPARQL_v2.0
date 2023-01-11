@@ -248,7 +248,7 @@ void DiagramExecutor::execute()
     }
 
     // temp = loadScript("C:/Temp/Study/6 semestr/Kurs/Kurs/scripts/block_logic.js");
-    temp = loadScript( ":/Sources/scripts/block_logic.js" );
+    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/block_logic.js" );
     if ( temp.length() )
     {
         text_edit_output->setText( "Failed script: " + temp );
