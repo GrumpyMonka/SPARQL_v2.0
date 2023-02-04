@@ -16,6 +16,9 @@ public:
 
 public slots:
     void setOutputForDiagramItem( int index, QString text );
+    void setDependecies( int, QVector<int> );
+    void addDep( int, int );
+    void clearDeps();
 
 private:
     QVector<DiagramItem*> blocks_lib;

@@ -8,11 +8,13 @@ function workingBlocks()
     {
         log( "Run block - " + indexOfWorkingBlock[i] );
         var input = [];
+        var vec = [];
         for (var j = 0; j < blocks_list[indexOfWorkingBlock[i]].input_blocks.length; j++) 
         {
             input.push(blocks_list[blocks_list[indexOfWorkingBlock[i]].input_blocks[j]].output);
+            vec.push(blocks_list[indexOfWorkingBlock[i]].input_blocks[j] );
         }
-        blocks_list[indexOfWorkingBlock[i]].output.push(blocks_list[indexOfWorkingBlock[i]].script(input, indexOfWorkingBlock[i]));
+        blocks_list[indexOfWorkingBlock[i]].output.push(blocks_list[indexOfWorkingBlock[i]].script(input, indexOfWorkingBlock[i], vec));
         if ( indexOfWorkingBlock[i] < max_size_blocks )
         {
             api.setOutputForDiagramItem( indexOfWorkingBlock[i], blocks_list[indexOfWorkingBlock[i]].output );
@@ -24,14 +26,17 @@ function workingBlocks()
 
 function addInputDependBlockForComposite( name, index, index_composite )
 {
-    log( "func_input" );
+    log( "func_input " + name + " " + index  + " " + index_composite );
     var composite_input = blocks_list[index_composite].input_blocks;
     for( var i = 0; i < composite_input.length; i++ )
     {
         if ( blocks_list[composite_input[i]].output[0] == name )
         {
             if ( blocks_list[composite_input[i]].input_blocks.length )
+            {
                 blocks_list[index].input_blocks.push( blocks_list[composite_input[i]].input_blocks );
+                log( "blocks[" + index + "] - " + blocks_list[index].input_blocks + " + " + index_composite );
+            }
         }
     }
 }
@@ -122,6 +127,7 @@ function checkInputBlocks(index)
 
 function main(typeOfWorking) 
 {
+    api.clearDeps();
     if (typeOfWorking === 'debug')
     {
         //Сделать сигнал по которому проверяется работа для дебага

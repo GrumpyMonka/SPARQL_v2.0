@@ -165,11 +165,43 @@ QVector<DiagramArrow*> DiagramItem::getArrows()
     return arrows;
 }
 
-#include <diagramitematom.h>
-#include <diagramitembased.h>
-#include <diagramitemcomposite.h>
-#include <diagramitemio.h>
-#include <diagramitemsparql.h>
+QVector<DiagramItem*> DiagramItem::getDependecies()
+{
+    if ( dependencies.empty() )
+    {
+        QVector<DiagramItem*> data;
+        auto arrows = getEndArrows();
+        for ( auto arrow : arrows )
+        {
+            data.push_back( arrow->startItem() );
+        }
+        return data;
+    }
+    return dependencies;
+}
+
+void DiagramItem::addDependecies( DiagramItem* item )
+{
+    dependencies.push_back( item );
+}
+
+void DiagramItem::clearDependecies()
+{
+    dependencies.clear();
+}
+
+void DiagramItem::setDependecies( QVector<DiagramItem*> data )
+{
+    if ( data.empty() )
+    {
+        auto arrows = getEndArrows();
+        for ( auto arrow : arrows )
+        {
+            data.push_back( arrow->startItem() );
+        }
+    }
+    dependencies = data;
+}
 
 bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
 {
@@ -183,6 +215,12 @@ bool DiagramItem::CheckItemOnDiagramItem( const qint64 code )
     }
     return false;
 }
+
+#include <diagramitematom.h>
+#include <diagramitembased.h>
+#include <diagramitemcomposite.h>
+#include <diagramitemio.h>
+#include <diagramitemsparql.h>
 
 DiagramItem* DiagramItem::FactoryDiagramItem( QMenu* context_menu,
     DiagramItemSettings* settings, QGraphicsItem* parent )

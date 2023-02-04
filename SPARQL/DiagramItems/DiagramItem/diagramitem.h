@@ -101,6 +101,11 @@ public:
     void setAllowLineToChild( bool );
     bool getAllowLineToChild();
 
+    QVector<DiagramItem*> getDependecies();
+    void setDependecies( QVector<DiagramItem*> );
+    void addDependecies( DiagramItem* );
+    void clearDependecies();
+
     static bool CheckItemOnDiagramItem( const qint64 code );
     static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
         DiagramItemSettings* settings, QGraphicsItem* parent = 0 );
@@ -118,6 +123,7 @@ protected:
     QPolygonF my_polygon;
     bool support_add_item;
     bool allow_line_to_child;
+    QVector<DiagramItem*> dependencies;
 };
 
 #endif // DIAGRAMITEM_H

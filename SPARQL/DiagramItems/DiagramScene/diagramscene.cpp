@@ -125,6 +125,34 @@ void DiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
     {
         QGraphicsScene::mouseMoveEvent( mouseEvent );
     }
+    else
+    {
+        auto blocks = items();
+        for ( auto block : blocks )
+        {
+            if ( DiagramItem::CheckItemOnDiagramItem( block->type() ) )
+            {
+                static_cast<DiagramItem*>( block )->setPen( QPen( Qt::black, 1 ) );
+            }
+        }
+
+        blocks = items( mouseEvent->scenePos() );
+        if ( !blocks.empty() )
+        {
+            for ( auto block : blocks )
+            {
+                if ( DiagramItem::CheckItemOnDiagramItem( block->type() ) )
+                {
+                    auto dep_items = static_cast<DiagramItem*>( block )->getDependecies();
+                    for ( auto item : dep_items )
+                    {
+                        item->setPen( QPen( Qt::red, 5 ) );
+                    }
+                }
+            }
+        }
+    }
+
     /*
     foreach ( QGraphicsItem* temp, this->selectedItems() )
     {
