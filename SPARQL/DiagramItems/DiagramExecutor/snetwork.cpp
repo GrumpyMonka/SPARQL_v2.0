@@ -45,6 +45,8 @@ void SNetwork::send( QString data )
     }
 }
 
+namespace
+{
 void delay( int millisecondsToWait )
 {
     QTime dieTime = QTime::currentTime().addMSecs( millisecondsToWait );
@@ -53,6 +55,7 @@ void delay( int millisecondsToWait )
         QCoreApplication::processEvents( QEventLoop::AllEvents, 100 );
     }
 }
+} // namespace
 
 QString SNetwork::waitAnswer()
 {

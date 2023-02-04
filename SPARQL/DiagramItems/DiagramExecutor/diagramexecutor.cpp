@@ -102,12 +102,13 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
     DiagramItem* diagram_item = block_list[index];
 
     result += getHtmlLine( "\nblocks_list.push( new Block( " );
-    result += getHtmlLine( "\tfunction( x, index ) {" );
+    result += getHtmlLine( "\tfunction( x, index, vec ) {" );
 
     if ( diagram_item->getInputData() != "" )
         result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
 
     result += getHtmlLine( "\t\tvar y = [];" );
+    result += getHtmlLine( "\t\tvar dep = [];" );
 
     QStringList list;
     if ( DiagramItem::IOItemType != diagram_item->type() )
@@ -131,6 +132,8 @@ QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
         result += getHtmlLine( "\t\t" + iter );
     }
 
+    result += getHtmlLine( "\t\tfor( var i = 0; i &lt; dep.length; i++ ){" );
+    result += getHtmlLine( "\t\t\tapi.addDep( index, dep[i] );\n\t\t}" );
     result += getHtmlLine( "\t\treturn y;" );
     result += getHtmlLine( "\t}," );
 

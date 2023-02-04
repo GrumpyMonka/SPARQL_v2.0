@@ -22,7 +22,6 @@ public:
 private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
-
 signals:
 };
 
