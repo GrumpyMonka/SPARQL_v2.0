@@ -102,7 +102,7 @@ void MainWindow::slotOnClickedBlockExecutor()
     if ( !list_blocks.empty() )
     {
         auto window = new DiagramExecutor( this );
-        window->setScript( window->ConvertDiagramItemToScript( list_blocks ) );
+        window->setDiagramItem( list_blocks );
         tab_widget->addWidget( window, "Exec" );
     }
 }

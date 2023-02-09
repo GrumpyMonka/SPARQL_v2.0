@@ -25,6 +25,7 @@ SOURCES += \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.cpp \
     DiagramItems/DiagramBlocks/blockslibrary.cpp \
     DiagramItems/DiagramExecutor/apijs.cpp \
+    DiagramItems/DiagramExecutor/blocksexec.cpp \
     DiagramItems/DiagramExecutor/diagramexecutor.cpp \
     DiagramItems/DiagramExecutor/snetwork.cpp \
     DiagramItems/DiagramItem/diagramitem.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     DiagramItems/DiagramBlocks/SparqlBlock/sparqlblockwindow.h \
     DiagramItems/DiagramBlocks/blockslibrary.h \
     DiagramItems/DiagramExecutor/apijs.h \
+    DiagramItems/DiagramExecutor/blocksexec.h \
     DiagramItems/DiagramExecutor/diagramexecutor.h \
     DiagramItems/DiagramExecutor/snetwork.h \
     DiagramItems/DiagramItem/diagramitem.h \

@@ -5,6 +5,7 @@
 #include <QTextEdit>
 
 #include <apijs.h>
+#include <blocksexec.h>
 #include <diagramitem.h>
 #include <snetwork.h>
 #include <swidget.h>
@@ -15,19 +16,18 @@ class DiagramExecutor : public SWidget
 public:
     explicit DiagramExecutor( QWidget* parent = nullptr );
 
-    void setScript( const QString& );
-
-    QString ConvertDiagramItemToScript( QVector<DiagramItem*>& );
+    void setDiagramItem( QVector<DiagramItem*>& );
 
 private:
     void createWindow();
-    QString loadScript( const QString& path );
 
 private slots:
     void execute();
 
 private:
-    QScriptEngine* script_engine;
+    QVector<DiagramItem*> items_for_run;
+    QVector<BlocksExec*> blocks_exec_list;
+
     QTextEdit* text_edit_script;
     QTextEdit* text_edit_output;
     SNetwork* network_api;
