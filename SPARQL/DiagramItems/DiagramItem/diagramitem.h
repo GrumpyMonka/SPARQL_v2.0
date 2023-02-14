@@ -78,6 +78,7 @@ public:
     virtual DiagramItemSettings* getSettings();
     virtual QString getScript() { return {}; }
     virtual QString getInputData() { return {}; }
+    virtual QString getName() { return {}; }
 
     explicit DiagramItem( QMenu* context_menu, QGraphicsItem* parent = 0 );
     ~DiagramItem();

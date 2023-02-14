@@ -83,7 +83,7 @@ void ProjectWindow::saveProject()
             if ( arrow->endItem() == arrow->startItem()->parentItem() )
                 continue;
             line_saver.start_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->startItem()->parentItem() ) );
-            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->startItem() ) )->block_name;
+            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->startItem() ) )->getName();
         }
 
         if ( DiagramItem::IOItemType == arrow->endItem()->type() )
@@ -91,7 +91,7 @@ void ProjectWindow::saveProject()
             if ( arrow->startItem() == arrow->endItem()->parentItem() )
                 continue;
             line_saver.end_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->endItem()->parentItem() ) );
-            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->endItem() ) )->block_name;
+            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->endItem() ) )->getName();
         }
 
         settings.lines_list.push_back( line_saver );

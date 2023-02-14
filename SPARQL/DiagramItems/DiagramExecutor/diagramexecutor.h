@@ -20,9 +20,12 @@ public:
 
 private:
     void createWindow();
+    BlocksExec* createBlocksExecObject( DiagramItemSettings* );
 
 private slots:
-    void execute();
+    void
+    execute();
+    void logs_sniff( QStringList );
 
 private:
     QVector<DiagramItem*> items_for_run;

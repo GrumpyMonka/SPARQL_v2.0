@@ -10,6 +10,8 @@ BlocksExec::BlocksExec( QObject* parent )
 QString BlocksExec::runBlock()
 {
     logs_exec.clear();
+    logs_exec.push_back( "\n---->New Start<----\n" );
+    setInputData( checkInputValue() );
     try
     {
         auto engine = createEngine();
@@ -18,21 +20,27 @@ QString BlocksExec::runBlock()
         execScript( engine, "var y = [];" );
         for ( int i = 0; i < input_data.size(); ++i )
         {
-            engine->globalObject().setProperty( "in" + QString::number( i ), input_data[i] );
-            execScript( engine, "x.push( in" + QString::number( i ) + " );" );
+            QString name_temp = "input_data" + QString::number( i );
+            QScriptValue temp_value( input_data[i].toString() );
+            engine->globalObject().setProperty( name_temp, temp_value );
+            execScript( engine, "x.push( " + name_temp + " );" );
         }
         engine->globalObject().setProperty( "input", user_data );
 
         execScript( engine, main_script );
 
         output_data = engine->globalObject().property( "y" );
+        block->setOutputText( output_data.toString() );
     }
     catch ( QString err )
     {
         return err;
     }
+    logs_exec.push_back( "\n----> Success <----\n" );
 
+    flag_of_work = true;
     emit blockFinished();
+    emit logs( logs_exec );
     return {};
 }
 
@@ -66,7 +74,6 @@ QScriptEngine* BlocksExec::createEngine()
 
 void BlocksExec::execScript( QScriptEngine* engine, const QString& script, bool exception )
 {
-    logs_exec.push_back( "\n---->New Start<----\n" );
     auto result = engine->evaluate( script );
     logs_exec.push_back( script );
     if ( result.isError() )
@@ -79,12 +86,31 @@ void BlocksExec::execScript( QScriptEngine* engine, const QString& script, bool 
             throw result.toString();
         }
     }
-    logs_exec.push_back( "\n----> Success <----\n" );
 }
 
 QStringList BlocksExec::getLogs()
 {
     return logs_exec;
+}
+
+bool BlocksExec::checkForWork()
+{
+    for ( auto block : prev_blocks )
+    {
+        if ( !block->getFlagOfWorking() )
+            return false;
+    }
+    return true;
+}
+
+QScriptValueList BlocksExec::checkInputValue()
+{
+    QScriptValueList value_list;
+    for ( auto block : prev_blocks )
+    {
+        value_list.push_back( block->getOutputData() );
+    }
+    return value_list;
 }
 
 void BlocksExec::setValueForEngine( const QMap<QString, QObject*>& value_list )
@@ -102,9 +128,53 @@ DiagramItem* BlocksExec::getDiagramItem()
     return block;
 }
 
+void BlocksExec::setTags( const QMap<QString, QString>& tags )
+{
+    block_tags = tags;
+}
+
+void BlocksExec::addTag( const QString& key, const QString& value )
+{
+    block_tags.insert( key, value );
+}
+
+QMap<QString, QString> BlocksExec::getTags()
+{
+    return block_tags;
+}
+
+QString BlocksExec::getTag( const QString& key )
+{
+    return block_tags[key];
+}
+
+void BlocksExec::deleteTags()
+{
+    block_tags.clear();
+}
+
+void BlocksExec::deleteTag( const QString& key )
+{
+    auto it = block_tags.find( key );
+    if ( block_tags.end() != it )
+    {
+        block_tags.erase( it );
+    }
+}
+
 void BlocksExec::disconnectDiagramItem()
 {
     setDiagramItem( nullptr );
+}
+
+void BlocksExec::setSettings( DiagramItemSettings* settings )
+{
+    block_settings = settings;
+}
+
+DiagramItemSettings* BlocksExec::getSettings()
+{
+    return block_settings;
 }
 
 void BlocksExec::setFlagOfWorking( bool flag )

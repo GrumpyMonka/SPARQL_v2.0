@@ -64,7 +64,7 @@ void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
         input_block->setPolygon( polygon_io );
         input_block->setBrush( Qt::black );
         input_block->setPos( -widht / 2 - 10, h_header - height / 2 + i * h_node + h_node / 2 );
-        input_block->block_name = new_settings->input_names[i];
+        input_block->setName( new_settings->input_names[i] );
         input_block->setTypeBlock( IOBlockSettings::Input );
         input_block->setFlag( QGraphicsItem::ItemIsMovable, false );
 
@@ -84,7 +84,7 @@ void DiagramItemComposite::setSettings( CompositeBlockSettings* new_settings )
         output_block->setPolygon( polygon_io );
         output_block->setBrush( Qt::black );
         output_block->setPos( widht / 2 + 10, h_header - height / 2 + i * h_node + h_node / 2 );
-        output_block->block_name = new_settings->output_names[i];
+        output_block->setName( new_settings->output_names[i] );
         output_block->setTypeBlock( IOBlockSettings::Output );
         output_block->setFlag( QGraphicsItem::ItemIsMovable, false );
 

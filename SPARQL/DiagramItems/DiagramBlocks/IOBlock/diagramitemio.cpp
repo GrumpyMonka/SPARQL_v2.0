@@ -65,3 +65,13 @@ void DiagramItemIO::setText( const QString& text )
 {
     line_edit->setText( text );
 }
+
+void DiagramItemIO::setName( const QString& name )
+{
+    block_name = name;
+}
+
+QString DiagramItemIO::getName()
+{
+    return block_name;
+}

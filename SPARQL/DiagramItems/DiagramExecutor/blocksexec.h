@@ -13,9 +13,8 @@ class BlocksExec : public QObject
 public:
     explicit BlocksExec( QObject* parent = nullptr );
 
-    void setDiagramItem( DiagramItem* item );
-    DiagramItem* getDiagramItem();
-    void disconnectDiagramItem();
+    bool checkForWork();
+    QScriptValueList checkInputValue();
 
     void setValueForEngine( const QMap<QString, QObject*>& value_list );
 
@@ -29,6 +28,10 @@ public:
     void addNextBlocks( BlocksExec* next );
     void setPrevBlocks( const QVector<BlocksExec*>& prev_list );
     void addPrevBlocks( BlocksExec* prev );
+    void setDiagramItem( DiagramItem* item );
+    void setSettings( DiagramItemSettings* settings );
+    void setTags( const QMap<QString, QString>& tags );
+    void addTag( const QString& key, const QString& value );
 
     bool getFlagOfWorking();
     bool getAllowWork();
@@ -38,6 +41,14 @@ public:
     QScriptValue getOutputData();
     QVector<BlocksExec*> getNextBlocks();
     QVector<BlocksExec*> getPrevBlocks();
+    DiagramItem* getDiagramItem();
+    DiagramItemSettings* getSettings();
+    QMap<QString, QString> getTags();
+    QString getTag( const QString& key );
+
+    void disconnectDiagramItem();
+    void deleteTags();
+    void deleteTag( const QString& key );
 
     QStringList getLogs();
 
@@ -52,9 +63,11 @@ public slots:
 signals:
     void blockFinished();
     void error( QString );
+    void logs( QStringList );
 
 private:
     DiagramItem* block = nullptr;
+    DiagramItemSettings* block_settings = nullptr;
 
     bool flag_of_work;
     bool allow_work;
@@ -65,6 +78,7 @@ private:
     QScriptValue output_data;
 
     QMap<QString, QObject*> default_value_list;
+    QMap<QString, QString> block_tags;
 
     QVector<BlocksExec*> next_blocks;
     QVector<BlocksExec*> prev_blocks;
