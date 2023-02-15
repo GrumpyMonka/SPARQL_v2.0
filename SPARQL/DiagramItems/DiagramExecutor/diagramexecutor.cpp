@@ -145,8 +145,42 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
 
             for ( const auto& line : settings->lines )
             {
-                new_blocks[line.start_block]->addNextBlocks( new_blocks[line.end_block] );
-                new_blocks[line.end_block]->addPrevBlocks( new_blocks[line.start_block] );
+                if ( line.text.isEmpty() )
+                {
+                    new_blocks[line.start_block]->addNextBlocks( new_blocks[line.end_block] );
+                    new_blocks[line.end_block]->addPrevBlocks( new_blocks[line.start_block] );
+                }
+                else
+                {
+                    auto start_block = new_blocks[line.start_block];
+                    auto end_block = new_blocks[line.end_block];
+                    if ( DiagramItemSettings::CompositeItemSettingsType == start_block->getSettings()->typeSettings() )
+                    {
+                        IOBlockSettings* settings = new IOBlockSettings();
+                        settings->text = line.text;
+                        settings->type_block = IOBlockSettings::Output;
+                        auto o_block = createBlocksExecObject( settings );
+                        o_block->setPrevBlocks( { start_block } );
+                        start_block->addNextBlocks( o_block );
+                        start_block = o_block;
+                        new_blocks.push_back( o_block );
+                        blocks_exec_list.push_back( o_block );
+                    }
+                    if ( DiagramItemSettings::CompositeItemSettingsType == end_block->getSettings()->typeSettings() )
+                    {
+                        IOBlockSettings* settings = new IOBlockSettings();
+                        settings->text = line.text;
+                        settings->type_block = IOBlockSettings::Input;
+                        auto i_block = createBlocksExecObject( settings );
+                        i_block->setNextBlocks( { end_block } );
+                        end_block->addPrevBlocks( i_block );
+                        end_block = i_block;
+                        new_blocks.push_back( i_block );
+                        blocks_exec_list.push_back( i_block );
+                    }
+                    start_block->addNextBlocks( end_block );
+                    end_block->addPrevBlocks( start_block );
+                }
             }
 
             for ( auto block : new_blocks )
@@ -157,7 +191,8 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                     {
                         for ( auto io : composite->getPrevBlocks() )
                         {
-                            if ( io->getSettings()->block_name == block->getSettings()->block_name )
+                            if ( static_cast<IOBlockSettings*>( io->getSettings() )->text
+                                == static_cast<IOBlockSettings*>( block->getSettings() )->text )
                             {
                                 io->setNextBlocks( { block } );
                                 block->addPrevBlocks( io );
@@ -168,7 +203,8 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                     {
                         for ( auto io : composite->getNextBlocks() )
                         {
-                            if ( io->getSettings()->block_name == block->getSettings()->block_name )
+                            if ( static_cast<IOBlockSettings*>( io->getSettings() )->text
+                                == static_cast<IOBlockSettings*>( block->getSettings() )->text )
                             {
                                 io->setPrevBlocks( { block } );
                                 block->addNextBlocks( io );
@@ -180,9 +216,38 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
         }
     }
 
+    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
+    {
+        if ( DiagramItemSettings::CompositeItemSettingsType == blocks_exec_list[i]->getSettings()->typeSettings() )
+        {
+            blocks_exec_list[i]->removeConnections();
+            blocks_exec_list[i]->deleteLater();
+            blocks_exec_list.erase( blocks_exec_list.begin() + i );
+            --i;
+        }
+    }
     // Удаление IO блоков
-
-    // Удаление композитных блоков
+    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
+    {
+        if ( DiagramItemSettings::IOItemSettingsType == blocks_exec_list[i]->getSettings()->typeSettings() )
+        {
+            auto io_block = blocks_exec_list[i];
+            auto vec_prev_blocks = io_block->getPrevBlocks();
+            auto vec_next_blocks = io_block->getNextBlocks();
+            for ( auto prev : vec_prev_blocks )
+            {
+                for ( auto next : vec_next_blocks )
+                {
+                    prev->addNextBlocks( next );
+                    next->addPrevBlocks( prev );
+                }
+            }
+            blocks_exec_list[i]->removeConnections();
+            blocks_exec_list[i]->deleteLater();
+            blocks_exec_list.erase( blocks_exec_list.begin() + i );
+            --i;
+        }
+    }
 }
 
 void DiagramExecutor::createWindow()

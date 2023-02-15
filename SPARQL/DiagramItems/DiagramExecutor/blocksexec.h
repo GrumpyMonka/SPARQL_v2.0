@@ -46,6 +46,8 @@ public:
     QMap<QString, QString> getTags();
     QString getTag( const QString& key );
 
+    void removeConnections();
+    void removeConnect( BlocksExec* );
     void disconnectDiagramItem();
     void deleteTags();
     void deleteTag( const QString& key );

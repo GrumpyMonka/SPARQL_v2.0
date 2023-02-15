@@ -93,6 +93,33 @@ QStringList BlocksExec::getLogs()
     return logs_exec;
 }
 
+void BlocksExec::removeConnections()
+{
+    for ( auto block : prev_blocks )
+    {
+        block->removeConnect( this );
+    }
+    for ( auto block : next_blocks )
+    {
+        block->removeConnect( this );
+    }
+}
+
+void BlocksExec::removeConnect( BlocksExec* block )
+{
+    auto it = prev_blocks.indexOf( block );
+    if ( it != -1 )
+    {
+        prev_blocks.erase( prev_blocks.begin() + it );
+        return;
+    }
+    it = next_blocks.indexOf( block );
+    if ( it != -1 )
+    {
+        next_blocks.erase( next_blocks.begin() + it );
+    }
+}
+
 bool BlocksExec::checkForWork()
 {
     for ( auto block : prev_blocks )
