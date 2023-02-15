@@ -98,6 +98,7 @@ BlocksExec* DiagramExecutor::createBlocksExecObject( DiagramItemSettings* settin
             { "network", network_api } } );
     block_exec->setScript( settings->getScript() );
     block_exec->setSettings( settings );
+    return block_exec;
 }
 
 void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
