@@ -32,6 +32,7 @@ public:
     void setSettings( DiagramItemSettings* settings );
     void setTags( const QMap<QString, QString>& tags );
     void addTag( const QString& key, const QString& value );
+    void addBlockConnectName( const QString& tag, BlocksExec* block );
 
     bool getFlagOfWorking();
     bool getAllowWork();
@@ -45,6 +46,7 @@ public:
     DiagramItemSettings* getSettings();
     QMap<QString, QString> getTags();
     QString getTag( const QString& key );
+    QString getBlockConnectName( BlocksExec* block );
 
     void removeConnections();
     void removeConnect( BlocksExec* );
@@ -57,7 +59,7 @@ public:
 private:
     QScriptEngine* createEngine();
     void loadScript( QScriptEngine* engine, const QString& path );
-    void execScript( QScriptEngine* engine, const QString& script, bool exception = true );
+    void execScript( QScriptEngine* engine, const QString& script, bool logs_flag = true, bool exception = true );
 
 public slots:
     QString runBlock();
@@ -84,6 +86,7 @@ private:
 
     QVector<BlocksExec*> next_blocks;
     QVector<BlocksExec*> prev_blocks;
+    QMap<BlocksExec*, QString> block_connect_name;
 
     QStringList logs_exec;
 };

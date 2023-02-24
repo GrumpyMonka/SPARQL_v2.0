@@ -17,78 +17,6 @@ DiagramExecutor::DiagramExecutor( QWidget* parent )
     network_api = new SNetwork( this );
     api = new ApiJS( this );
 }
-/*
-QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
-{
-    QString result = "";
-    DiagramItem* diagram_item = block_list[index];
-
-    result += getHtmlLine( "\nblocks_list.push( new Block( " );
-    result += getHtmlLine( "\tfunction( x, index, vec ) {" );
-
-    if ( diagram_item->getInputData() != "" )
-        result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
-
-    result += getHtmlLine( "\t\tvar y = [];" );
-    result += getHtmlLine( "\t\tvar dep = [];" );
-
-    QStringList list;
-    if ( DiagramItem::IOItemType != diagram_item->type() )
-    {
-        list = diagram_item->getScript().split( "\n" );
-    }
-
-    foreach ( QString iter, list )
-    {
-        for ( int i = 0; i < iter.size(); i++ )
-        {
-            if ( iter[i] == "<" )
-            {
-                iter = iter.mid( 0, i ) + "&lt;" + iter.mid( i + 1, iter.size() );
-            }
-            if ( iter[i] == ">" )
-            {
-                iter = iter.mid( 0, i ) + "&gt;" + iter.mid( i + 1, iter.size() );
-            }
-        }
-        result += getHtmlLine( "\t\t" + iter );
-    }
-
-    result += getHtmlLine( "\t\tfor( var i = 0; i &lt; dep.length; i++ ){" );
-    result += getHtmlLine( "\t\t\tapi.addDep( index, dep[i] );\n\t\t}" );
-    result += getHtmlLine( "\t\treturn y;" );
-    result += getHtmlLine( "\t}," );
-
-    if ( DiagramItem::IOItemType == diagram_item->type() )
-    {
-        result += "\t[ \"" + ( static_cast<DiagramItemIO*>( diagram_item ) )->block_name + "\" ],";
-    }
-    else
-    {
-        result += getHtmlLine( "\t[ ]," );
-    }
-
-    QString temp = "[ ";
-
-    foreach ( DiagramArrow* arrow, block_list[index]->getArrows() )
-    {
-        if ( arrow->startItem() != block_list[index] )
-        {
-            temp += QString::number( block_list.indexOf( arrow->startItem() ) );
-            temp += ", ";
-        }
-    }
-
-    if ( temp[temp.size() - 2] == "," )
-        temp.remove( temp.size() - 2, 1 );
-
-    temp += "]";
-
-    result += getHtmlLine( "\t" + temp );
-    result += getHtmlLine( "));\n" );
-    return result;
-}
-*/
 
 BlocksExec* DiagramExecutor::createBlocksExecObject( DiagramItemSettings* settings )
 {
@@ -124,6 +52,42 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
         }
     }
 
+    // Удаление IO блоков
+    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
+    {
+        auto block_settings = blocks_exec_list[i]->getSettings();
+        if ( DiagramItemSettings::IOItemSettingsType == block_settings->typeSettings() )
+        {
+            auto io_block = blocks_exec_list[i];
+            auto vec_prev_blocks = io_block->getPrevBlocks();
+            auto vec_next_blocks = io_block->getNextBlocks();
+            for ( auto prev : vec_prev_blocks )
+            {
+                for ( auto next : vec_next_blocks )
+                {
+                    prev->addNextBlocks( next );
+                    next->addPrevBlocks( prev );
+                    if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
+                    {
+                        next->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, prev );
+                    }
+                    else if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
+                    {
+                        prev->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, next );
+                    }
+                    else
+                    {
+                        emit ERROR( "Line has text, but not composite blocks!" );
+                    }
+                }
+            }
+            io_block->removeConnections();
+            io_block->deleteLater();
+            blocks_exec_list.erase( blocks_exec_list.begin() + i );
+            --i;
+        }
+    }
+
     // Просмотр композитных блоков
     for ( auto i = 0; i < blocks_exec_list.size(); ++i )
     {
@@ -146,57 +110,49 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
 
             for ( const auto& line : settings->lines )
             {
-                if ( line.text.isEmpty() )
+                auto start_block = new_blocks[line.start_block];
+                auto end_block = new_blocks[line.end_block];
+                start_block->addNextBlocks( end_block );
+                end_block->addPrevBlocks( start_block );
+
+                if ( !line.text.isEmpty() )
                 {
-                    new_blocks[line.start_block]->addNextBlocks( new_blocks[line.end_block] );
-                    new_blocks[line.end_block]->addPrevBlocks( new_blocks[line.start_block] );
-                }
-                else
-                {
-                    auto start_block = new_blocks[line.start_block];
-                    auto end_block = new_blocks[line.end_block];
                     if ( DiagramItemSettings::CompositeItemSettingsType == start_block->getSettings()->typeSettings() )
                     {
-                        IOBlockSettings* settings = new IOBlockSettings();
-                        settings->text = line.text;
-                        settings->type_block = IOBlockSettings::Output;
-                        auto o_block = createBlocksExecObject( settings );
-                        o_block->setPrevBlocks( { start_block } );
-                        start_block->addNextBlocks( o_block );
-                        start_block = o_block;
-                        new_blocks.push_back( o_block );
-                        blocks_exec_list.push_back( o_block );
+                        start_block->addBlockConnectName( line.text, end_block );
                     }
-                    if ( DiagramItemSettings::CompositeItemSettingsType == end_block->getSettings()->typeSettings() )
+                    else if ( DiagramItemSettings::CompositeItemSettingsType == end_block->getSettings()->typeSettings() )
                     {
-                        IOBlockSettings* settings = new IOBlockSettings();
-                        settings->text = line.text;
-                        settings->type_block = IOBlockSettings::Input;
-                        auto i_block = createBlocksExecObject( settings );
-                        i_block->setNextBlocks( { end_block } );
-                        end_block->addPrevBlocks( i_block );
-                        end_block = i_block;
-                        new_blocks.push_back( i_block );
-                        blocks_exec_list.push_back( i_block );
+                        end_block->addBlockConnectName( line.text, start_block );
                     }
-                    start_block->addNextBlocks( end_block );
-                    end_block->addPrevBlocks( start_block );
+                    else
+                    {
+                        emit ERROR( "Line has text, but not composite blocks!" );
+                    }
                 }
             }
 
-            for ( auto block : new_blocks )
+            for ( int k = 0; k < new_blocks.size(); ++k )
             {
+                auto block = new_blocks[k];
                 if ( DiagramItemSettings::IOItemSettingsType == block->getSettings()->typeSettings() )
                 {
                     if ( IOBlockSettings::TypeIO::Input == static_cast<IOBlockSettings*>( block->getSettings() )->type_block )
                     {
                         for ( auto io : composite->getPrevBlocks() )
                         {
-                            if ( static_cast<IOBlockSettings*>( io->getSettings() )->text
+                            if ( composite->getBlockConnectName( io )
                                 == static_cast<IOBlockSettings*>( block->getSettings() )->text )
                             {
-                                io->setNextBlocks( { block } );
-                                block->addPrevBlocks( io );
+                                for ( auto next : block->getNextBlocks() )
+                                {
+                                    io->addNextBlocks( next );
+                                    next->addPrevBlocks( io );
+                                    if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
+                                    {
+                                        next->addBlockConnectName( next->getBlockConnectName( block ), io );
+                                    }
+                                }
                             }
                         }
                     }
@@ -204,11 +160,18 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                     {
                         for ( auto io : composite->getNextBlocks() )
                         {
-                            if ( static_cast<IOBlockSettings*>( io->getSettings() )->text
+                            if ( composite->getBlockConnectName( io )
                                 == static_cast<IOBlockSettings*>( block->getSettings() )->text )
                             {
-                                io->setPrevBlocks( { block } );
-                                block->addNextBlocks( io );
+                                for ( auto prev : block->getPrevBlocks() )
+                                {
+                                    io->addPrevBlocks( prev );
+                                    prev->addNextBlocks( io );
+                                    if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
+                                    {
+                                        prev->addBlockConnectName( prev->getBlockConnectName( block ), io );
+                                    }
+                                }
                             }
                         }
                     }

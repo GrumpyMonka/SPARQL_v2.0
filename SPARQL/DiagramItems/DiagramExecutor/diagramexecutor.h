@@ -18,6 +18,9 @@ public:
 
     void setDiagramItem( QVector<DiagramItem*>& );
 
+signals:
+    void ERROR( QString );
+
 private:
     void createWindow();
     BlocksExec* createBlocksExecObject( DiagramItemSettings* );

@@ -12,6 +12,12 @@ QString BlocksExec::runBlock()
     logs_exec.clear();
     logs_exec.push_back( "\n---->New Start<----\n" );
     setInputData( checkInputValue() );
+    logs_exec.push_back( "INPUT DATA: " );
+    for ( auto data : getInputData() )
+    {
+        logs_exec.push_back( data.toString() );
+    }
+
     try
     {
         auto engine = createEngine();
@@ -31,8 +37,9 @@ QString BlocksExec::runBlock()
 
         output_data = engine->globalObject().property( "y" );
         block->setOutputText( output_data.toString() );
+        logs_exec.push_back( "\nOUTPUT DATA: " + output_data.toString() );
     }
-    catch ( QString err )
+    catch ( QString& err )
     {
         return err;
     }
@@ -50,7 +57,7 @@ void BlocksExec::loadScript( QScriptEngine* engine, const QString& path )
     if ( f.open( QIODevice::ReadOnly ) )
     {
         QString str = f.readAll();
-        execScript( engine, str );
+        execScript( engine, str, false );
     }
     else
     {
@@ -72,10 +79,11 @@ QScriptEngine* BlocksExec::createEngine()
     return engine;
 }
 
-void BlocksExec::execScript( QScriptEngine* engine, const QString& script, bool exception )
+void BlocksExec::execScript( QScriptEngine* engine, const QString& script, bool logs_flag, bool exception )
 {
     auto result = engine->evaluate( script );
-    logs_exec.push_back( script );
+    if ( logs_flag )
+        logs_exec.push_back( script );
     if ( result.isError() )
     {
         logs_exec.push_back( "\n---->  Fail  <----\n" );
@@ -103,6 +111,16 @@ void BlocksExec::removeConnections()
     {
         block->removeConnect( this );
     }
+}
+
+void BlocksExec::addBlockConnectName( const QString& name, BlocksExec* block )
+{
+    block_connect_name.insert( block, name );
+}
+
+QString BlocksExec::getBlockConnectName( BlocksExec* block )
+{
+    return block_connect_name[block];
 }
 
 void BlocksExec::removeConnect( BlocksExec* block )
