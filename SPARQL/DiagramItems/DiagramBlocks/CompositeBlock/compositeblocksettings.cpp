@@ -108,6 +108,7 @@ QPixmap CompositeBlockSettings::image() const
 
 QString CompositeBlockSettings::getScript()
 {
+    return {};
     QString script = "blocks_list_size = blocks_list.length;\n";
 
     QVector<DiagramItemSettings*> block_list;

@@ -3,6 +3,7 @@
 #include <QGridLayout>
 #include <QPushButton>
 
+#include <compositeblocksettings.h>
 #include <diagramarrow.h>
 #include <diagramitembased.h>
 #include <diagramitemio.h>
@@ -13,172 +14,180 @@ DiagramExecutor::DiagramExecutor( QWidget* parent )
 {
     createWindow();
 
-    script_engine = new QScriptEngine( this );
     network_api = new SNetwork( this );
     api = new ApiJS( this );
-
-    QScriptValue output_val = script_engine->newQObject( text_edit_output );
-    script_engine->globalObject().setProperty( "output", output_val );
-    saveGeometry();
-
-    QScriptValue network_val = script_engine->newQObject( network_api );
-    script_engine->globalObject().setProperty( "network", network_val );
-
-    QScriptValue api_val = script_engine->newQObject( api );
-    script_engine->globalObject().setProperty( "api", api_val );
 }
 
-void DiagramExecutor::setScript( const QString& script )
+BlocksExec* DiagramExecutor::createBlocksExecObject( DiagramItemSettings* settings )
 {
-    text_edit_script->setHtml( script );
+    BlocksExec* block_exec = new BlocksExec( this );
+    block_exec->setValueForEngine(
+        { { "output", text_edit_output },
+            { "network", network_api } } );
+    block_exec->setScript( settings->getScript() );
+    block_exec->setSettings( settings );
+    return block_exec;
 }
 
-namespace
+void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
 {
-QString getHtmlLine( QString line, QString style = "" )
-{
-    return "<span style=\"margin-top:0px; " + style + "\">" + line + "</span><br>";
-}
-/*
-QString CreateInputScript( QString& str )
-{
-    QString result;
-    result += getHtmlLine( "\nblocks_list.push( new Block( " );
-    result += getHtmlLine( "\tfunction( x ) {" );
-
-    if ( diagram_item->getInputData() != "" )
-        result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
-
-    result += getHtmlLine( "\t\tvar y = [];" );
-
-    QStringList list = diagram_item->getScript().split( "\n" );
-
-    foreach ( QString iter, list )
+    // Добавление блоков
+    for ( auto item : item_list )
     {
-        for ( int i = 0; i < iter.size(); i++ )
-        {
-            if ( iter[i] == "<" )
-            {
-                iter = iter.mid( 0, i ) + "&lt;" + iter.mid( i + 1, iter.size() );
-            }
-            if ( iter[i] == ">" )
-            {
-                iter = iter.mid( 0, i ) + "&gt;" + iter.mid( i + 1, iter.size() );
-            }
-        }
-        result += getHtmlLine( "\t\t" + iter );
+        auto block_exec = createBlocksExecObject( item->getSettings() );
+        block_exec->setDiagramItem( item );
+        block_exec->setUserData( QScriptValue( item->getInputData() ) );
+        blocks_exec_list.push_back( block_exec );
     }
 
-    result += getHtmlLine( "\t\treturn y;" );
-    result += getHtmlLine( "\t}," );
-
-    result += getHtmlLine( "\t[ ]," );
-
-    QString temp = "[ ";
-
-    foreach ( DiagramArrow* arrow, block_list[index]->getArrows() )
+    // Настраивание связей
+    for ( auto i = 0; i < item_list.size(); ++i )
     {
-        if ( arrow->startItem() != block_list[index] )
+        auto arrows = item_list[i]->getEndArrows();
+        for ( auto arrow : arrows )
         {
-            temp += QString::number( block_list.indexOf( arrow->startItem() ) );
-            temp += ", ";
+            int index = item_list.indexOf( arrow->startItem() );
+            blocks_exec_list[i]->addPrevBlocks( blocks_exec_list[index] );
+            blocks_exec_list[index]->addNextBlocks( blocks_exec_list[i] );
         }
     }
 
-    if ( temp[temp.size() - 2] == "," )
-        temp.remove( temp.size() - 2, 1 );
-
-    temp += "]";
-
-    result += getHtmlLine( "\t" + temp );
-    result += getHtmlLine( "));\n" );
-    return result;
-
-}
-*/
-QString CreateScriptForBlock( QVector<DiagramItem*>& block_list, int index )
-{
-    QString result = "";
-    DiagramItem* diagram_item = block_list[index];
-
-    result += getHtmlLine( "\nblocks_list.push( new Block( " );
-    result += getHtmlLine( "\tfunction( x, index, vec ) {" );
-
-    if ( diagram_item->getInputData() != "" )
-        result += getHtmlLine( "\t\tvar input = " + diagram_item->getInputData() + ";" );
-
-    result += getHtmlLine( "\t\tvar y = [];" );
-    result += getHtmlLine( "\t\tvar dep = [];" );
-
-    QStringList list;
-    if ( DiagramItem::IOItemType != diagram_item->type() )
+    // Удаление IO блоков
+    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
     {
-        list = diagram_item->getScript().split( "\n" );
-    }
-
-    foreach ( QString iter, list )
-    {
-        for ( int i = 0; i < iter.size(); i++ )
+        auto block_settings = blocks_exec_list[i]->getSettings();
+        if ( DiagramItemSettings::IOItemSettingsType == block_settings->typeSettings() )
         {
-            if ( iter[i] == "<" )
+            auto io_block = blocks_exec_list[i];
+            auto vec_prev_blocks = io_block->getPrevBlocks();
+            auto vec_next_blocks = io_block->getNextBlocks();
+            for ( auto prev : vec_prev_blocks )
             {
-                iter = iter.mid( 0, i ) + "&lt;" + iter.mid( i + 1, iter.size() );
+                for ( auto next : vec_next_blocks )
+                {
+                    prev->addNextBlocks( next );
+                    next->addPrevBlocks( prev );
+                    if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
+                    {
+                        next->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, prev );
+                    }
+                    else if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
+                    {
+                        prev->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, next );
+                    }
+                    else
+                    {
+                        emit ERROR( "Line has text, but not composite blocks!" );
+                    }
+                }
             }
-            if ( iter[i] == ">" )
-            {
-                iter = iter.mid( 0, i ) + "&gt;" + iter.mid( i + 1, iter.size() );
-            }
-        }
-        result += getHtmlLine( "\t\t" + iter );
-    }
-
-    result += getHtmlLine( "\t\tfor( var i = 0; i &lt; dep.length; i++ ){" );
-    result += getHtmlLine( "\t\t\tapi.addDep( index, dep[i] );\n\t\t}" );
-    result += getHtmlLine( "\t\treturn y;" );
-    result += getHtmlLine( "\t}," );
-
-    if ( DiagramItem::IOItemType == diagram_item->type() )
-    {
-        result += "\t[ \"" + ( static_cast<DiagramItemIO*>( diagram_item ) )->block_name + "\" ],";
-    }
-    else
-    {
-        result += getHtmlLine( "\t[ ]," );
-    }
-
-    QString temp = "[ ";
-
-    foreach ( DiagramArrow* arrow, block_list[index]->getArrows() )
-    {
-        if ( arrow->startItem() != block_list[index] )
-        {
-            temp += QString::number( block_list.indexOf( arrow->startItem() ) );
-            temp += ", ";
+            io_block->removeConnections();
+            io_block->deleteLater();
+            blocks_exec_list.erase( blocks_exec_list.begin() + i );
+            --i;
         }
     }
 
-    if ( temp[temp.size() - 2] == "," )
-        temp.remove( temp.size() - 2, 1 );
-
-    temp += "]";
-
-    result += getHtmlLine( "\t" + temp );
-    result += getHtmlLine( "));\n" );
-    return result;
-}
-} // namespace
-
-QString DiagramExecutor::ConvertDiagramItemToScript( QVector<DiagramItem*>& block_list )
-{
-    QString script = "<p style=\"white-space: pre-wrap;\">";
-    for ( int i = 0; i < block_list.size(); i++ )
+    // Просмотр композитных блоков
+    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
     {
-        script += CreateScriptForBlock( block_list, i );
+        if ( DiagramItemSettings::CompositeItemSettingsType == blocks_exec_list[i]->getSettings()->typeSettings() )
+        {
+            auto composite = blocks_exec_list[i];
+            auto settings = static_cast<CompositeBlockSettings*>( composite->getSettings() );
+            QVector<BlocksExec*> new_blocks;
+            for ( auto& block_set : settings->blocks )
+            {
+                auto block_exec = createBlocksExecObject( block_set );
+                if ( DiagramItemSettings::BasedItemSettingsType == block_set->typeSettings() )
+                {
+                    block_exec->setUserData( QScriptValue( static_cast<BasedBlockSettings*>( block_set )->line_edit_text ) );
+                }
+
+                new_blocks.push_back( block_exec );
+                blocks_exec_list.push_back( block_exec );
+            }
+
+            for ( const auto& line : settings->lines )
+            {
+                auto start_block = new_blocks[line.start_block];
+                auto end_block = new_blocks[line.end_block];
+                start_block->addNextBlocks( end_block );
+                end_block->addPrevBlocks( start_block );
+
+                if ( !line.text.isEmpty() )
+                {
+                    if ( DiagramItemSettings::CompositeItemSettingsType == start_block->getSettings()->typeSettings() )
+                    {
+                        start_block->addBlockConnectName( line.text, end_block );
+                    }
+                    else if ( DiagramItemSettings::CompositeItemSettingsType == end_block->getSettings()->typeSettings() )
+                    {
+                        end_block->addBlockConnectName( line.text, start_block );
+                    }
+                    else
+                    {
+                        emit ERROR( "Line has text, but not composite blocks!" );
+                    }
+                }
+            }
+
+            for ( int k = 0; k < new_blocks.size(); ++k )
+            {
+                auto block = new_blocks[k];
+                if ( DiagramItemSettings::IOItemSettingsType == block->getSettings()->typeSettings() )
+                {
+                    if ( IOBlockSettings::TypeIO::Input == static_cast<IOBlockSettings*>( block->getSettings() )->type_block )
+                    {
+                        for ( auto io : composite->getPrevBlocks() )
+                        {
+                            if ( composite->getBlockConnectName( io )
+                                == static_cast<IOBlockSettings*>( block->getSettings() )->text )
+                            {
+                                for ( auto next : block->getNextBlocks() )
+                                {
+                                    io->addNextBlocks( next );
+                                    next->addPrevBlocks( io );
+                                    if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
+                                    {
+                                        next->addBlockConnectName( next->getBlockConnectName( block ), io );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for ( auto io : composite->getNextBlocks() )
+                        {
+                            if ( composite->getBlockConnectName( io )
+                                == static_cast<IOBlockSettings*>( block->getSettings() )->text )
+                            {
+                                for ( auto prev : block->getPrevBlocks() )
+                                {
+                                    io->addPrevBlocks( prev );
+                                    prev->addNextBlocks( io );
+                                    if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
+                                    {
+                                        prev->addBlockConnectName( prev->getBlockConnectName( block ), io );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    block->removeConnections();
+                    blocks_exec_list.erase( blocks_exec_list.begin() + blocks_exec_list.indexOf( block ) );
+                    block->deleteLater();
+                    new_blocks.erase( new_blocks.begin() + k );
+                    --k;
+                }
+            }
+            blocks_exec_list[i]->removeConnections();
+            blocks_exec_list[i]->deleteLater();
+            blocks_exec_list.erase( blocks_exec_list.begin() + i );
+            --i;
+        }
     }
-    script += "</p>";
-    script += "max_size_blocks = blocks_list.length;";
-    api->setDiagramItem( block_list );
-    return script;
 }
 
 void DiagramExecutor::createWindow()
@@ -197,73 +206,30 @@ void DiagramExecutor::createWindow()
     grid_layout->addWidget( button_exec, 2, 0 );
 }
 
-QString DiagramExecutor::loadScript( const QString& path )
+void DiagramExecutor::logs_sniff( QStringList str_list )
 {
-    QFile f( path );
-    QScriptValue result;
-    if ( f.open( QIODevice::ReadOnly ) )
-    {
-        QString str = f.readAll();
-        result = script_engine->evaluate( str, path );
-        if ( result.isError() )
-        {
-            return result.toString();
-        }
-    }
-    else
-    {
-        return "Failed load! (" + path + ")";
-    }
-    return "";
+    text_edit_script->insertPlainText( str_list.join( "\n" ) );
 }
 
 void DiagramExecutor::execute()
 {
-    script_engine->pushContext();
-    text_edit_output->disconnect();
-    text_edit_output->clear();
-    QScriptValue result;
-
-    QString temp = loadScript( ":/Sources/scripts/script.js" ); // loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/script.js" );
-    if ( temp.length() )
+    while ( true )
     {
-        text_edit_output->setText( "Defult script: " + temp );
-    }
+        bool flag = false;
+        for ( auto block_exec : blocks_exec_list )
+        {
+            if ( !block_exec->getFlagOfWorking() && block_exec->checkForWork() )
+            {
+                connect( block_exec, SIGNAL( logs( QStringList ) ),
+                    this, SLOT( logs_sniff( QStringList ) ) );
 
-    temp = loadScript( ":/Sources/scripts/XMLHttpRequest.js" );
-    if ( temp.length() )
-    {
-        text_edit_output->setText( "Defult script: " + temp );
+                block_exec->runBlock();
+                flag = true;
+            }
+        }
+        if ( !flag )
+        {
+            break;
+        }
     }
-
-    temp = loadScript( ":/Sources/scripts/progress.js" );
-    if ( temp.length() )
-    {
-        text_edit_output->setText( "Progress script: " + temp );
-        return;
-    }
-
-    result = script_engine->evaluate( text_edit_script->toPlainText() );
-    if ( result.isError() )
-    {
-        text_edit_output->setText( "User script: " + result.toString() );
-        return;
-    }
-
-    // temp = loadScript("C:/Temp/Study/6 semestr/Kurs/Kurs/scripts/block_logic.js");
-    temp = loadScript( "/home/grumpymonk/Project/QT/SPARQL_v2.0/SPARQL/Sources/scripts/block_logic.js" );
-    if ( temp.length() )
-    {
-        text_edit_output->setText( "Failed script: " + temp );
-        return;
-    }
-
-    result = script_engine->evaluate( "main('run');" );
-
-    if ( result.isError() )
-    {
-        text_edit_output->setText( "Failed run script: " + result.toString() );
-        return;
-    }
-    script_engine->popContext();
 }
