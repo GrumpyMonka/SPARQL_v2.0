@@ -36,8 +36,11 @@ QString BlocksExec::runBlock()
         execScript( engine, main_script );
 
         output_data = engine->globalObject().property( "y" );
-        block->setOutputText( output_data.toString() );
         logs_exec.push_back( "\nOUTPUT DATA: " + output_data.toString() );
+        if ( nullptr != block )
+        {
+            block->setOutputText( output_data.toString() );
+        }
     }
     catch ( QString& err )
     {

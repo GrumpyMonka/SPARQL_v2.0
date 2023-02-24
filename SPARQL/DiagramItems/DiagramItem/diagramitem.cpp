@@ -32,11 +32,11 @@ DiagramItem::~DiagramItem()
 
 void DiagramItem::setOutputText( const QString& output_text )
 {
-    /*auto arrows = getStartArrows();
+    auto arrows = getStartArrows();
     for ( auto arrow : arrows )
     {
         arrow->setText( output_text );
-    }*/
+    }
 }
 
 DiagramItemSettings* DiagramItem::getSettings()

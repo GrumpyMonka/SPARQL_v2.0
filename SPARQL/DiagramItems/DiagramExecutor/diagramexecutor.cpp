@@ -175,35 +175,11 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                             }
                         }
                     }
-                }
-            }
-        }
-    }
-
-    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
-    {
-        if ( DiagramItemSettings::CompositeItemSettingsType == blocks_exec_list[i]->getSettings()->typeSettings() )
-        {
-            blocks_exec_list[i]->removeConnections();
-            blocks_exec_list[i]->deleteLater();
-            blocks_exec_list.erase( blocks_exec_list.begin() + i );
-            --i;
-        }
-    }
-    // Удаление IO блоков
-    for ( auto i = 0; i < blocks_exec_list.size(); ++i )
-    {
-        if ( DiagramItemSettings::IOItemSettingsType == blocks_exec_list[i]->getSettings()->typeSettings() )
-        {
-            auto io_block = blocks_exec_list[i];
-            auto vec_prev_blocks = io_block->getPrevBlocks();
-            auto vec_next_blocks = io_block->getNextBlocks();
-            for ( auto prev : vec_prev_blocks )
-            {
-                for ( auto next : vec_next_blocks )
-                {
-                    prev->addNextBlocks( next );
-                    next->addPrevBlocks( prev );
+                    block->removeConnections();
+                    blocks_exec_list.erase( blocks_exec_list.begin() + blocks_exec_list.indexOf( block ) );
+                    block->deleteLater();
+                    new_blocks.erase( new_blocks.begin() + k );
+                    --k;
                 }
             }
             blocks_exec_list[i]->removeConnections();
