@@ -58,6 +58,7 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
         auto block_settings = blocks_exec_list[i]->getSettings();
         if ( DiagramItemSettings::IOItemSettingsType == block_settings->typeSettings() )
         {
+            auto type_block = static_cast<IOBlockSettings*>( block_settings )->type_block;
             auto io_block = blocks_exec_list[i];
             auto vec_prev_blocks = io_block->getPrevBlocks();
             auto vec_next_blocks = io_block->getNextBlocks();
@@ -67,11 +68,13 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                 {
                     prev->addNextBlocks( next );
                     next->addPrevBlocks( prev );
-                    if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
+                    if ( IOBlockSettings::TypeIO::Input == type_block
+                        && DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
                     {
                         next->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, prev );
                     }
-                    else if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
+                    else if ( IOBlockSettings::TypeIO::Output == type_block
+                        && DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
                     {
                         prev->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, next );
                     }
