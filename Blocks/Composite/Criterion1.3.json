@@ -1,0 +1,624 @@
+{
+    "Body": {
+        "Blocks": [
+            {
+                "Body": {
+                    "Blocks": [
+                        {
+                            "Body": {
+                                "Areas": [
+                                    {
+                                        "Blocks": [
+                                            {
+                                                "Body": {
+                                                    "Color_Text": "blue",
+                                                    "Flag_Text": true,
+                                                    "Polygon": [
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        }
+                                                    ],
+                                                    "Pos": {
+                                                        "X": 131,
+                                                        "Y": 155
+                                                    },
+                                                    "Support_Add_Item": false,
+                                                    "Text": "DidLevelB",
+                                                    "Transparent_Background": false
+                                                },
+                                                "Header": {
+                                                    "Name": "AtomBlock",
+                                                    "Type": "Atom",
+                                                    "Type_Block": "VAR"
+                                                }
+                                            },
+                                            {
+                                                "Body": {
+                                                    "Color_Text": "blue",
+                                                    "Flag_Text": true,
+                                                    "Polygon": [
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        }
+                                                    ],
+                                                    "Pos": {
+                                                        "X": 133,
+                                                        "Y": -7
+                                                    },
+                                                    "Support_Add_Item": false,
+                                                    "Text": "interface",
+                                                    "Transparent_Background": false
+                                                },
+                                                "Header": {
+                                                    "Name": "AtomBlock",
+                                                    "Type": "Atom",
+                                                    "Type_Block": "VAR"
+                                                }
+                                            },
+                                            {
+                                                "Body": {
+                                                    "Color_Text": "blue",
+                                                    "Flag_Text": true,
+                                                    "Polygon": [
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        }
+                                                    ],
+                                                    "Pos": {
+                                                        "X": -235,
+                                                        "Y": 51
+                                                    },
+                                                    "Support_Add_Item": false,
+                                                    "Text": "systemB",
+                                                    "Transparent_Background": false
+                                                },
+                                                "Header": {
+                                                    "Name": "AtomBlock",
+                                                    "Type": "Atom",
+                                                    "Type_Block": "VAR"
+                                                }
+                                            },
+                                            {
+                                                "Body": {
+                                                    "Color_Text": "blue",
+                                                    "Flag_Text": true,
+                                                    "Polygon": [
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        }
+                                                    ],
+                                                    "Pos": {
+                                                        "X": 142,
+                                                        "Y": -161
+                                                    },
+                                                    "Support_Add_Item": false,
+                                                    "Text": "DidLevelA",
+                                                    "Transparent_Background": false
+                                                },
+                                                "Header": {
+                                                    "Name": "AtomBlock",
+                                                    "Type": "Atom",
+                                                    "Type_Block": "VAR"
+                                                }
+                                            },
+                                            {
+                                                "Body": {
+                                                    "Color_Text": "blue",
+                                                    "Flag_Text": true,
+                                                    "Polygon": [
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": -50
+                                                        },
+                                                        {
+                                                            "X": 50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": 50
+                                                        },
+                                                        {
+                                                            "X": -50,
+                                                            "Y": -50
+                                                        }
+                                                    ],
+                                                    "Pos": {
+                                                        "X": -239,
+                                                        "Y": -150
+                                                    },
+                                                    "Support_Add_Item": false,
+                                                    "Text": "systemA",
+                                                    "Transparent_Background": false
+                                                },
+                                                "Header": {
+                                                    "Name": "AtomBlock",
+                                                    "Type": "Atom",
+                                                    "Type_Block": "VAR"
+                                                }
+                                            }
+                                        ],
+                                        "Lines": [
+                                            {
+                                                "End": 4,
+                                                "Start": 1,
+                                                "Text": ":interfaceFrom"
+                                            },
+                                            {
+                                                "End": 2,
+                                                "Start": 1,
+                                                "Text": ":interfaceTo"
+                                            },
+                                            {
+                                                "End": 0,
+                                                "Start": 2,
+                                                "Text": ":associatedWithDidLevel"
+                                            },
+                                            {
+                                                "End": 3,
+                                                "Start": 4,
+                                                "Text": ":associatedWithDidLevel"
+                                            }
+                                        ],
+                                        "Settings": {
+                                            "Body": {
+                                                "Color_Text": "blue",
+                                                "Flag_Text": false,
+                                                "Polygon": [
+                                                    {
+                                                        "X": -400,
+                                                        "Y": 250
+                                                    },
+                                                    {
+                                                        "X": 400,
+                                                        "Y": 250
+                                                    },
+                                                    {
+                                                        "X": 400,
+                                                        "Y": -250
+                                                    },
+                                                    {
+                                                        "X": -400,
+                                                        "Y": -250
+                                                    },
+                                                    {
+                                                        "X": -400,
+                                                        "Y": 250
+                                                    }
+                                                ],
+                                                "Pos": {
+                                                    "X": 2501,
+                                                    "Y": 2500
+                                                },
+                                                "Support_Add_Item": false,
+                                                "Text": "",
+                                                "Transparent_Background": false
+                                            },
+                                            "Header": {
+                                                "Name": "AtomBlock",
+                                                "Type": "Atom",
+                                                "Type_Block": "AREA"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "Limit": 20,
+                                "Lines": [
+                                ],
+                                "Pos": {
+                                    "X": 1839,
+                                    "Y": 2397
+                                },
+                                "Start_Area": 0
+                            },
+                            "Header": {
+                                "Name": "CQ3.3",
+                                "Type": "Sparql"
+                            }
+                        },
+                        {
+                            "Body": {
+                                "Flag_Custom_Image": true,
+                                "Flag_Edit": false,
+                                "Flag_Label": true,
+                                "Image": "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",
+                                "Pos": {
+                                    "X": 2208,
+                                    "Y": 2397
+                                },
+                                "Script": "for(var  i = 0; i < x.length; i++){\n\tfor(var j = 0; j < x.length; j++){\n\t\tif ( x[i][y] == true ) { y.push( false ); }else { y.push( true ); };\n\t}\n}\n",
+                                "Text_Edit": "",
+                                "Text_Label": ""
+                            },
+                            "Header": {
+                                "Name": "NOT",
+                                "Type": "Based"
+                            }
+                        },
+                        {
+                            "Body": {
+                                "Flag_Custom_Image": false,
+                                "Flag_Edit": false,
+                                "Flag_Label": true,
+                                "Image": "iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcUlEQVR4nO3bwU3DQBRF0WfE1g0Aoo1I1EFKoABEIxRABYgGKIAgGqAABAWACzAL/oiJ4yfGsQMyuWdDcGYcz8XxIiYSAAAAsA+qgePbnRzF7yle75Awc4+SFK35YNdHMVeEMQ5HzB16fforW10COGMMwhiEMQhjEMYgjEEYgzAGYQzCGIQxCGMQxiCMQRiDMAZhDMIYU4SpJS3j8apw/Kt5Ls2/jXGKfR8V7LfktYtNecbUku7jcav1xbf6/uz1ozNvEc/lCzuR1PS8xirGplBpbt0Zsxh47BumDNNIush+P9b6AT/Gz/xD9FrSaWw7y7ZfanNxS0nnMfauMzdFbGM/T9suIpn6GvOir79mJekt216p/+3TSLrp2X4l6bmz7UHS9Q9zK0nvA47XGnMncq63T7gTOQZhDMIYhDEIYxDGIIxBGIMwBmEMwhiEMQhjEMYgjEEYgzAGYYwx/xn+X7500YszxiCMwRe5AAAAgL32CcZ/KjT+uZfQAAAAAElFTkSuQmCC",
+                                "Pos": {
+                                    "X": 2089,
+                                    "Y": 2397
+                                },
+                                "Script": "for( var i = 0; i < x.length; ++i)\n{\n\tfor( var k = 0; k < x[i].length; ++k)\n\t{\n\t\tif( x[i][k] != 0 )\n\t\t{\n\t\t\ty.push( true );\n\t\t\treturn y;\n\t\t}\n\t}\n}\ny.push( false );",
+                                "Text_Edit": "",
+                                "Text_Label": ""
+                            },
+                            "Header": {
+                                "Name": "IntToBool",
+                                "Type": "Based"
+                            }
+                        },
+                        {
+                            "Body": {
+                                "Flag_Custom_Image": false,
+                                "Flag_Edit": false,
+                                "Flag_Label": true,
+                                "Image": "iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcUlEQVR4nO3bwU3DQBRF0WfE1g0Aoo1I1EFKoABEIxRABYgGKIAgGqAABAWACzAL/oiJ4yfGsQMyuWdDcGYcz8XxIiYSAAAAsA+qgePbnRzF7yle75Awc4+SFK35YNdHMVeEMQ5HzB16fforW10COGMMwhiEMQhjEMYgjEEYgzAGYQzCGIQxCGMQxiCMQRiDMAZhDMIYU4SpJS3j8apw/Kt5Ls2/jXGKfR8V7LfktYtNecbUku7jcav1xbf6/uz1ozNvEc/lCzuR1PS8xirGplBpbt0Zsxh47BumDNNIush+P9b6AT/Gz/xD9FrSaWw7y7ZfanNxS0nnMfauMzdFbGM/T9suIpn6GvOir79mJekt216p/+3TSLrp2X4l6bmz7UHS9Q9zK0nvA47XGnMncq63T7gTOQZhDMIYhDEIYxDGIIxBGIMwBmEMwhiEMQhjEMYgjEEYgzAGYYwx/xn+X7500YszxiCMwRe5AAAAgL32CcZ/KjT+uZfQAAAAAElFTkSuQmCC",
+                                "Pos": {
+                                    "X": 1967,
+                                    "Y": 2396
+                                },
+                                "Script": "json_obj = JSON.parse( x[0] );\narray = json_obj.results.bindings;\ny.push( array.length );",
+                                "Text_Edit": "",
+                                "Text_Label": ""
+                            },
+                            "Header": {
+                                "Name": "SJsonParse",
+                                "Type": "Based"
+                            }
+                        },
+                        {
+                            "Body": {
+                                "Polygon": [
+                                    {
+                                        "X": -80,
+                                        "Y": -30
+                                    },
+                                    {
+                                        "X": 80,
+                                        "Y": -30
+                                    },
+                                    {
+                                        "X": 100,
+                                        "Y": 0
+                                    },
+                                    {
+                                        "X": 80,
+                                        "Y": 30
+                                    },
+                                    {
+                                        "X": -80,
+                                        "Y": 30
+                                    },
+                                    {
+                                        "X": -60,
+                                        "Y": 0
+                                    },
+                                    {
+                                        "X": -80,
+                                        "Y": -30
+                                    }
+                                ],
+                                "Pos": {
+                                    "X": 2406,
+                                    "Y": 2401
+                                },
+                                "Support_Add_Item": false,
+                                "Text": "out"
+                            },
+                            "Header": {
+                                "Name": "(IO)Output",
+                                "Type": "IO",
+                                "Type_Block": "Output"
+                            }
+                        }
+                    ],
+                    "Input": [
+                    ],
+                    "Lines": [
+                        {
+                            "End": 4,
+                            "Start": 1,
+                            "Text": ""
+                        },
+                        {
+                            "End": 3,
+                            "Start": 0,
+                            "Text": ""
+                        },
+                        {
+                            "End": 1,
+                            "Start": 2,
+                            "Text": ""
+                        },
+                        {
+                            "End": 2,
+                            "Start": 3,
+                            "Text": ""
+                        }
+                    ],
+                    "Output": [
+                        "out"
+                    ],
+                    "Pos": {
+                        "X": 2313,
+                        "Y": 2357
+                    }
+                },
+                "Header": {
+                    "Name": "Q1.3",
+                    "Type": "Composite"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 2313,
+                        "Y": 2477
+                    },
+                    "Support_Add_Item": true,
+                    "Text": "Q1.1"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 2310,
+                        "Y": 2591
+                    },
+                    "Support_Add_Item": true,
+                    "Text": "Q1.2"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Flag_Custom_Image": false,
+                    "Flag_Edit": false,
+                    "Flag_Label": true,
+                    "Image": "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",
+                    "Pos": {
+                        "X": 2610,
+                        "Y": 2465
+                    },
+                    "Script": "var flag = false;\nfor(var i = 0; i < x.length; i++){\n\tfor(var j = 0; j < x[i].length; j++){\n\t\tif(Boolean(x[i][j]) != flag){\n\t\t\tflag = true;\n\t\t\tbreak;\n\t\t}\n\t}\n}\ny.push(flag);",
+                    "Text_Edit": "",
+                    "Text_Label": ""
+                },
+                "Header": {
+                    "Name": "OR",
+                    "Type": "Based"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 2834,
+                        "Y": 2459
+                    },
+                    "Support_Add_Item": true,
+                    "Text": "out"
+                },
+                "Header": {
+                    "Name": "(IO)Output",
+                    "Type": "IO",
+                    "Type_Block": "Output"
+                }
+            }
+        ],
+        "Input": [
+            "Q1.1",
+            "Q1.2"
+        ],
+        "Lines": [
+            {
+                "End": 3,
+                "Start": 0,
+                "Text": "out"
+            },
+            {
+                "End": 3,
+                "Start": 1,
+                "Text": ""
+            },
+            {
+                "End": 3,
+                "Start": 2,
+                "Text": ""
+            },
+            {
+                "End": 4,
+                "Start": 3,
+                "Text": ""
+            }
+        ],
+        "Output": [
+            "out"
+        ],
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        }
+    },
+    "Header": {
+        "Name": "Criterion1.3",
+        "Type": "Composite"
+    }
+}
