@@ -106,3 +106,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     sources.qrc
+
+LIBS += -lgvc -lcgraph

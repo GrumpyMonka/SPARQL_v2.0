@@ -70,6 +70,14 @@ signals:
     void logs( QStringList );
 
 private:
+    struct BlocksExecArrow
+    {
+        BlocksExec* startItem;
+        BlocksExec* endItem;
+        QString nameConnectionStart;
+        QString nameConnectionEnd;
+    };
+
     DiagramItem* block = nullptr;
     DiagramItemSettings* block_settings = nullptr;
 
@@ -84,8 +92,8 @@ private:
     QMap<QString, QObject*> default_value_list;
     QMap<QString, QString> block_tags;
 
-    QVector<BlocksExec*> next_blocks;
-    QVector<BlocksExec*> prev_blocks;
+    QVector<BlocksExecArrow> next_blocks_arrow;
+    QVector<BlocksExecArrow> prev_blocks_arrow;
     QMap<BlocksExec*, QString> block_connect_name;
 
     QStringList logs_exec;

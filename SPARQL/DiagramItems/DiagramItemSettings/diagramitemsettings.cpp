@@ -20,6 +20,29 @@ QJsonValue DiagramItemSettings::jsonValFromPixmap( const QPixmap& p )
     return { QLatin1String( encoded ) };
 }
 
+QString DiagramItemSettings::getNameType()
+{
+    switch ( typeSettings() )
+    {
+    case DiagramItemSettingsType:
+        return "Settings";
+    case BasedItemSettingsType:
+        return "Based";
+    case CompositeItemSettingsType:
+        return "Composite";
+    case SparqlItemSettinsType:
+        return "SPARQL";
+    case AtomItemSettingsType:
+        return "Atom";
+    case IOItemSettingsType:
+        return "IO";
+    case ProjectWindowSettingsType:
+        return "Project";
+    default:
+        return "ERROR";
+    }
+}
+
 QPixmap DiagramItemSettings::pixmapFrom( const QJsonValue& value )
 {
     auto const encoded = value.toString().toLatin1();
