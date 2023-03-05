@@ -140,6 +140,10 @@ void ProjectWindow::openProject()
                 auto composite_item = static_cast<DiagramItemComposite*>( endItem );
                 endItem = composite_item->getInputBlock( line.text_end );
             }
+            else
+            {
+                emit ERROR( "ProjectWindow::openProject() -> Line without text" );
+            }
         }
 
         getScene()->createArrow( startItem, endItem );

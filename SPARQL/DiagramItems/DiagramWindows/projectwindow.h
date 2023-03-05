@@ -23,7 +23,6 @@ private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
 signals:
-    void ERROR( QString );
 };
 
 #endif // PROJECTWINDOW_H
