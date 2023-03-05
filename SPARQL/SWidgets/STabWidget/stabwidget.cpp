@@ -18,7 +18,6 @@ void STabWidget::addWidget( SWidget* widget, const QString& name )
 
 void STabWidget::setTabName( QString name )
 {
-    qDebug() << indexOf( static_cast<QWidget*>( sender() ) );
     setTabText( indexOf( static_cast<QWidget*>( sender() ) ), name );
 }
 
