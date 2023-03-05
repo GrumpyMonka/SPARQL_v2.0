@@ -50,7 +50,8 @@ QString SGraphicsView::openFile()
     if ( file.open( QIODevice::ReadOnly ) )
     {
         result = file.readAll();
-        // QMessageBox::about( this, tr( "Based Block" ), tr( "Block is open!" ) );
+        emit setTabName( QFileInfo( file.fileName() ).fileName() );
+        //  QMessageBox::about( this, tr( "Based Block" ), tr( "Block is open!" ) );
     }
     else
     {

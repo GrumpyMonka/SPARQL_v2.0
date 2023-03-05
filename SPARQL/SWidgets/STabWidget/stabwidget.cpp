@@ -13,6 +13,12 @@ void STabWidget::addWidget( SWidget* widget, const QString& name )
     widget_lib.insert( widget, widget->modeDiagramBlocks() );
     addTab( widget, name );
     setCurrentWidget( widget );
+    connect( widget, SIGNAL( setTabName( QString ) ), this, SLOT( setTabName( QString ) ) );
+}
+
+void STabWidget::setTabName( QString name )
+{
+    setTabText( indexOf( static_cast<QWidget*>( sender() ) ), name );
 }
 
 void STabWidget::createTabWidgets()
@@ -93,10 +99,18 @@ void STabWidget::deleteItemOnScene()
 
 void STabWidget::saveProject()
 {
-    currentSWidget()->saveProject();
+    auto widget = currentSWidget();
+    if ( nullptr != widget )
+    {
+        widget->saveProject();
+    }
 }
 
 void STabWidget::openProject()
 {
-    currentSWidget()->openProject();
+    auto widget = currentSWidget();
+    if ( nullptr != widget )
+    {
+        widget->openProject();
+    }
 }

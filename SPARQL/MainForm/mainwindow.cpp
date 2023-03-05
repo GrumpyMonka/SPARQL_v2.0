@@ -114,6 +114,8 @@ void MainWindow::slotOnDeleteItemOnScene()
 
 void MainWindow::slotOnOpenProject()
 {
+    auto window = new ProjectWindow( this );
+    tab_widget->addWidget( window, tr( "Project" ) );
     tab_widget->openProject();
 }
 

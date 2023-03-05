@@ -22,6 +22,7 @@ public slots:
     void deleteItemOnScene();
     void saveProject();
     void openProject();
+    void setTabName( QString );
 
 private:
     void createTabWidgets();

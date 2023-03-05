@@ -17,7 +17,8 @@ public:
     {
         int start_block;
         int end_block;
-        QString text;
+        QString text_start;
+        QString text_end;
     };
 
     QVector<DiagramItemSettings*> blocks_list;

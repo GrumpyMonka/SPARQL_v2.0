@@ -23,7 +23,7 @@ public:
     void setScript( const QString& script );
     void setInputData( const QScriptValueList& input_list );
     void addInputData( const QScriptValue& input );
-    void setUserData( const QScriptValue& data );
+    void setUserData( const QString& data );
     void setNextBlocks( const QVector<BlocksExec*>& next_list );
     void addNextBlocks( BlocksExec* next );
     void setPrevBlocks( const QVector<BlocksExec*>& prev_list );
@@ -38,7 +38,7 @@ public:
     bool getAllowWork();
     QString getScript();
     QScriptValueList getInputData();
-    QScriptValue getUserData();
+    QString getUserData();
     QScriptValue getOutputData();
     QVector<BlocksExec*> getNextBlocks();
     QVector<BlocksExec*> getPrevBlocks();
@@ -50,6 +50,8 @@ public:
 
     void removeConnections();
     void removeConnect( BlocksExec* );
+    void removeConnectName( const QString& tag );
+    void removeConnectName( BlocksExec* block );
     void disconnectDiagramItem();
     void deleteTags();
     void deleteTag( const QString& key );
@@ -70,6 +72,14 @@ signals:
     void logs( QStringList );
 
 private:
+    struct BlocksExecArrow
+    {
+        BlocksExec* startItem;
+        BlocksExec* endItem;
+        QString nameConnectionStart;
+        QString nameConnectionEnd;
+    };
+
     DiagramItem* block = nullptr;
     DiagramItemSettings* block_settings = nullptr;
 
@@ -78,7 +88,7 @@ private:
 
     QString main_script;
     QScriptValueList input_data;
-    QScriptValue user_data;
+    QString user_data;
     QScriptValue output_data;
 
     QMap<QString, QObject*> default_value_list;
@@ -86,7 +96,7 @@ private:
 
     QVector<BlocksExec*> next_blocks;
     QVector<BlocksExec*> prev_blocks;
-    QMap<BlocksExec*, QString> block_connect_name;
+    QMap<QString, QVector<BlocksExec*>> block_connect_name;
 
     QStringList logs_exec;
 };

@@ -34,6 +34,8 @@ public:
     virtual QString getScript() { return {}; }
     virtual ~DiagramItemSettings() = default;
 
+    QString getNameType();
+
     void setSettingFromString( const QString& str );
 
     QJsonValue jsonValFromPixmap( const QPixmap& p );
