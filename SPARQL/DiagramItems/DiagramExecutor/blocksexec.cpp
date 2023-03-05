@@ -118,12 +118,12 @@ void BlocksExec::removeConnections()
 
 void BlocksExec::addBlockConnectName( const QString& name, BlocksExec* block )
 {
-    block_connect_name.insert( block, name );
+    block_connect_name.insert( name, block );
 }
 
 QString BlocksExec::getBlockConnectName( BlocksExec* block )
 {
-    return block_connect_name[block];
+    return block_connect_name.key( block );
 }
 
 void BlocksExec::removeConnect( BlocksExec* block )
@@ -250,7 +250,7 @@ void BlocksExec::addInputData( const QScriptValue& input )
     input_data.push_back( input );
 }
 
-void BlocksExec::setUserData( const QScriptValue& data )
+void BlocksExec::setUserData( const QString& data )
 {
     user_data = data;
 }
@@ -295,7 +295,7 @@ QScriptValueList BlocksExec::getInputData()
     return input_data;
 }
 
-QScriptValue BlocksExec::getUserData()
+QString BlocksExec::getUserData()
 {
     return user_data;
 }

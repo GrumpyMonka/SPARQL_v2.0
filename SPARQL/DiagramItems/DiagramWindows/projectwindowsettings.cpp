@@ -23,7 +23,8 @@ QJsonArray ProjectWindowSettings::getJsonArrayFromLineSaver( const QVector<LineS
     for ( const auto& line : lines )
     {
         QJsonObject line_obj;
-        line_obj.insert( "Text", line.text );
+        line_obj.insert( "Text_Start", line.text_start );
+        line_obj.insert( "Text_End", line.text_end );
         line_obj.insert( "Start", line.start_block );
         line_obj.insert( "End", line.end_block );
         lines_array.push_back( line_obj );
@@ -43,7 +44,8 @@ void ProjectWindowSettings::setSettingFromJson( const QJsonObject& object )
 
         for ( const QJsonValue& line : lines_array )
         {
-            lines_list.push_back( { line["Start"].toInt(), line["End"].toInt(), line["Text"].toString() } );
+            lines_list.push_back( { line["Start"].toInt(), line["End"].toInt(),
+                line["Text_Start"].toString(), line["Text_End"].toString() } );
         }
 
         for ( const QJsonValue& block : blocks_array )

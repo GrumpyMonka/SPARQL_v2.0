@@ -23,7 +23,7 @@ public:
     void setScript( const QString& script );
     void setInputData( const QScriptValueList& input_list );
     void addInputData( const QScriptValue& input );
-    void setUserData( const QScriptValue& data );
+    void setUserData( const QString& data );
     void setNextBlocks( const QVector<BlocksExec*>& next_list );
     void addNextBlocks( BlocksExec* next );
     void setPrevBlocks( const QVector<BlocksExec*>& prev_list );
@@ -38,7 +38,7 @@ public:
     bool getAllowWork();
     QString getScript();
     QScriptValueList getInputData();
-    QScriptValue getUserData();
+    QString getUserData();
     QScriptValue getOutputData();
     QVector<BlocksExec*> getNextBlocks();
     QVector<BlocksExec*> getPrevBlocks();
@@ -86,15 +86,15 @@ private:
 
     QString main_script;
     QScriptValueList input_data;
-    QScriptValue user_data;
+    QString user_data;
     QScriptValue output_data;
 
     QMap<QString, QObject*> default_value_list;
     QMap<QString, QString> block_tags;
 
-    QVector<BlocksExecArrow> next_blocks_arrow;
-    QVector<BlocksExecArrow> prev_blocks_arrow;
-    QMap<BlocksExec*, QString> block_connect_name;
+    QVector<BlocksExec*> next_blocks;
+    QVector<BlocksExec*> prev_blocks;
+    QMap<QString, BlocksExec*> block_connect_name;
 
     QStringList logs_exec;
 };

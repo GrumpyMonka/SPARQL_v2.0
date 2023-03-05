@@ -21,6 +21,10 @@ public:
     virtual void openProject() {}
 
     explicit SWidget( QWidget* parent = nullptr );
+
+signals:
+    void setTabName( QString );
+    void ERROR( QString );
 };
 
 #endif // SWIDGET_H

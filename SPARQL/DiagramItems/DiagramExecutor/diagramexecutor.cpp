@@ -39,7 +39,7 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
     {
         auto block_exec = createBlocksExecObject( item->getSettings() );
         block_exec->setDiagramItem( item );
-        block_exec->setUserData( QScriptValue( item->getInputData() ) );
+        block_exec->setUserData( item->getInputData() );
         blocks_exec_list.push_back( block_exec );
     }
     paint();
@@ -77,15 +77,28 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                         && DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
                     {
                         next->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, prev );
+                        if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
+                        {
+                            auto name_connect = prev->getBlockConnectName( io_block );
+                            if ( !name_connect.isEmpty() )
+                            {
+                                prev->addBlockConnectName( name_connect, next );
+                            }
+                        }
                     }
-                    else if ( IOBlockSettings::TypeIO::Output == type_block
+
+                    if ( IOBlockSettings::TypeIO::Output == type_block
                         && DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
                     {
                         prev->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, next );
-                    }
-                    else
-                    {
-                        emit ERROR( "Line has text, but not composite blocks!" );
+                        if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
+                        {
+                            auto name_connect = next->getBlockConnectName( io_block );
+                            if ( !name_connect.isEmpty() )
+                            {
+                                next->addBlockConnectName( name_connect, prev );
+                            }
+                        }
                     }
                 }
             }
@@ -109,7 +122,7 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                 auto block_exec = createBlocksExecObject( block_set );
                 if ( DiagramItemSettings::BasedItemSettingsType == block_set->typeSettings() )
                 {
-                    block_exec->setUserData( QScriptValue( static_cast<BasedBlockSettings*>( block_set )->line_edit_text ) );
+                    block_exec->setUserData( static_cast<BasedBlockSettings*>( block_set )->line_edit_text );
                 }
 
                 new_blocks.push_back( block_exec );
@@ -129,13 +142,9 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                     {
                         start_block->addBlockConnectName( line.text, end_block );
                     }
-                    else if ( DiagramItemSettings::CompositeItemSettingsType == end_block->getSettings()->typeSettings() )
+                    if ( DiagramItemSettings::CompositeItemSettingsType == end_block->getSettings()->typeSettings() )
                     {
                         end_block->addBlockConnectName( line.text, start_block );
-                    }
-                    else
-                    {
-                        emit ERROR( "Line has text, but not composite blocks!" );
                     }
                 }
             }
@@ -162,6 +171,10 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                                     {
                                         next->addBlockConnectName( next->getBlockConnectName( block ), io );
                                     }
+                                    if ( DiagramItemSettings::CompositeItemSettingsType == io->getSettings()->typeSettings() )
+                                    {
+                                        io->addBlockConnectName( io->getBlockConnectName( composite ), next );
+                                    }
                                 }
                             }
                         }
@@ -180,6 +193,10 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                                     if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )
                                     {
                                         prev->addBlockConnectName( prev->getBlockConnectName( block ), io );
+                                    }
+                                    if ( DiagramItemSettings::CompositeItemSettingsType == io->getSettings()->typeSettings() )
+                                    {
+                                        io->addBlockConnectName( io->getBlockConnectName( composite ), prev );
                                     }
                                 }
                             }
@@ -233,8 +250,9 @@ void DiagramExecutor::paint()
             + "[label=\""
             + blocks_exec_list[i]->getSettings()->getNameType() + "\\n\\n\\n"
             + blocks_exec_list[i]->getSettings()->block_name + "\\n|"
-            + "{input:|output:|user data:|in/out}|{{[]}|{[]}|{"
-            + blocks_exec_list[i]->getUserData().toString() + "}|{"
+            + "{input:|output:|user data:|in/out}|{{[]}|{"
+            + ( ( "SPARQL" != blocks_exec_list[i]->getSettings()->getNameType() ) ? blocks_exec_list[i]->getOutputData().toString() : "" ) + "}|{"
+            + blocks_exec_list[i]->getUserData() + "}|{"
             + QString::number( blocks_exec_list[i]->getPrevBlocks().size() ) + " / "
             + QString::number( blocks_exec_list[i]->getNextBlocks().size() ) + "}}\"]\n";
         // for( auto input : blocks_exec_list[i]->getInputData() )
@@ -316,8 +334,7 @@ void DiagramExecutor::logs_sniff( QStringList str_list )
 
 void DiagramExecutor::execute()
 {
-    // paint();
-
+    text_edit_output->clear();
     while ( true )
     {
         bool flag = false;
@@ -337,4 +354,7 @@ void DiagramExecutor::execute()
             break;
         }
     }
+    QString output = text_edit_output->toPlainText();
+    paint();
+    text_edit_output->insertPlainText( output + "\n" );
 }

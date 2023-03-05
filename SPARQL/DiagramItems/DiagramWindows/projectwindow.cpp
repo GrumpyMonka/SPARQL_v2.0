@@ -83,7 +83,7 @@ void ProjectWindow::saveProject()
             if ( arrow->endItem() == arrow->startItem()->parentItem() )
                 continue;
             line_saver.start_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->startItem()->parentItem() ) );
-            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->startItem() ) )->getName();
+            line_saver.text_start = ( static_cast<DiagramItemIO*>( arrow->startItem() ) )->getName();
         }
 
         if ( DiagramItem::IOItemType == arrow->endItem()->type() )
@@ -91,7 +91,7 @@ void ProjectWindow::saveProject()
             if ( arrow->startItem() == arrow->endItem()->parentItem() )
                 continue;
             line_saver.end_block = blocks_list.indexOf( static_cast<DiagramItem*>( arrow->endItem()->parentItem() ) );
-            line_saver.text = ( static_cast<DiagramItemIO*>( arrow->endItem() ) )->getName();
+            line_saver.text_end = ( static_cast<DiagramItemIO*>( arrow->endItem() ) )->getName();
         }
 
         settings.lines_list.push_back( line_saver );
@@ -120,18 +120,25 @@ void ProjectWindow::openProject()
         DiagramItem* startItem = blocks_list.at( line.start_block );
         DiagramItem* endItem = blocks_list.at( line.end_block );
 
-        if ( line.text != "" )
+        if ( DiagramItem::CompositeItemType == startItem->type() )
         {
-            if ( DiagramItem::CompositeItemType == startItem->type() )
+            if ( "" != line.text_start )
             {
                 auto composite_item = static_cast<DiagramItemComposite*>( startItem );
-                startItem = composite_item->getOutputBlock( line.text );
+                startItem = composite_item->getOutputBlock( line.text_start );
             }
+            else
+            {
+                emit ERROR( "ProjectWindow::openProject() -> Line without text" );
+            }
+        }
 
-            if ( DiagramItem::CompositeItemType == endItem->type() )
+        if ( DiagramItem::CompositeItemType == endItem->type() )
+        {
+            if ( "" != line.text_end )
             {
                 auto composite_item = static_cast<DiagramItemComposite*>( endItem );
-                endItem = composite_item->getInputBlock( line.text );
+                endItem = composite_item->getInputBlock( line.text_end );
             }
         }
 
