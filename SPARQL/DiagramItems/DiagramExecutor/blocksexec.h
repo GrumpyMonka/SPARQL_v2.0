@@ -50,6 +50,8 @@ public:
 
     void removeConnections();
     void removeConnect( BlocksExec* );
+    void removeConnectName( const QString& tag );
+    void removeConnectName( BlocksExec* block );
     void disconnectDiagramItem();
     void deleteTags();
     void deleteTag( const QString& key );
@@ -94,7 +96,7 @@ private:
 
     QVector<BlocksExec*> next_blocks;
     QVector<BlocksExec*> prev_blocks;
-    QMap<QString, BlocksExec*> block_connect_name;
+    QMap<QString, QVector<BlocksExec*>> block_connect_name;
 
     QStringList logs_exec;
 };

@@ -146,7 +146,7 @@
                         "X": 2228,
                         "Y": 2603
                     },
-                    "Script": "var flag = false;for(var i = 0; i < x.length; i++){for(var j = 0; j < x[i].length; j++){if(Boolean(x[i][j]) != flag){flag = true;break;}}}y.push(flag);",
+                    "Script": "var flag = false;for(var i = 0; i < x.length; i++){if( x[i] == \"true\"){flag = true;break;}}y.push(flag);",
                     "Text_Edit": "",
                     "Text_Label": ""
                 },

@@ -122,7 +122,7 @@ void ProjectWindow::openProject()
 
         if ( DiagramItem::CompositeItemType == startItem->type() )
         {
-            if ( "" != line.text_start )
+            if ( !line.text_start.isEmpty() )
             {
                 auto composite_item = static_cast<DiagramItemComposite*>( startItem );
                 startItem = composite_item->getOutputBlock( line.text_start );
@@ -135,7 +135,7 @@ void ProjectWindow::openProject()
 
         if ( DiagramItem::CompositeItemType == endItem->type() )
         {
-            if ( "" != line.text_end )
+            if ( !line.text_end.isEmpty() )
             {
                 auto composite_item = static_cast<DiagramItemComposite*>( endItem );
                 endItem = composite_item->getInputBlock( line.text_end );
