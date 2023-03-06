@@ -35,13 +35,18 @@ signals:
     void itemPressed( DiagramItemSettings* );
 
 private:
+    struct Box
+    {
+        Box(){};
+        Box( const QString& str, SToolBox* parent = nullptr );
+        QString name;
+        QMap<QWidget*, DiagramItemSettings*> settings;
+        QGridLayout* layout;
+    };
+
     QButtonGroup* button_group;
-    QGridLayout* button_layout;
 
-    // QMap<QWidget*, DiagramItemSettings*> library;
-
-    QVector<DiagramItemSettings*> settings_list;
-    QVector<QWidget*> widget_list;
+    QMap<QString, Box> settings_list;
 };
 
 #endif // STOOLBOX_H

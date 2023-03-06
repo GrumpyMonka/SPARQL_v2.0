@@ -4,44 +4,45 @@
 #include <QPushButton>
 #include <QToolButton>
 
-#include <compositeblocksettings.h>
-#include <sparqlblocksettings.h>
-
 SToolBox::SToolBox( QWidget* parent )
     : QToolBox( parent )
 {
     createToolButtonGroup();
 }
 
+SToolBox::Box::Box( const QString& str, SToolBox* parent )
+{
+    name = str;
+    QWidget* buttonGroupWidget = new QWidget( parent );
+    layout = new QGridLayout( buttonGroupWidget );
+    layout->setRowStretch( 10, 10 );
+    layout->setColumnStretch( 3, 10 );
+    buttonGroupWidget->setLayout( layout );
+    layout->setSpacing( 0 );
+    layout->setMargin( 0 );
+
+    for ( int i = 0; i < 3; ++i )
+    {
+        // parent->addDiagramItem( nullptr, false );
+    }
+
+    parent->addItem( buttonGroupWidget, str );
+}
+
 void SToolBox::createToolButtonGroup()
 {
-    button_group = new QButtonGroup( this );
-    button_group->setExclusive( false );
-    connect( button_group, SIGNAL( buttonClicked( int ) ),
-        this, SLOT( buttonGroupClicked( int ) ) );
-
-    QWidget* buttonGroupWidget = new QWidget( this );
-    button_layout = new QGridLayout( buttonGroupWidget );
-    button_layout->setRowStretch( 10, 10 );
-    button_layout->setColumnStretch( 3, 10 );
-    buttonGroupWidget->setLayout( button_layout );
-    button_layout->setSpacing( 0 );
-    button_layout->setMargin( 0 );
-
-    for ( int i = 0; i < 3; ++i )
+    if ( settings_list.end() == settings_list.find( "kek" ) )
     {
-        addDiagramItem( nullptr, false );
+        Box box( "kek", this );
+        settings_list.insert( "kek", box );
     }
-
-    for ( int i = 0; i < 3; ++i )
+    if ( settings_list.end() == settings_list.find( "lol" ) )
     {
-        settings_list.removeLast();
-        widget_list.removeLast();
+        Box box( "lol", this );
+        settings_list.insert( "lol", box );
     }
-
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
     setMinimumWidth( 230 );
-    addItem( buttonGroupWidget, tr( "Blocks" ) );
 }
 
 void SToolBox::buttonGroupClicked( int pos )
@@ -52,12 +53,12 @@ void SToolBox::buttonGroupClicked( int pos )
         if ( pos != i )
             button_list.at( i )->setChecked( false );
     }
-    emit itemPressed( settings_list.at( pos ) );
+    // emit itemPressed( settings_list.at( pos ) );
 }
 
 void SToolBox::setDiagramItems( const QVector<DiagramItemSettings*>& items )
 {
-    deleteDiagramItems( settings_list );
+    // deleteDiagramItems( settings_list );
 
     addDiagramItems( items );
 }
@@ -75,30 +76,6 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
         name = item->block_name;
         icon = QIcon( item->pixmap.scaled( SIZE, SIZE ) );
     }
-    /*
-        else if ( BasedBlockSettings  == item->type() )
-        {
-            BasedBlockSettings* setting = static_cast<BasedBlockSettings*>( item );
-            name = setting->block_name;
-            icon = QIcon( setting->pixmap.scaled( SIZE, SIZE ) );
-        }
-
-        else if ( CompositeBlockSetting  == settingf->type() )
-        {
-        }
-        else if ( SparqlBlockSetting  == settingf->type() )
-        {
-            SparqlBlockSetting* setting = ( SparqlBlockSetting* )( settingf );
-            name = setting->name;
-            QPixmap pixmap( ":/images/sparqlicon.jpg" );
-            icon = QIcon( pixmap.scaled( 50, 50 ) );
-        }
-        else if ( AtomBlockSettings  == item->type() )
-        {
-            AtomBlockSettings* setting = static_cast<AtomBlockSettings*>( item );
-
-        }
-        */
 
     QToolButton* button = new QToolButton;
     button->setIcon( icon );
@@ -132,27 +109,29 @@ void SToolBox::addDiagramItems( const QVector<DiagramItemSettings*>& items )
 
 void SToolBox::deleteDiagramItem( DiagramItemSettings* item )
 {
+    /*
     auto pos = settings_list.indexOf( item );
     widget_list.at( pos )->deleteLater();
     widget_list.remove( pos );
     settings_list.remove( pos );
     button_group->removeButton( button_group->buttons().at( pos ) );
+    */
 }
 
 void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )
 {
     for ( auto item : items )
     {
-        deleteDiagramItem( item );
+        // deleteDiagramItem( item );
     }
 }
 
 void SToolBox::addWidget( DiagramItemSettings* settings, QWidget* widget )
 {
-    int size = widget_list.size();
+    auto box = settings_list[settings->getNameType()];
+    int size = box.settings.size();
     int row = size / COUNT_COLUMN;
     int column = size % COUNT_COLUMN;
-    button_layout->addWidget( widget, row, column );
-    widget_list.push_back( widget );
-    settings_list.push_back( settings );
+    box.layout->addWidget( widget, row, column );
+    box.settings[widget] = settings;
 }
