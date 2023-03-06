@@ -7,8 +7,8 @@
 #include <diagramitemcomposite.h>
 #include <diagramitemio.h>
 
-CompositeBlockWindow::CompositeBlockWindow( QWidget* parent )
-    : SGraphicsView( parent )
+CompositeBlockWindow::CompositeBlockWindow( QMenu* context_menu, QWidget* parent )
+    : SGraphicsView( context_menu, parent )
 {
     createSidePanel();
 }

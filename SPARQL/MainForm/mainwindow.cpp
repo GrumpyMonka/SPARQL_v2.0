@@ -61,7 +61,7 @@ void MainWindow::createMainForm()
 
 void MainWindow::slotCreateNewProject()
 {
-    auto window = new ProjectWindow( this );
+    auto window = new ProjectWindow( item_menu, this );
     tab_widget->addWidget( window, tr( "New Project" ) );
 }
 
@@ -73,14 +73,14 @@ void MainWindow::slotCreateBasedBlock()
 
 void MainWindow::slotCreateCompositeBlock()
 {
-    auto window = new CompositeBlockWindow( this );
+    auto window = new CompositeBlockWindow( item_menu, this );
     tab_widget->addWidget( window, tr( "Composite Block" ) );
     connect( window, SIGNAL( blockCreated( DiagramItemSettings* ) ), this, SLOT( slotOnCreateBlock( DiagramItemSettings* ) ) );
 }
 
 void MainWindow::slotCreateSparqlBlock()
 {
-    auto window = new SparqlBlockWindow( this );
+    auto window = new SparqlBlockWindow( item_menu, this );
     tab_widget->addWidget( window, tr( "New Sparql" ) );
     connect( window, SIGNAL( blockCreated( DiagramItemSettings* ) ), this, SLOT( slotOnCreateBlock( DiagramItemSettings* ) ) );
 }
@@ -107,6 +107,11 @@ void MainWindow::slotOnClickedBlockExecutor()
     }
 }
 
+void MainWindow::setItemMenu( QMenu* menu )
+{
+    item_menu = menu;
+}
+
 void MainWindow::slotOnDeleteItemOnScene()
 {
     tab_widget->deleteItemOnScene();
@@ -114,7 +119,7 @@ void MainWindow::slotOnDeleteItemOnScene()
 
 void MainWindow::slotOnOpenProject()
 {
-    auto window = new ProjectWindow( this );
+    auto window = new ProjectWindow( item_menu, this );
     tab_widget->addWidget( window, tr( "Project" ) );
     tab_widget->openProject();
 }

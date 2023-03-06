@@ -42,6 +42,7 @@ private:
         QString name;
         QMap<QWidget*, DiagramItemSettings*> settings;
         QGridLayout* layout;
+        QWidget* widget;
     };
 
     QButtonGroup* button_group;

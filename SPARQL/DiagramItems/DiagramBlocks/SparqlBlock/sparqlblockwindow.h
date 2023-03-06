@@ -11,7 +11,7 @@ public:
     SGViewTypes typeSGView() override { return SparqlBlockWindowType; }
     int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::Atom; }
 
-    explicit SparqlBlockWindow( QWidget* parent = nullptr );
+    explicit SparqlBlockWindow( QMenu* context_menu, QWidget* parent = nullptr );
 
     void setSettings( SparqlBlockSettings* settings = new SparqlBlockSettings() );
 

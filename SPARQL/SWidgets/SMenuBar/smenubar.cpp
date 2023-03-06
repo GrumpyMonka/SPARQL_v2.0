@@ -9,6 +9,9 @@ SMenuBar::SMenuBar( QWidget* parent )
 
 void SMenuBar::CreateActions()
 {
+    connect( this, SIGNAL( createItemMenu( QMenu* ) ),
+        parent(), SLOT( setItemMenu( QMenu* ) ) );
+
     toFrontAction = new QAction( QIcon( ":/Sources/images/bringtofront.png" ),
         tr( "Bring to &Front" ), this );
     toFrontAction->setShortcut( tr( "Ctrl+F" ) );
@@ -110,6 +113,7 @@ void SMenuBar::CreateMenus()
     itemMenu->addSeparator();
     itemMenu->addAction( reworkBlockAction );
     itemMenu->addAction( runSceneScriptAction );
+    emit createItemMenu( itemMenu );
 
     aboutMenu = addMenu( tr( "&Help" ) );
     aboutMenu->addAction( aboutAction );

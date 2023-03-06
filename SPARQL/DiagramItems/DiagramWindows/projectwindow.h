@@ -12,7 +12,7 @@ public:
         | BlocksLibrary::ModeBlocks::Composite
         | BlocksLibrary::ModeBlocks::SPARQL; }
 
-    explicit ProjectWindow( QWidget* parent = nullptr );
+    explicit ProjectWindow( QMenu* context_menu, QWidget* parent = nullptr );
 
     QVector<DiagramItem*> getDiagramItems();
     QVector<DiagramArrow*> getDiagramArrows();
@@ -23,6 +23,9 @@ private:
     QWidget* addCustomWidget() override;
     QWidget* addCustomBotWidget() override;
 signals:
+
+private:
+    QMenu* context_menu;
 };
 
 #endif // PROJECTWINDOW_H

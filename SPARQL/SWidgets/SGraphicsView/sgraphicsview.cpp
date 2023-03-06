@@ -5,8 +5,9 @@
 #include <QLabel>
 #include <QMessageBox>
 
-SGraphicsView::SGraphicsView( QWidget* parent )
+SGraphicsView::SGraphicsView( QMenu* context_menu, QWidget* parent )
     : SWidget( parent )
+    , context_menu( context_menu )
 {
     setAttribute( Qt::WA_DeleteOnClose );
     createDiagramView();
@@ -92,7 +93,9 @@ void SGraphicsView::setDiagramScene( DiagramScene* scene )
 
 DiagramScene* SGraphicsView::createDiagramScene()
 {
-    return new DiagramScene( graphics_view );
+    auto scene = new DiagramScene( graphics_view );
+    scene->setContextMenu( context_menu );
+    return scene;
 }
 
 void SGraphicsView::createSidePanel()

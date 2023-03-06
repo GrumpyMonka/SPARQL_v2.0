@@ -109,7 +109,7 @@ void BlocksLibrary::deleteBlocks( int modes_blocks )
 
 QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
 {
-    QVector<DiagramItemSettings*> block_list;
+    QMap<QString, QMap<QString, DiagramItemSettings*>> block_list;
     QSet<ModeBlocks> mode_list;
     if ( ( modes_blocks & Based ) )
     {
@@ -136,10 +136,18 @@ QVector<DiagramItemSettings*> BlocksLibrary::getBlocks( int modes_blocks )
     {
         if ( mode_list.end() != mode_list.find( library[lib] ) )
         {
-            block_list.push_back( lib );
+            block_list[lib->getNameType()][lib->block_name] = lib;
         }
     }
-    return block_list;
+    QVector<DiagramItemSettings*> vec;
+    for ( auto type : block_list )
+    {
+        for ( auto block : type )
+        {
+            vec.push_back( block );
+        }
+    }
+    return vec;
 }
 
 int BlocksLibrary::getSize()

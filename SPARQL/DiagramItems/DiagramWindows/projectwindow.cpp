@@ -10,8 +10,9 @@
 #include <diagramitemcomposite.h>
 #include <diagramitemio.h>
 
-ProjectWindow::ProjectWindow( QWidget* parent )
-    : SGraphicsView( parent )
+ProjectWindow::ProjectWindow( QMenu* context_menu, QWidget* parent )
+    : SGraphicsView( context_menu, parent )
+    , context_menu( context_menu )
 {
     createSidePanel();
 }
@@ -110,7 +111,7 @@ void ProjectWindow::openProject()
     QVector<DiagramItem*> blocks_list;
     for ( auto& block : settings.blocks_list )
     {
-        blocks_list.push_back( DiagramItem::FactoryDiagramItem( nullptr, block ) );
+        blocks_list.push_back( DiagramItem::FactoryDiagramItem( context_menu, block ) );
         getScene()->addItem( blocks_list.back() );
         blocks_list.back()->setPos( block->pos );
     }

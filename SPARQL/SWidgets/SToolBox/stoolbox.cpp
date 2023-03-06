@@ -13,11 +13,11 @@ SToolBox::SToolBox( QWidget* parent )
 SToolBox::Box::Box( const QString& str, SToolBox* parent )
 {
     name = str;
-    QWidget* buttonGroupWidget = new QWidget( parent );
-    layout = new QGridLayout( buttonGroupWidget );
+    widget = new QWidget( parent );
+    layout = new QGridLayout( widget );
     layout->setRowStretch( 10, 10 );
     layout->setColumnStretch( 3, 10 );
-    buttonGroupWidget->setLayout( layout );
+    widget->setLayout( layout );
     layout->setSpacing( 0 );
     layout->setMargin( 0 );
 
@@ -25,22 +25,11 @@ SToolBox::Box::Box( const QString& str, SToolBox* parent )
     {
         // parent->addDiagramItem( nullptr, false );
     }
-
-    parent->addItem( buttonGroupWidget, str );
+    parent->addItem( widget, name );
 }
 
 void SToolBox::createToolButtonGroup()
 {
-    if ( settings_list.end() == settings_list.find( "kek" ) )
-    {
-        Box box( "kek", this );
-        settings_list.insert( "kek", box );
-    }
-    if ( settings_list.end() == settings_list.find( "lol" ) )
-    {
-        Box box( "lol", this );
-        settings_list.insert( "lol", box );
-    }
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
     setMinimumWidth( 230 );
 }
@@ -81,8 +70,8 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
     button->setIcon( icon );
     button->setIconSize( QSize( SIZE, SIZE ) );
     button->setCheckable( true );
-    if ( addButtonGroup )
-        button_group->addButton( button, button_group->buttons().size() );
+    // if ( addButtonGroup )
+    // button_group->addButton( button, button_group->buttons().size() );
 
     QGridLayout* layout = new QGridLayout;
     layout->addWidget( button, 0, 0, Qt::AlignHCenter );
@@ -105,6 +94,10 @@ void SToolBox::addDiagramItems( const QVector<DiagramItemSettings*>& items )
     {
         addDiagramItem( item );
     }
+    // for ( auto item : settings_list )
+    //{
+    //     addItem( item.widget, item.name );
+    // }
 }
 
 void SToolBox::deleteDiagramItem( DiagramItemSettings* item )
@@ -128,10 +121,14 @@ void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )
 
 void SToolBox::addWidget( DiagramItemSettings* settings, QWidget* widget )
 {
-    auto box = settings_list[settings->getNameType()];
-    int size = box.settings.size();
+    if ( settings_list.end() == settings_list.find( settings->getNameType() ) )
+    {
+        settings_list[settings->getNameType()] = Box( settings->getNameType(), this );
+    }
+    auto* box = &settings_list[settings->getNameType()];
+    int size = box->settings.size();
     int row = size / COUNT_COLUMN;
     int column = size % COUNT_COLUMN;
-    box.layout->addWidget( widget, row, column );
-    box.settings[widget] = settings;
+    box->layout->addWidget( widget, row, column );
+    box->settings[widget] = settings;
 }
