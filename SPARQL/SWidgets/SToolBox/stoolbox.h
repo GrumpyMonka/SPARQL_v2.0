@@ -40,7 +40,7 @@ private:
     {
         Box(){};
         Box( const QString& str, SToolBox* parent = nullptr );
-        ~Box();
+        void deleteBox();
         QString name;
         QMap<QWidget*, DiagramItemSettings*> settings;
         QGridLayout* layout;
