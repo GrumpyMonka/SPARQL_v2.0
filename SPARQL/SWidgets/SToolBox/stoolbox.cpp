@@ -35,32 +35,22 @@ void SToolBox::Box::deleteBox()
 
 void SToolBox::createToolButtonGroup()
 {
-    button_group = new QButtonGroup( this );
-    button_group->setExclusive( false );
-    connect( button_group, SIGNAL( buttonClicked( int ) ),
-        this, SLOT( buttonGroupClicked( int ) ) );
-
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
     setMinimumWidth( 230 );
 }
 
-void SToolBox::buttonGroupClicked( int pos )
+void SToolBox::buttonGroupClicked()
 {
-    auto button_list = button_group->buttons();
-    for ( int i = 0; i < button_list.size(); ++i )
+    auto keys = button_group.keys();
+    for ( auto button : keys )
     {
-        if ( pos != i )
-            button_list.at( i )->setChecked( false );
-    }
-
-    for ( auto area : settings_list )
-    {
-        for ( auto settings : area.settings )
+        if ( sender() == button )
         {
-            if ( 0 == --pos )
-            {
-                emit itemPressed( settings );
-            }
+            emit itemPressed( button_group[button] );
+        }
+        else
+        {
+            button->setChecked( false );
         }
     }
 }
@@ -86,12 +76,13 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
         icon = QIcon( item->pixmap.scaled( SIZE, SIZE ) );
     }
 
-    QToolButton* button = new QToolButton;
+    QWidget* widget = new QWidget( this );
+    QToolButton* button = new QToolButton( widget );
     button->setIcon( icon );
     button->setIconSize( QSize( SIZE, SIZE ) );
     button->setCheckable( true );
-    if ( addButtonGroup )
-        button_group->addButton( button, button_group->buttons().size() );
+    button_group[button] = item;
+    connect( button, SIGNAL( clicked() ), this, SLOT( buttonGroupClicked() ) );
 
     QGridLayout* layout = new QGridLayout;
     layout->addWidget( button, 0, 0, Qt::AlignHCenter );
@@ -99,7 +90,6 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
     temp_label->setMaximumWidth( 50 );
     layout->addWidget( temp_label, 1, 0, Qt::AlignCenter );
 
-    QWidget* widget = new QWidget;
     widget->setLayout( layout );
 
     if ( !addButtonGroup )
@@ -139,6 +129,7 @@ void SToolBox::deleteAll()
         box.deleteBox();
     }
     settings_list.clear();
+    button_group.clear();
     while ( 0 != count() )
     {
         removeItem( 0 );

@@ -4,6 +4,7 @@
 #include <QButtonGroup>
 #include <QGridLayout>
 #include <QToolBox>
+#include <QToolButton>
 
 #include <diagramitemsettings.h>
 
@@ -29,7 +30,7 @@ private:
     void addWidget( DiagramItemSettings*, QWidget* );
 
 private slots:
-    void buttonGroupClicked( int );
+    void buttonGroupClicked();
 
 signals:
     void error( QString );
@@ -47,7 +48,7 @@ private:
         QWidget* widget;
     };
 
-    QButtonGroup* button_group;
+    QMap<QToolButton*, DiagramItemSettings*> button_group;
 
     QMap<QString, Box> settings_list;
 };
