@@ -22,6 +22,7 @@ public slots:
     void addDiagramItems( const QVector<DiagramItemSettings*>& );
     void deleteDiagramItem( DiagramItemSettings* );
     void deleteDiagramItems( const QVector<DiagramItemSettings*> );
+    void deleteAll();
 
 private:
     void createToolButtonGroup();
@@ -39,6 +40,7 @@ private:
     {
         Box(){};
         Box( const QString& str, SToolBox* parent = nullptr );
+        ~Box();
         QString name;
         QMap<QWidget*, DiagramItemSettings*> settings;
         QGridLayout* layout;

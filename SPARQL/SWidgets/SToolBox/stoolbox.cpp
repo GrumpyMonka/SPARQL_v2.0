@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QToolButton>
+#include <graphviz/geom.h>
 
 SToolBox::SToolBox( QWidget* parent )
     : QToolBox( parent )
@@ -28,6 +29,14 @@ SToolBox::Box::Box( const QString& str, SToolBox* parent )
     parent->addItem( widget, name );
 }
 
+SToolBox::Box::~Box()
+{
+    for ( auto widget : settings.keys() )
+    {
+        widget->deleteLater();
+    }
+}
+
 void SToolBox::createToolButtonGroup()
 {
     setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
@@ -47,7 +56,7 @@ void SToolBox::buttonGroupClicked( int pos )
 
 void SToolBox::setDiagramItems( const QVector<DiagramItemSettings*>& items )
 {
-    // deleteDiagramItems( settings_list );
+    deleteAll();
 
     addDiagramItems( items );
 }
@@ -102,20 +111,26 @@ void SToolBox::addDiagramItems( const QVector<DiagramItemSettings*>& items )
 
 void SToolBox::deleteDiagramItem( DiagramItemSettings* item )
 {
-    /*
-    auto pos = settings_list.indexOf( item );
-    widget_list.at( pos )->deleteLater();
-    widget_list.remove( pos );
-    settings_list.remove( pos );
-    button_group->removeButton( button_group->buttons().at( pos ) );
-    */
+    auto widget = settings_list[item->getNameType()].settings.key( item );
+    settings_list[item->getNameType()].settings.remove( widget );
+    widget->deleteLater();
+    // button_group->removeButton( button_group->buttons().at( pos ) );
 }
 
 void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )
 {
     for ( auto item : items )
     {
-        // deleteDiagramItem( item );
+        deleteDiagramItem( item );
+    }
+}
+
+void SToolBox::deleteAll()
+{
+    settings_list.clear();
+    while ( 0 != count() )
+    {
+        removeItem( 0 );
     }
 }
 

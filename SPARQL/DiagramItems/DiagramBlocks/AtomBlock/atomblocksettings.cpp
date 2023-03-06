@@ -110,6 +110,7 @@ AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()
 {
     auto settings = new AtomBlockSettings();
     settings->type_block = DEFAULT_AREA;
+    settings->block_name = DEFAULT_AREA;
     settings->flag_text = false;
     settings->polygon.clear();
     settings->transparent_background = true;
@@ -125,6 +126,7 @@ AtomBlockSettings* AtomBlockSettings::GetVarAtomBlock()
 {
     auto settings = new AtomBlockSettings();
     settings->type_block = DEFAULT_VAR;
+    settings->block_name = DEFAULT_VAR;
     settings->color_text = "red";
     settings->polygon.clear();
     settings->polygon << QPointF( -50, -50 )
@@ -140,6 +142,7 @@ AtomBlockSettings* AtomBlockSettings::GetValueAtomBlock()
 {
     auto settings = new AtomBlockSettings();
     settings->type_block = DEFAULT_VALUE;
+    settings->block_name = DEFAULT_VALUE;
     settings->color_text = "blue";
     settings->pixmap = settings->image();
     return settings;
