@@ -4,6 +4,7 @@
 #include <QButtonGroup>
 #include <QGridLayout>
 #include <QToolBox>
+#include <QToolButton>
 
 #include <diagramitemsettings.h>
 
@@ -22,26 +23,34 @@ public slots:
     void addDiagramItems( const QVector<DiagramItemSettings*>& );
     void deleteDiagramItem( DiagramItemSettings* );
     void deleteDiagramItems( const QVector<DiagramItemSettings*> );
+    void deleteAll();
 
 private:
     void createToolButtonGroup();
     void addWidget( DiagramItemSettings*, QWidget* );
 
 private slots:
-    void buttonGroupClicked( int );
+    void buttonGroupClicked();
 
 signals:
     void error( QString );
     void itemPressed( DiagramItemSettings* );
 
 private:
-    QButtonGroup* button_group;
-    QGridLayout* button_layout;
+    struct Box
+    {
+        Box(){};
+        Box( const QString& str, SToolBox* parent = nullptr );
+        void deleteBox();
+        QString name;
+        QMap<QWidget*, DiagramItemSettings*> settings;
+        QGridLayout* layout;
+        QWidget* widget;
+    };
 
-    // QMap<QWidget*, DiagramItemSettings*> library;
+    QMap<QToolButton*, DiagramItemSettings*> button_group;
 
-    QVector<DiagramItemSettings*> settings_list;
-    QVector<QWidget*> widget_list;
+    QMap<QString, Box> settings_list;
 };
 
 #endif // STOOLBOX_H

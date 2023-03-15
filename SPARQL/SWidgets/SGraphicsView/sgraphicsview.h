@@ -26,7 +26,7 @@ public:
     SWidgetTypes typeSWidget() override { return SGraphicsViewType; }
     virtual int modeDiagramBlocks() override { return BlocksLibrary::ModeBlocks::None; }
 
-    explicit SGraphicsView( QWidget* parent = nullptr );
+    explicit SGraphicsView( QMenu* context_menu, QWidget* parent = nullptr );
     void setDiagramScene( DiagramScene* );
     void createSidePanel();
     void removeSelectedGraphicsItems();
@@ -61,6 +61,7 @@ signals:
 
 private:
     DiagramScene* diagram_scene;
+    QMenu* context_menu;
     QGraphicsView* graphics_view;
     QGroupBox* group_box;
     QGridLayout* grid_layout;

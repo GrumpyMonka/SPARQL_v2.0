@@ -3,9 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QToolButton>
-
-#include <compositeblocksettings.h>
-#include <sparqlblocksettings.h>
+#include <graphviz/geom.h>
 
 SToolBox::SToolBox( QWidget* parent )
     : QToolBox( parent )
@@ -13,51 +11,53 @@ SToolBox::SToolBox( QWidget* parent )
     createToolButtonGroup();
 }
 
-void SToolBox::createToolButtonGroup()
+SToolBox::Box::Box( const QString& str, SToolBox* parent )
 {
-    button_group = new QButtonGroup( this );
-    button_group->setExclusive( false );
-    connect( button_group, SIGNAL( buttonClicked( int ) ),
-        this, SLOT( buttonGroupClicked( int ) ) );
+    name = str;
+    widget = new QWidget( parent );
+    layout = new QGridLayout( widget );
+    layout->setRowStretch( 10, 10 );
+    layout->setColumnStretch( 3, 10 );
+    widget->setLayout( layout );
+    layout->setSpacing( 0 );
+    layout->setMargin( 0 );
 
-    QWidget* buttonGroupWidget = new QWidget( this );
-    button_layout = new QGridLayout( buttonGroupWidget );
-    button_layout->setRowStretch( 10, 10 );
-    button_layout->setColumnStretch( 3, 10 );
-    buttonGroupWidget->setLayout( button_layout );
-    button_layout->setSpacing( 0 );
-    button_layout->setMargin( 0 );
-
-    for ( int i = 0; i < 3; ++i )
-    {
-        addDiagramItem( nullptr, false );
-    }
-
-    for ( int i = 0; i < 3; ++i )
-    {
-        settings_list.removeLast();
-        widget_list.removeLast();
-    }
-
-    setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
-    setMinimumWidth( 230 );
-    addItem( buttonGroupWidget, tr( "Blocks" ) );
+    parent->addItem( widget, name );
 }
 
-void SToolBox::buttonGroupClicked( int pos )
+void SToolBox::Box::deleteBox()
 {
-    auto button_list = button_group->buttons();
-    for ( int i = 0; i < button_list.size(); ++i )
+    for ( auto widget : settings.keys() )
     {
-        if ( pos != i )
-            button_list.at( i )->setChecked( false );
+        widget->deleteLater();
     }
-    emit itemPressed( settings_list.at( pos ) );
+}
+
+void SToolBox::createToolButtonGroup()
+{
+    setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Ignored ) );
+    setMinimumWidth( 230 );
+}
+
+void SToolBox::buttonGroupClicked()
+{
+    auto keys = button_group.keys();
+    for ( auto button : keys )
+    {
+        if ( sender() == button )
+        {
+            emit itemPressed( button_group[button] );
+        }
+        else
+        {
+            button->setChecked( false );
+        }
+    }
 }
 
 void SToolBox::setDiagramItems( const QVector<DiagramItemSettings*>& items )
 {
-    deleteDiagramItems( settings_list );
+    deleteAll();
 
     addDiagramItems( items );
 }
@@ -75,37 +75,14 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
         name = item->block_name;
         icon = QIcon( item->pixmap.scaled( SIZE, SIZE ) );
     }
-    /*
-        else if ( BasedBlockSettings  == item->type() )
-        {
-            BasedBlockSettings* setting = static_cast<BasedBlockSettings*>( item );
-            name = setting->block_name;
-            icon = QIcon( setting->pixmap.scaled( SIZE, SIZE ) );
-        }
 
-        else if ( CompositeBlockSetting  == settingf->type() )
-        {
-        }
-        else if ( SparqlBlockSetting  == settingf->type() )
-        {
-            SparqlBlockSetting* setting = ( SparqlBlockSetting* )( settingf );
-            name = setting->name;
-            QPixmap pixmap( ":/images/sparqlicon.jpg" );
-            icon = QIcon( pixmap.scaled( 50, 50 ) );
-        }
-        else if ( AtomBlockSettings  == item->type() )
-        {
-            AtomBlockSettings* setting = static_cast<AtomBlockSettings*>( item );
-
-        }
-        */
-
-    QToolButton* button = new QToolButton;
+    QWidget* widget = new QWidget( this );
+    QToolButton* button = new QToolButton( widget );
     button->setIcon( icon );
     button->setIconSize( QSize( SIZE, SIZE ) );
     button->setCheckable( true );
-    if ( addButtonGroup )
-        button_group->addButton( button, button_group->buttons().size() );
+    button_group[button] = item;
+    connect( button, SIGNAL( clicked() ), this, SLOT( buttonGroupClicked() ) );
 
     QGridLayout* layout = new QGridLayout;
     layout->addWidget( button, 0, 0, Qt::AlignHCenter );
@@ -113,7 +90,6 @@ void SToolBox::addDiagramItem( DiagramItemSettings* item, bool addButtonGroup )
     temp_label->setMaximumWidth( 50 );
     layout->addWidget( temp_label, 1, 0, Qt::AlignCenter );
 
-    QWidget* widget = new QWidget;
     widget->setLayout( layout );
 
     if ( !addButtonGroup )
@@ -132,11 +108,10 @@ void SToolBox::addDiagramItems( const QVector<DiagramItemSettings*>& items )
 
 void SToolBox::deleteDiagramItem( DiagramItemSettings* item )
 {
-    auto pos = settings_list.indexOf( item );
-    widget_list.at( pos )->deleteLater();
-    widget_list.remove( pos );
-    settings_list.remove( pos );
-    button_group->removeButton( button_group->buttons().at( pos ) );
+    auto widget = settings_list[item->getNameType()].settings.key( item );
+    settings_list[item->getNameType()].settings.remove( widget );
+    widget->deleteLater();
+    // button_group->removeButton( button_group->buttons().at( pos ) );
 }
 
 void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )
@@ -147,12 +122,30 @@ void SToolBox::deleteDiagramItems( const QVector<DiagramItemSettings*> items )
     }
 }
 
+void SToolBox::deleteAll()
+{
+    for ( auto box : settings_list )
+    {
+        box.deleteBox();
+    }
+    settings_list.clear();
+    button_group.clear();
+    while ( 0 != count() )
+    {
+        removeItem( 0 );
+    }
+}
+
 void SToolBox::addWidget( DiagramItemSettings* settings, QWidget* widget )
 {
-    int size = widget_list.size();
+    if ( settings_list.end() == settings_list.find( settings->getNameType() ) )
+    {
+        settings_list.insert( settings->getNameType(), Box( settings->getNameType(), this ) );
+    }
+    auto* box = &settings_list[settings->getNameType()];
+    int size = box->settings.size();
     int row = size / COUNT_COLUMN;
     int column = size % COUNT_COLUMN;
-    button_layout->addWidget( widget, row, column );
-    widget_list.push_back( widget );
-    settings_list.push_back( settings );
+    box->layout->addWidget( widget, row, column );
+    box->settings[widget] = settings;
 }

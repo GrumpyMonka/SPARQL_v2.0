@@ -14,7 +14,7 @@ public:
         | BlocksLibrary::ModeBlocks::SPARQL
         | BlocksLibrary::ModeBlocks::IO; }
 
-    explicit CompositeBlockWindow( QWidget* parent = nullptr );
+    explicit CompositeBlockWindow( QMenu* context_menu, QWidget* parent = nullptr );
 
     CompositeBlockSettings* getSettings();
     void setSettings( CompositeBlockSettings* settings = new CompositeBlockSettings() );

@@ -38,6 +38,7 @@ public slots:
     void slotOnCreateBlock( DiagramItemSettings* );
     void slotOnClickedBlockExecutor();
     void slotOnDeleteItemOnScene();
+    void setItemMenu( QMenu* );
 
 private:
     void createMainForm();
@@ -47,6 +48,7 @@ private:
     QGridLayout* main_layout;
 
     SMenuBar* menu_bar;
+    QMenu* item_menu;
     SToolBar* tool_bar;
     SToolBox* tool_box;
     STabWidget* tab_widget;

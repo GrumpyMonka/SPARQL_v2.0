@@ -7,8 +7,8 @@
 
 #include <diagramarrow.h>
 
-SparqlBlockWindow::SparqlBlockWindow( QWidget* parent )
-    : SGraphicsView( parent )
+SparqlBlockWindow::SparqlBlockWindow( QMenu* context_menu, QWidget* parent )
+    : SGraphicsView( context_menu, parent )
 {
     createSidePanel();
     setSettings( SparqlBlockSettings::CreateTemplateSparqlSettings() );
