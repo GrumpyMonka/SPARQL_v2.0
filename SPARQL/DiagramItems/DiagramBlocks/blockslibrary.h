@@ -6,7 +6,7 @@
 
 #include <diagramitemsettings.h>
 
-#define FOLDER_FOR_BLOCKS "Blocks/"
+#define FOLDER_FOR_BLOCKS "../Blocks/"
 
 class BlocksLibrary
 {

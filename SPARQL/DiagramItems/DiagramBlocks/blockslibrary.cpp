@@ -35,7 +35,7 @@ void BlocksLibrary::loadBlocksFromFiles( const QString& folder )
         }
         else
         {
-            dir.setPath( "Blocks/" + list.at( i ).fileName() );
+            dir.setPath( list.at( i ).absoluteFilePath() );
             qDebug() << dir.path();
             QFileInfoList lst = dir.entryInfoList();
             for ( int j = 0; j < lst.size(); j++ )
