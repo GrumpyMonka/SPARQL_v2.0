@@ -299,14 +299,15 @@ void DiagramExecutor::paint()
     gvLayout( gvc, graph, "dot" );
     char* png_bytes;
     unsigned int size_png_bytes;
-    if ( path.isEmpty() )
+    /*if ( path.isEmpty() )
     {
         auto time = QString::number( QDateTime::currentMSecsSinceEpoch() );
-        path = "/home/grumpymonk/Project/" + time + "/";
-        QDir( "/home/grumpymonk/Project/" ).mkpath( time );
+        path = "logs/" + time + "/";
+        QDir( "logs/" ).mkpath( time );
     }
-    QString file_name = path + QString::number( QDateTime::currentMSecsSinceEpoch() ) + ".png";
+    QString file_name = QDir( path + QString::number( QDateTime::currentMSecsSinceEpoch() ) + ".png" ).absolutePath();
     gvRender( gvc, graph, "png", fopen( file_name.toStdString().c_str(), "w" ) );
+    */
     gvRenderData( gvc, graph, "png", &png_bytes, &size_png_bytes );
 
     gvFreeLayout( gvc, graph );

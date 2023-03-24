@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QToolBox>
 #include <QToolButton>
+#include <QMap>
 
 #include <diagramitemsettings.h>
 

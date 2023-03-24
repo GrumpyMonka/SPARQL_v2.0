@@ -98,6 +98,7 @@ INCLUDEPATH += \
     DiagramItems/DiagramBlocks/IOBlock \
     DiagramItems/DiagramBlocks \
     DiagramItems/DiagramExecutor \
+    "C:\Program Files\Graphviz\include" \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -107,4 +108,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     sources.qrc
 
-LIBS += -lgvc -lcgraph
+LIBS += -L"C:\Program Files\Graphviz\lib" -lgvc -lcgraph
