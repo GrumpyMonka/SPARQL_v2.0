@@ -25,6 +25,7 @@ public:
     void setText( const QString& str );
     QString getText();
     void updatePosition();
+    void setVisibleText( bool flag );
 
 protected:
     void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 ) override;

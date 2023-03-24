@@ -95,6 +95,7 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                     {
                         prev->removeConnectName( io_block );
                         prev->addBlockConnectName( static_cast<IOBlockSettings*>( block_settings )->text, next );
+                        prev->addLinkedItemForComposite( static_cast<IOBlockSettings*>( block_settings )->text, io_block->getDiagramItem() );
                         if ( DiagramItemSettings::CompositeItemSettingsType == next->getSettings()->typeSettings() )
                         {
                             auto name_connect = next->getBlockConnectName( io_block );
@@ -202,8 +203,10 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
                             if ( composite->getBlockConnectName( io )
                                 == static_cast<IOBlockSettings*>( block->getSettings() )->text )
                             {
+                                auto item = composite->getLinkedItemForComposite( composite->getBlockConnectName( io ) );
                                 for ( auto prev : block->getPrevBlocks() )
                                 {
+                                    prev->setDiagramItem( item );
                                     io->addPrevBlocks( prev );
                                     prev->addNextBlocks( io );
                                     if ( DiagramItemSettings::CompositeItemSettingsType == prev->getSettings()->typeSettings() )

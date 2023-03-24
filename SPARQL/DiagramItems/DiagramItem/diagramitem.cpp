@@ -36,6 +36,7 @@ void DiagramItem::setOutputText( const QString& output_text )
     for ( auto arrow : arrows )
     {
         arrow->setText( output_text );
+        // arrow->setVisibleText( false );
     }
 }
 

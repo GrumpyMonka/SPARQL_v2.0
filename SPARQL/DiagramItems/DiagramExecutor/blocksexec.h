@@ -29,13 +29,17 @@ public:
     void setPrevBlocks( const QVector<BlocksExec*>& prev_list );
     void addPrevBlocks( BlocksExec* prev );
     void setDiagramItem( DiagramItem* item );
+    void addLinkedItemForComposite( const QString& str, DiagramItem* item );
     void setSettings( DiagramItemSettings* settings );
     void setTags( const QMap<QString, QString>& tags );
     void addTag( const QString& key, const QString& value );
     void addBlockConnectName( const QString& tag, BlocksExec* block );
+    void addDepend( DiagramItem* item );
+    void addDepends( QVector<DiagramItem*> items );
 
     bool getFlagOfWorking();
     bool getAllowWork();
+    QVector<DiagramItem*> getDependens();
     QString getScript();
     QScriptValueList getInputData();
     QString getUserData();
@@ -43,6 +47,7 @@ public:
     QVector<BlocksExec*> getNextBlocks();
     QVector<BlocksExec*> getPrevBlocks();
     DiagramItem* getDiagramItem();
+    DiagramItem* getLinkedItemForComposite( const QString& str );
     DiagramItemSettings* getSettings();
     QMap<QString, QString> getTags();
     QString getTag( const QString& key );
@@ -80,8 +85,10 @@ private:
         QString nameConnectionEnd;
     };
 
-    DiagramItem* block = nullptr;
+    DiagramItem* linked_item = nullptr;
+    QMap<QString, DiagramItem*> linked_items_for_composite;
     DiagramItemSettings* block_settings = nullptr;
+    QVector<DiagramItem*> dependens_list;
 
     bool flag_of_work;
     bool allow_work;

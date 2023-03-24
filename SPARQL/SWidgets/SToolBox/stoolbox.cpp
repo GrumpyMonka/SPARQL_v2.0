@@ -3,7 +3,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QToolButton>
-#include <graphviz/geom.h>
 
 SToolBox::SToolBox( QWidget* parent )
     : QToolBox( parent )

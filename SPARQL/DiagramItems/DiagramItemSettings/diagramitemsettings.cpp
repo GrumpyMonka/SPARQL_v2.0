@@ -27,7 +27,7 @@ QString DiagramItemSettings::getNameType()
     case DiagramItemSettingsType:
         return "Settings";
     case BasedItemSettingsType:
-        return "Based";
+        return "Basic";
     case CompositeItemSettingsType:
         return "Composite";
     case SparqlItemSettinsType:

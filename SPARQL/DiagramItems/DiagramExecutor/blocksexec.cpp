@@ -24,10 +24,12 @@ QString BlocksExec::runBlock()
 
         execScript( engine, "var x = [];" );
         execScript( engine, "var y = [];" );
-        for ( int i = 0; i < input_data.size(); ++i )
+        execScript( engine, "var dep = [];" );
+
+        for ( int i = 0; i < prev_blocks.size(); ++i )
         {
             QString name_temp = "input_data" + QString::number( i );
-            QScriptValue temp_value( input_data[i].toString() );
+            QScriptValue temp_value( prev_blocks[i]->getOutputData().toString() );
             engine->globalObject().setProperty( name_temp, temp_value );
             execScript( engine, "x.push( " + name_temp + " );" );
         }
@@ -37,9 +39,28 @@ QString BlocksExec::runBlock()
 
         output_data = engine->globalObject().property( "y" );
         logs_exec.push_back( "\nOUTPUT DATA: " + output_data.toString() );
-        if ( nullptr != block )
+        auto deps = engine->globalObject().property( "dep" ).toString();
+        if ( deps.isEmpty() )
         {
-            block->setOutputText( output_data.toString() );
+            for ( auto prev : prev_blocks )
+            {
+                addDepends( prev->getDependens() );
+                addDepend( prev->getDiagramItem() );
+            }
+        }
+        else
+        {
+            for ( auto dep : deps.split( "," ) )
+            {
+                addDepends( prev_blocks[dep.toInt()]->getDependens() );
+                addDepend( prev_blocks[dep.toInt()]->getDiagramItem() );
+            }
+        }
+
+        if ( nullptr != linked_item )
+        {
+            linked_item->setOutputText( output_data.toString() );
+            linked_item->setDependecies( getDependens() );
         }
     }
     catch ( QString& err )
@@ -97,6 +118,27 @@ void BlocksExec::execScript( QScriptEngine* engine, const QString& script, bool 
             throw result.toString();
         }
     }
+}
+
+void BlocksExec::addDepend( DiagramItem* item )
+{
+    if ( nullptr != item )
+    {
+        dependens_list.push_back( item );
+    }
+}
+
+void BlocksExec::addDepends( QVector<DiagramItem*> items )
+{
+    for ( auto item : items )
+    {
+        addDepend( item );
+    }
+}
+
+QVector<DiagramItem*> BlocksExec::getDependens()
+{
+    return dependens_list;
 }
 
 QStringList BlocksExec::getLogs()
@@ -188,12 +230,12 @@ void BlocksExec::setValueForEngine( const QMap<QString, QObject*>& value_list )
 
 void BlocksExec::setDiagramItem( DiagramItem* item )
 {
-    block = item;
+    linked_item = item;
 }
 
 DiagramItem* BlocksExec::getDiagramItem()
 {
-    return block;
+    return linked_item;
 }
 
 void BlocksExec::setTags( const QMap<QString, QString>& tags )
@@ -228,6 +270,19 @@ void BlocksExec::deleteTag( const QString& key )
     {
         block_tags.erase( it );
     }
+}
+
+void BlocksExec::addLinkedItemForComposite( const QString& str, DiagramItem* item )
+{
+    if ( item != nullptr )
+    {
+        linked_items_for_composite.insert( str, item );
+    }
+}
+
+DiagramItem* BlocksExec::getLinkedItemForComposite( const QString& str )
+{
+    return linked_items_for_composite[str];
 }
 
 void BlocksExec::disconnectDiagramItem()

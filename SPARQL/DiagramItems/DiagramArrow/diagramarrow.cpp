@@ -138,6 +138,11 @@ void DiagramArrow::setText( const QString& str )
     line_edit->setText( str );
 }
 
+void DiagramArrow::setVisibleText( bool flag )
+{
+    line_edit->setVisible( flag );
+}
+
 QString DiagramArrow::getText()
 {
     return line_edit->text();

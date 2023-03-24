@@ -1,0 +1,192 @@
+{
+    "Body": {
+        "Blocks": [
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 1907,
+                        "Y": 2314
+                    },
+                    "Text": "b"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 1904,
+                        "Y": 2125
+                    },
+                    "Text": "a"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 2643,
+                        "Y": 2206
+                    },
+                    "Support_Add_Item": true,
+                    "Text": "OR"
+                },
+                "Header": {
+                    "Name": "(IO)Output",
+                    "Type": "IO",
+                    "Type_Block": "Output"
+                }
+            },
+            {
+                "Body": {
+                    "Flag_Edit": false,
+                    "Flag_Label": true,
+                    "Image": "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",
+                    "Pos": {
+                        "X": 2303,
+                        "Y": 2228
+                    },
+                    "Script": "var flag = \"false\";\nfor(var i = 0; i < x.length; i++){\n\tif( x[i] == \"true\"){\n\t\tflag = \"true\";\n\t\tbreak;\n\t}\n}\n\n// depends\nfor(var i = 0; i < x.length; i++){\n\tif(x[i] == flag ){\n\t\tdep.push( i );  \n\t}\n}\n\ny.push(flag);\n",
+                    "Text_Edit": "",
+                    "Text_Label": ""
+                },
+                "Header": {
+                    "Name": "OR_DEP",
+                    "Type": "Based"
+                }
+            }
+        ],
+        "Input": [
+            "b",
+            "a"
+        ],
+        "Lines": [
+            {
+                "End": 2,
+                "Start": 3,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 3,
+                "Start": 0,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 3,
+                "Start": 1,
+                "Text_End": "",
+                "Text_Start": ""
+            }
+        ],
+        "Output": [
+            "OR"
+        ],
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        }
+    },
+    "Header": {
+        "Name": "OR",
+        "Type": "Composite"
+    }
+}
