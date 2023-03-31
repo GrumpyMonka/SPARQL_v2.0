@@ -240,21 +240,6 @@ void DiagramExecutor::setDiagramItem( QVector<DiagramItem*>& item_list )
 
 void DiagramExecutor::paint()
 {
-    /*
-     * digraph test
- {
-    fontname="Helvetica,Arial,sans-serif"
-    node [fontname="Helvetica,Arial,sans-serif"]
-    edge [fontname="Helvetica,Arial,sans-serif"]
-    concentrate=True;
-    rankdir=TB;
-    node [shape=record];
-
-    0 [label="IO: Input\n|{input:|output:|user data:}|{{[]}|{[]}|{[]}}"];
-    10 [label="Based: Summary\n|{input:|output:|user data:}|{{[]}|{[]}|{[]}}"];
-    0 -> 10 [label="test"];
-}
-     */
     QString text_format = "digraph graph_blocks\n"
                           "{\n"
                           "\tfontname=\"Helvetica,Arial,sans-serif\"\n"
@@ -275,10 +260,6 @@ void DiagramExecutor::paint()
             + blocks_exec_list[i]->getUserData() + "}|{"
             + QString::number( blocks_exec_list[i]->getPrevBlocks().size() ) + " / "
             + QString::number( blocks_exec_list[i]->getNextBlocks().size() ) + "}}\"]\n";
-        // for( auto input : blocks_exec_list[i]->getInputData() )
-        //{
-        //     text_format +=
-        // }
     }
     text_format += "\n\n";
     for ( int i = 0; i < blocks_exec_list.size(); ++i )
@@ -299,7 +280,9 @@ void DiagramExecutor::paint()
     gvLayout( gvc, graph, "dot" );
     char* png_bytes;
     unsigned int size_png_bytes;
-    /*if ( path.isEmpty() )
+
+#ifdef Q_OS_LINUX
+    if ( path.isEmpty() )
     {
         auto time = QString::number( QDateTime::currentMSecsSinceEpoch() );
         path = "logs/" + time + "/";
@@ -307,7 +290,8 @@ void DiagramExecutor::paint()
     }
     QString file_name = QDir( path + QString::number( QDateTime::currentMSecsSinceEpoch() ) + ".png" ).absolutePath();
     gvRender( gvc, graph, "png", fopen( file_name.toStdString().c_str(), "w" ) );
-    */
+#endif
+
     gvRenderData( gvc, graph, "png", &png_bytes, &size_png_bytes );
 
     gvFreeLayout( gvc, graph );

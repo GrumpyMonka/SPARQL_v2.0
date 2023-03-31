@@ -133,6 +133,7 @@ void DiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
             if ( DiagramItem::CheckItemOnDiagramItem( block->type() ) )
             {
                 static_cast<DiagramItem*>( block )->setPen( QPen( Qt::black, 1 ) );
+                static_cast<DiagramItem*>( block )->setColorArrows( Qt::black );
             }
         }
 
@@ -144,9 +145,10 @@ void DiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
                 if ( DiagramItem::CheckItemOnDiagramItem( block->type() ) )
                 {
                     auto dep_items = static_cast<DiagramItem*>( block )->getDependecies();
-                    for ( auto item : dep_items )
+                    for ( auto pair : dep_items )
                     {
-                        item->setPen( QPen( Qt::red, 5 ) );
+                        pair.first->setPen( QPen( Qt::red, 5 ) );
+                        pair.first->setColorArrowToItem( Qt::red, pair.second );
                     }
                 }
             }
