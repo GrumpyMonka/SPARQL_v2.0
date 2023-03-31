@@ -6,7 +6,11 @@
 
 #include <diagramitemsettings.h>
 
-#define FOLDER_FOR_BLOCKS "Blocks/"
+#ifdef QT_DEBUG
+constexpr char* FOLDER_FOR_BLOCKS = "../Blocks/";
+#else
+constexpr char* FOLDER_FOR_BLOCKS = "Blocks/";
+#endif
 
 class BlocksLibrary
 {
