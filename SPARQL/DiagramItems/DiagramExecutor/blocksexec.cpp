@@ -1,5 +1,7 @@
 #include "blocksexec.h"
 
+#include <QDebug>
+
 BlocksExec::BlocksExec( QObject* parent )
     : QObject{ parent }
 {

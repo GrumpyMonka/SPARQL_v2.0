@@ -3,13 +3,14 @@
 
 #include <QMap>
 #include <QVector>
+#include <QString>
 
 #include <diagramitemsettings.h>
 
 #ifdef QT_DEBUG
-constexpr char* FOLDER_FOR_BLOCKS = "../Blocks/";
+#define FOLDER_FOR_BLOCKS "../Blocks/"
 #else
-constexpr char* FOLDER_FOR_BLOCKS = "Blocks/";
+#define FOLDER_FOR_BLOCKS "Blocks/"
 #endif
 
 class BlocksLibrary
