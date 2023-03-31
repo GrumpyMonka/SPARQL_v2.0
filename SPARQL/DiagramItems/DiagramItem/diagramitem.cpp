@@ -166,24 +166,49 @@ QVector<DiagramArrow*> DiagramItem::getArrows()
     return arrows;
 }
 
-QVector<DiagramItem*> DiagramItem::getDependecies()
+QVector<QPair<DiagramItem*, DiagramItem*>> DiagramItem::getDependecies()
 {
     if ( dependencies.empty() )
     {
-        QVector<DiagramItem*> data;
+        QVector<QPair<DiagramItem*, DiagramItem*>> data;
         auto arrows = getEndArrows();
         for ( auto arrow : arrows )
         {
-            data.push_back( arrow->startItem() );
+            data.push_back( { arrow->startItem(), this } );
         }
         return data;
     }
     return dependencies;
 }
 
-void DiagramItem::addDependecies( DiagramItem* item )
+void DiagramItem::setColorArrowToItem( const QColor& color, DiagramItem* item )
 {
-    dependencies.push_back( item );
+    auto arrows = getStartArrows();
+    for ( auto arrow : arrows )
+    {
+        if ( arrow->endItem() == item )
+        {
+            arrow->setColor( color );
+            arrow->updatePosition();
+        }
+    }
+}
+
+void DiagramItem::setColorArrows( const QColor& color )
+{
+    for ( auto arrow : arrows )
+    {
+        arrow->setColor( color );
+        arrow->updatePosition();
+    }
+}
+
+void DiagramItem::addDependecies( DiagramItem* start, DiagramItem* end )
+{
+    if ( nullptr != start && nullptr != end )
+    {
+        dependencies.push_back( { start, end } );
+    }
 }
 
 void DiagramItem::clearDependecies()
@@ -191,14 +216,14 @@ void DiagramItem::clearDependecies()
     dependencies.clear();
 }
 
-void DiagramItem::setDependecies( QVector<DiagramItem*> data )
+void DiagramItem::setDependecies( QVector<QPair<DiagramItem*, DiagramItem*>> data )
 {
     if ( data.empty() )
     {
         auto arrows = getEndArrows();
         for ( auto arrow : arrows )
         {
-            data.push_back( arrow->startItem() );
+            data.push_back( { arrow->startItem(), this } );
         }
     }
     dependencies = data;

@@ -102,10 +102,12 @@ public:
     void setAllowLineToChild( bool );
     bool getAllowLineToChild();
 
-    QVector<DiagramItem*> getDependecies();
-    void setDependecies( QVector<DiagramItem*> );
-    void addDependecies( DiagramItem* );
+    QVector<QPair<DiagramItem*, DiagramItem*>> getDependecies();
+    void setDependecies( QVector<QPair<DiagramItem*, DiagramItem*>> );
+    void addDependecies( DiagramItem*, DiagramItem* );
     void clearDependecies();
+    void setColorArrowToItem( const QColor&, DiagramItem* );
+    void setColorArrows( const QColor& );
 
     static bool CheckItemOnDiagramItem( const qint64 code );
     static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
@@ -124,7 +126,7 @@ protected:
     QPolygonF my_polygon;
     bool support_add_item;
     bool allow_line_to_child;
-    QVector<DiagramItem*> dependencies;
+    QVector<QPair<DiagramItem*, DiagramItem*>> dependencies;
 };
 
 #endif // DIAGRAMITEM_H

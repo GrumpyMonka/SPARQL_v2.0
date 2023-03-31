@@ -34,12 +34,12 @@ public:
     void setTags( const QMap<QString, QString>& tags );
     void addTag( const QString& key, const QString& value );
     void addBlockConnectName( const QString& tag, BlocksExec* block );
-    void addDepend( DiagramItem* item );
-    void addDepends( QVector<DiagramItem*> items );
+    void addDepend( DiagramItem* start, DiagramItem* end );
+    void addDepends( QVector<QPair<DiagramItem*, DiagramItem*>> items );
 
     bool getFlagOfWorking();
     bool getAllowWork();
-    QVector<DiagramItem*> getDependens();
+    QVector<QPair<DiagramItem*, DiagramItem*>> getDependens();
     QString getScript();
     QScriptValueList getInputData();
     QString getUserData();
@@ -88,7 +88,7 @@ private:
     DiagramItem* linked_item = nullptr;
     QMap<QString, DiagramItem*> linked_items_for_composite;
     DiagramItemSettings* block_settings = nullptr;
-    QVector<DiagramItem*> dependens_list;
+    QVector<QPair<DiagramItem*, DiagramItem*>> dependens_list;
 
     bool flag_of_work;
     bool allow_work;

@@ -39,13 +39,14 @@ QString BlocksExec::runBlock()
 
         output_data = engine->globalObject().property( "y" );
         logs_exec.push_back( "\nOUTPUT DATA: " + output_data.toString() );
+
         auto deps = engine->globalObject().property( "dep" ).toString();
         if ( deps.isEmpty() )
         {
             for ( auto prev : prev_blocks )
             {
                 addDepends( prev->getDependens() );
-                addDepend( prev->getDiagramItem() );
+                addDepend( prev->getDiagramItem(), linked_item );
             }
         }
         else
@@ -53,7 +54,7 @@ QString BlocksExec::runBlock()
             for ( auto dep : deps.split( "," ) )
             {
                 addDepends( prev_blocks[dep.toInt()]->getDependens() );
-                addDepend( prev_blocks[dep.toInt()]->getDiagramItem() );
+                addDepend( prev_blocks[dep.toInt()]->getDiagramItem(), linked_item );
             }
         }
 
@@ -65,6 +66,10 @@ QString BlocksExec::runBlock()
     }
     catch ( QString& err )
     {
+        qDebug() << "Error run block: " << err;
+        logs_exec.push_back( "\n----> ERROR <----\n" );
+
+        flag_of_work = true;
         return err;
     }
     logs_exec.push_back( "\n----> Success <----\n" );
@@ -120,23 +125,23 @@ void BlocksExec::execScript( QScriptEngine* engine, const QString& script, bool 
     }
 }
 
-void BlocksExec::addDepend( DiagramItem* item )
+void BlocksExec::addDepend( DiagramItem* start, DiagramItem* end )
 {
-    if ( nullptr != item )
+    if ( nullptr != start && nullptr != end )
     {
-        dependens_list.push_back( item );
+        dependens_list.push_back( { start, end } );
     }
 }
 
-void BlocksExec::addDepends( QVector<DiagramItem*> items )
+void BlocksExec::addDepends( QVector<QPair<DiagramItem*, DiagramItem*>> items )
 {
     for ( auto item : items )
     {
-        addDepend( item );
+        addDepend( item.first, item.second );
     }
 }
 
-QVector<DiagramItem*> BlocksExec::getDependens()
+QVector<QPair<DiagramItem*, DiagramItem*>> BlocksExec::getDependens()
 {
     return dependens_list;
 }
