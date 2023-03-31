@@ -1,0 +1,362 @@
+{
+    "Body": {
+        "Blocks": [
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 1919,
+                        "Y": 2529
+                    },
+                    "Text": "a1"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 1926,
+                        "Y": 2391
+                    },
+                    "Text": "a2"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 1937,
+                        "Y": 2269
+                    },
+                    "Text": "a3"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 1933,
+                        "Y": 2166
+                    },
+                    "Text": "a4"
+                },
+                "Header": {
+                    "Name": "(IO)Input",
+                    "Type": "IO",
+                    "Type_Block": "Input"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 2669,
+                        "Y": 2424
+                    },
+                    "Text": "b1"
+                },
+                "Header": {
+                    "Name": "(IO)Output",
+                    "Type": "IO",
+                    "Type_Block": "Output"
+                }
+            },
+            {
+                "Body": {
+                    "Polygon": [
+                        {
+                            "X": -80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 80,
+                            "Y": -30
+                        },
+                        {
+                            "X": 100,
+                            "Y": 0
+                        },
+                        {
+                            "X": 80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -80,
+                            "Y": 30
+                        },
+                        {
+                            "X": -60,
+                            "Y": 0
+                        },
+                        {
+                            "X": -80,
+                            "Y": -30
+                        }
+                    ],
+                    "Pos": {
+                        "X": 2670,
+                        "Y": 2247
+                    },
+                    "Text": "b2"
+                },
+                "Header": {
+                    "Name": "(IO)Output",
+                    "Type": "IO",
+                    "Type_Block": "Output"
+                }
+            },
+            {
+                "Body": {
+                    "Flag_Edit": false,
+                    "Flag_Label": true,
+                    "Image": "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",
+                    "Pos": {
+                        "X": 2161,
+                        "Y": 2468
+                    },
+                    "Script": "var result = 1;\nfor(var i = 0; i < x.length; i++){\n\tif (  x[i] == \"true\" )\n\t{\n\t\tx[i] = 1;\n\t} \n\telse if ( x[i] == \"false\" )\n\t{\n\t\tx[i] = 0;\n\t}\n\tresult *= Number(x[i]);\n}\ny.push(result);",
+                    "Text_Edit": "",
+                    "Text_Label": ""
+                },
+                "Header": {
+                    "Name": "Multiplication ",
+                    "Type": "Based"
+                }
+            },
+            {
+                "Body": {
+                    "Flag_Edit": false,
+                    "Flag_Label": true,
+                    "Image": "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",
+                    "Pos": {
+                        "X": 2163,
+                        "Y": 2224
+                    },
+                    "Script": "var result = 1;\nfor(var i = 0; i < x.length; i++){\n\tif (  x[i] == \"true\" )\n\t{\n\t\tx[i] = 1;\n\t} \n\telse if ( x[i] == \"false\" )\n\t{\n\t\tx[i] = 0;\n\t}\n\tresult *= Number(x[i]);\n}\ny.push(result);",
+                    "Text_Edit": "",
+                    "Text_Label": ""
+                },
+                "Header": {
+                    "Name": "Multiplication ",
+                    "Type": "Based"
+                }
+            }
+        ],
+        "Input": [
+            "a1",
+            "a2",
+            "a3",
+            "a4"
+        ],
+        "Lines": [
+            {
+                "End": 4,
+                "Start": 6,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 5,
+                "Start": 7,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 6,
+                "Start": 0,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 6,
+                "Start": 1,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 7,
+                "Start": 2,
+                "Text_End": "",
+                "Text_Start": ""
+            },
+            {
+                "End": 7,
+                "Start": 3,
+                "Text_End": "",
+                "Text_Start": ""
+            }
+        ],
+        "Output": [
+            "b1",
+            "b2"
+        ],
+        "Pos": {
+            "X": 0,
+            "Y": 0
+        }
+    },
+    "Header": {
+        "Name": "CALC",
+        "Type": "Composite"
+    }
+}
