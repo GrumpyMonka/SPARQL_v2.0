@@ -1,4 +1,4 @@
-# SPARQL V2.0
+# Non-FunBlocks
 For the program version 0.1
 
 # Basic functionality
@@ -29,10 +29,10 @@ The program is designed to facilitate the work of users with SPARQL queries:
 # Project status
 The project is under development, so pay attention to the version for which this ReadMe file is relevant. To see further plans for improving the project, you can see in [file](https://github.com/GrumpyMonka/SPARQL_v2.0/blob/main/Tasks).
 
-# Контактная информация
+# Contact information
 |Name|Contribution to the project|Email|
 |---|---|---|
-|Polina|||
-|Dubinin Viktor Nikolaevich||| 
-|Muromsky Dmitry Alexandrovich|Development of graphic editors|gumgumich84095@gmail.com|
-|Kobzev Maxim Igorevich|Development of a graphical language interpreter|faggerezzz@gmail.com|
+|Polina Ovsiannikova|Project manager|polina.ovsiannikova@aalto.fi|
+|Dubinin Viktor|Advisor|dubinin.victor@gmail.com| 
+|Muromsky Dmitry|Developer|gumgumich84095@gmail.com|
+|Kobzev Maxim|Developer|faggerezzz@gmail.com|
