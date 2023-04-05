@@ -1,38 +1,38 @@
 # SPARQL V2.0
-Для версии программы 0.1
+For the program version 0.1
 
-# Основной функционал:
-	Программа создана для облегчения работы пользователей с SPARQL запросами: 
-- [ ] В программе можно создавать SPARQL запросы с помощью графического редактора SPARQL. 
-- [ ] Можно производить обработку результатов SPARQL запросов с помощью как уже имеющихся блоков, так и кастомных ( созданных вами ).
+# Basic functionality
+The program is designed to facilitate the work of users with SPARQL queries:
+- [ ] In the program, you can create SPARQL queries using the SPARQL graphical editor.
+- [ ] You can process the results of SPARQL queries using both existing blocks and custom ones (created by you).
 
-# Требования к ОС
-- [ ] Работа программы гарантируется на операционных системах Windows 10 и Ubuntu 22.10, на других операционных системах работа допускается, но не гарантируется.
-- [ ] Для работы программы необходимо не менее 500 Мб свободной оперативной памяти.
-- [ ] Для ОС на Linux-ядре требуется установить библиотеку graphviz 
+# OS Requirements
+- [ ] The program is guaranteed to work on Windows 10 and Ubuntu 22.10 operating systems, on other operating systems, work is allowed, but not guaranteed.
+- [ ] For the program to work, at least 500 MB of free RAM is required.
+- [ ] For an OS running on a Linux kernel, you need to install the graphviz library.
 
-# Как установить 
-- [ ] Windows 10: В папке Executable находятся установщики программы, установка и работа гарантируется на чистой системе ( без дополнительной установки сторонних программ ).
-- [ ] Ubuntu 22.10: Установка производится из исходников, вам потребуются установить программу QtCreator не ниже версии 5.0.2, а также установить дополнительные библиотеки с помощью комманд: 
+# How to install
+- [ ] Windows 10: The Executable folder contains the program installers, installation and operation are guaranteed on a clean system (without additional installation of third-party programs).
+- [ ] Ubuntu 22.10: Installation is done from source, you will need to install the Qt Creator program at least version 5.0.2, as well as install additional libraries using the command:
 - - [ ] sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
 - - [ ] sudo apt-get install qt5-qmake qtdeclarative5-dev qtscript5-dev libqt5svg5-dev
 - - [ ] sudo apt-get install graphviz-dev
 
-# Запуск
-- [ ] Windows 10: Запуск производится с помощью исполняемого файла ".exe", который появился в папке с установленной программой. 
-- [ ] Ubuntu 22.10: Запустить исполняемый файл, который получился при сборке проекта.
+# How to run
+- [ ] Windows 10: The startup is performed using the executable file ".exe", which appeared in the folder with the installed program. 
+- [ ] Ubuntu 22.10: Run the executable file that was obtained when building the project.
 
-# Описание теста
+# Test Description
 
-# Процесс запуска теста
+# The process of running the test
 
-# Статус проекта
-Проект находится в процессе разработки, поэтому обратите внимание на версию для которой актуален данный ReadMe файл. Посмотреть же дальнейшие планы на улучшение проекта можно посмотреть в [файле](https://github.com/GrumpyMonka/SPARQL_v2.0/blob/main/Tasks).
+# Project status
+The project is under development, so pay attention to the version for which this ReadMe file is relevant. To see further plans for improving the project, you can see in [file](https://github.com/GrumpyMonka/SPARQL_v2.0/blob/main/Tasks).
 
 # Контактная информация
-|Имя|Вклад в проект|e-Mail|
+|Name|Contribution to the project|Email|
 |---|---|---|
-|Полина|||
-|Дубинин Виктор Николаевич||| 
-|Муромский Дмитрий Александрович|Разработка графических редакторов|gumgumich84095@gmail.com|
-|Кобзев Максим Игоревич|Разработака интерпритатора графического языка|faggerezzz@gmail.com|
+|Polina|||
+|Dubinin Viktor Nikolaevich||| 
+|Muromsky Dmitry Alexandrovich|Development of graphic editors|gumgumich84095@gmail.com|
+|Kobzev Maxim Igorevich|Development of a graphical language interpreter|faggerezzz@gmail.com|
