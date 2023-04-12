@@ -109,3 +109,4 @@ RESOURCES += \
     sources.qrc
 
 LIBS += -L"C:\Program Files\Graphviz\lib" -lgvc -lcgraph
+RC_FILE = appIcon.rc
