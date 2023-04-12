@@ -103,7 +103,10 @@ QPolygonF AtomBlockSettings::GetDefaultAreaPolygon()
                        << QPointF( 400, 250 )
                        << QPointF( 400, -250 )
                        << QPointF( -400, -250 )
-                       << QPointF( -400, 250 );
+
+                       << QPointF( -400, 285 )
+                       << QPointF( 400, 285 )
+                       << QPointF( 400, 250 );
 }
 
 AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()

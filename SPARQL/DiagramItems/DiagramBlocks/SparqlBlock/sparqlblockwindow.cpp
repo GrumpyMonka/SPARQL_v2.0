@@ -47,11 +47,31 @@ QWidget* SparqlBlockWindow::addCustomBotWidget()
     QPushButton* button_open_block = new QPushButton( tr( "Open" ), this );
     connect( button_open_block, SIGNAL( clicked() ), this, SLOT( slotOnOpenButtonClicked() ) );
 
-    grid_layout->addWidget( button_create_block, 0, 0 );
-    grid_layout->addWidget( button_save_block, 1, 0 );
-    grid_layout->addWidget( button_open_block, 2, 0 );
+    QPushButton* button_write_query = new QPushButton( tr( "Query" ), this );
+    connect( button_write_query, SIGNAL( clicked() ), this, SLOT( slotCustom() ) );
+
+    grid_layout->addWidget( button_write_query, 0, 0 );
+    grid_layout->addWidget( button_create_block, 1, 0 );
+    grid_layout->addWidget( button_save_block, 2, 0 );
+    grid_layout->addWidget( button_open_block, 3, 0 );
 
     return widget;
+}
+
+void SparqlBlockWindow::slotCustom()
+{
+    if ( nullptr == text_edit )
+    {
+        QGridLayout* grid_widget = new QGridLayout();
+        getWidgetOnGraphicsView()->setLayout( grid_widget );
+        text_edit = new QTextEdit();
+        getWidgetOnGraphicsView()->setGeometry( QRect( ( int )( width() / 2 - 600 ), ( int )( height() / 2 - 500 ), 1200, 1000 ) );
+        grid_widget->addWidget( text_edit, 0, 0 );
+    }
+    else
+    {
+        text_edit->setVisible( !text_edit->isVisible() );
+    }
 }
 
 void SparqlBlockWindow::slotOnCreateButtonClicked()
@@ -114,7 +134,13 @@ void SparqlBlockWindow::setSettings( SparqlBlockSettings* settings )
 SparqlBlockSettings* SparqlBlockWindow::getSettings()
 {
     SparqlBlockSettings* settings = new SparqlBlockSettings();
-    // QVector<DiagramItemAtom*> blocks_area;
+    settings->block_name = line_name_block->text();
+    if ( nullptr != text_edit && text_edit->isVisible() )
+    {
+        settings->query = text_edit->toPlainText();
+        return settings;
+    }
+
     QMap<DiagramItemAtom*, QVector<DiagramItemAtom*>> blocks_area;
     DiagramItemAtom* start_area;
     auto full_items = getScene()->items();
@@ -219,7 +245,6 @@ SparqlBlockSettings* SparqlBlockWindow::getSettings()
     }
 
     settings->start_area = area_list.indexOf( start_area );
-    settings->block_name = line_name_block->text();
     return settings;
 }
 

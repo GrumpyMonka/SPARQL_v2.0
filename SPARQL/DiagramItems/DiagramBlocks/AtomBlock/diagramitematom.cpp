@@ -12,20 +12,11 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, QGraphicsItem* parent, At
         getEndPos().x() - getStartPos().x() - 10, 25 );
     line_edit->setGeometry( rect );
     line_edit->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-    line_edit->setStyleSheet( QString( "QLineEdit {"
-                                       "border-width: 1px;"
-                                       "border-style: solid;"
-                                       "border-color: rgb(255, 255, 255);"
-                                       "font-size: 12px;"
-                                       "color: %1;"
-                                       "}" )
-                                  .arg( settings->color_text ) );
 
     proxy_line_edit->setWidget( line_edit );
 
     setItemPolygon( settings->polygon );
     setText( settings->text );
-    line_edit->setVisible( settings->flag_text );
     type_block = settings->type_block;
     support_add_item = settings->support_add_item;
     setZValue( settings->z_value );
@@ -35,22 +26,59 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, QGraphicsItem* parent, At
         setBrush( Qt::white );
     }
 
+    if ( DEFAULT_AREA == settings->type_block )
+    {
+        proxy_label = new QGraphicsProxyWidget( this );
+        label = new QLabel( "Filter: " );
+        label->setStyleSheet( "background-color: white;" );
+        proxy_label->setWidget( label );
+        proxy_label->setPos( getStartPos().x() + 5, getEndPos().y() - 25 );
+        proxy_line_edit->setPos( getStartPos().x() + 55, getEndPos().y() - 28 );
+        line_edit->setMinimumWidth( 300 );
+        line_edit->setAlignment( Qt::AlignLeft );
+    }
+    else
+    {
+        line_edit->setVisible( settings->flag_text );
+        line_edit->setStyleSheet( QString( "QLineEdit {"
+                                           "border-width: 1px;"
+                                           "border-style: solid;"
+                                           "border-color: rgb(255, 255, 255);"
+                                           "font-size: 12px;"
+                                           "color: %1;"
+                                           "}" )
+                                      .arg( settings->color_text ) );
+    }
+
     delete settings;
+}
+
+void DiagramItemAtom::setPosLineEdit( const QPointF& pos )
+{
+    proxy_line_edit->setPos( pos );
 }
 
 void DiagramItemAtom::setItemPolygon( QPolygonF& polygon )
 {
+    my_polygon = polygon;
     setPolygon( polygon );
 }
 
 AtomBlockSettings* DiagramItemAtom::getSettings()
 {
     auto settings = new AtomBlockSettings();
-    settings->text = getText();
     settings->polygon = polygon();
     settings->type_block = type_block;
     settings->flag_text = line_edit->isVisible();
     settings->pos = pos();
+    if ( DEFAULT_AREA == type_block )
+    {
+        settings->filter = getText();
+    }
+    else
+    {
+        settings->text = getText();
+    }
     return settings;
 }
 

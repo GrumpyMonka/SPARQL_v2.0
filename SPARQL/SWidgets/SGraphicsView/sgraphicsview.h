@@ -30,6 +30,7 @@ public:
     void setDiagramScene( DiagramScene* );
     void createSidePanel();
     void removeSelectedGraphicsItems();
+    QWidget* getWidgetOnGraphicsView();
 
     DiagramScene* getScene();
 
@@ -39,6 +40,7 @@ public slots:
     virtual void slotOnCreateButtonClicked();
     virtual void slotOnSaveButtonClicked();
     virtual void slotOnOpenButtonClicked();
+    virtual void slotCustom();
     QString openFile();
     void saveFile( const QString& );
 
@@ -60,6 +62,7 @@ signals:
     void ERROR( QString );
 
 private:
+    QWidget* widget_on_view;
     DiagramScene* diagram_scene;
     QMenu* context_menu;
     QGraphicsView* graphics_view;

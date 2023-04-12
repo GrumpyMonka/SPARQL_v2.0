@@ -25,7 +25,14 @@ void SGraphicsView::createDiagramView()
     grid_layout->addWidget( graphics_view, 0, 0 );
     grid_layout->addWidget( group_box, 0, 1 );
 
+    widget_on_view = new QWidget( graphics_view );
+
     setDiagramScene( createDiagramScene() );
+}
+
+QWidget* SGraphicsView::getWidgetOnGraphicsView()
+{
+    return widget_on_view;
 }
 
 void SGraphicsView::slotOnCreateButtonClicked()
@@ -39,6 +46,11 @@ void SGraphicsView::slotOnSaveButtonClicked()
 }
 
 void SGraphicsView::slotOnOpenButtonClicked()
+{
+    // empty
+}
+
+void SGraphicsView::slotCustom()
 {
     // empty
 }

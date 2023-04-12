@@ -25,6 +25,7 @@ public:
     QString color_text;
 
     QString type_block;
+    QString filter;
 
     bool transparent_background;
 

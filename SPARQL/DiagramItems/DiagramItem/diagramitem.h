@@ -113,11 +113,12 @@ public:
     static DiagramItem* FactoryDiagramItem( QMenu* context_menu,
         DiagramItemSettings* settings, QGraphicsItem* parent = 0 );
 
+    void contextMenuShow( QGraphicsSceneMouseEvent* mouseEvent );
+
 public slots:
     void setOutputText( const QString& output_text );
 
 protected:
-    void contextMenuEvent( QGraphicsSceneContextMenuEvent* event ) override;
     QVariant itemChange( GraphicsItemChange change, const QVariant& value ) override;
 
 protected:

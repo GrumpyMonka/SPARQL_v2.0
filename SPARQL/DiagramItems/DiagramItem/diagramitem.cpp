@@ -141,11 +141,12 @@ void DiagramItem::addArrow( DiagramArrow* arrow )
     arrows.append( arrow );
 }
 
-void DiagramItem::contextMenuEvent( QGraphicsSceneContextMenuEvent* event )
+void DiagramItem::contextMenuShow( QGraphicsSceneMouseEvent* mouseEvent )
 {
     scene()->clearSelection();
     setSelected( true );
-    my_context_menu->exec( event->screenPos() );
+    if ( nullptr != my_context_menu )
+        my_context_menu->exec( mouseEvent->screenPos() );
 }
 
 QVariant DiagramItem::itemChange( GraphicsItemChange change, const QVariant& value )

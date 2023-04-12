@@ -19,11 +19,14 @@ public:
     AtomBlockSettings* getSettings() override;
     void setText( const QString& text );
     QString getText();
+    void setPosLineEdit( const QPointF& );
 
 private:
     QLineEdit* line_edit;
     QGraphicsProxyWidget* proxy_line_edit;
     QString type_block;
+    QGraphicsProxyWidget* proxy_label;
+    QLabel* label;
 };
 
 #endif // DIAGRAMITEMATOM_H

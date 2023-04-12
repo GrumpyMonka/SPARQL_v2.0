@@ -33,6 +33,7 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonObject& object )
         limit = body["Limit"].toInt();
         start_area = body["Start_Area"].toInt();
         pos = pointFromJsonObject( body["Pos"] );
+        query = body["Query"].toString();
 
         QJsonArray areas_array = body["Areas"].toArray();
         for ( const QJsonValue& area : areas_array )
@@ -56,6 +57,8 @@ void SparqlBlockSettings::setSettingFromJson( const QJsonObject& object )
 
             area_saver.settings = new AtomBlockSettings();
             area_saver.settings->setSettingFromJson( settings.toObject() );
+            area_saver.filter = area["Filter"].toString();
+
             areas.push_back( area_saver );
         }
 
@@ -94,6 +97,7 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
     body.insert( "Limit", limit );
     body.insert( "Start_Area", start_area );
     body.insert( "Pos", jsonFromPointF( pos ) );
+    body.insert( "Query", query );
 
     body.insert( "Lines", getJsonArrayFromLineSaver( lines ) );
 
@@ -101,6 +105,7 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
     for ( const auto& area : areas )
     {
         QJsonObject area_obj;
+        area_obj.insert( "Filter", area.filter );
         area_obj.insert( "Settings", area.settings->getJsonFromSetting() );
         area_obj.insert( "Lines", getJsonArrayFromLineSaver( area.lines ) );
         QJsonArray blocks_array;
@@ -121,6 +126,7 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
 
 QString SparqlBlockSettings::getScript()
 {
+
     QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
                      "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
                      "xmlHttp.open(\"POST\", \"/\");\n"
@@ -135,6 +141,12 @@ QString SparqlBlockSettings::getScript()
                       "PREFIX : <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA_project#>\n"
                       "PREFIX USEPR: <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA/USEPR#>\n\n"
                       "SELECT *";
+
+    if ( !query.isEmpty() )
+    {
+        script = script + "\"query=" + QUrl::toPercentEncoding( query ) + "\");\ny.push(answer);";
+        return script;
+    }
 
     QString body = "";
     QMap<int, QString> stack = { { start_area, "" } };
@@ -156,6 +168,10 @@ QString SparqlBlockSettings::getScript()
                 + area.blocks.at( line.end_block )->text;
             str += ".\n";
             area_str += str;
+        }
+        if ( !area.filter.isEmpty() )
+        {
+            area_str += "FILTER ( " + area.filter + ")\n";
         }
         area_str += "}\n";
         body += area_str;

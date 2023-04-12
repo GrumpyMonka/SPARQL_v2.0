@@ -51,56 +51,64 @@ DiagramArrow* DiagramScene::createArrow( DiagramItem* startItem, DiagramItem* en
 
 void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
-    if ( mouseEvent->button() != Qt::LeftButton )
-        return;
-
-    DiagramItem* item;
-    auto items_for_add = items( mouseEvent->scenePos() );
-    bool flag_add = false;
-    switch ( scene_mode )
+    if ( mouseEvent->button() == Qt::LeftButton )
     {
-    case InsertItem:
-        for ( auto& parent_item : items_for_add )
+        DiagramItem* item;
+        auto items_for_add = items( mouseEvent->scenePos() );
+        bool flag_add = false;
+        switch ( scene_mode )
         {
-            if ( DiagramItem::CheckItemOnDiagramItem( parent_item->type() )
-                && static_cast<DiagramItem*>( parent_item )->getSupportAddItem() )
+        case InsertItem:
+            for ( auto& parent_item : items_for_add )
             {
-                item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert, parent_item );
-                flag_add = true;
-                item->setPos( mouseEvent->scenePos() - parent_item->pos() );
-                break;
-            }
-        }
-        if ( !flag_add )
-        {
-            item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert );
-            addItem( item );
-            if ( DiagramItem::CompositeItemType == item->type() )
-            {
-                auto arrows = item->getArrows();
-                for ( auto& arrow : arrows )
+                if ( DiagramItem::CheckItemOnDiagramItem( parent_item->type() )
+                    && static_cast<DiagramItem*>( parent_item )->getSupportAddItem() )
                 {
-                    addItem( arrow );
-                    arrow->updatePosition();
+                    item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert, parent_item );
+                    flag_add = true;
+                    item->setPos( mouseEvent->scenePos() - parent_item->pos() );
+                    break;
                 }
-            };
-            item->setPos( mouseEvent->scenePos() );
+            }
+            if ( !flag_add )
+            {
+                item = DiagramItem::FactoryDiagramItem( my_context_menu, item_for_insert );
+                addItem( item );
+                if ( DiagramItem::CompositeItemType == item->type() )
+                {
+                    auto arrows = item->getArrows();
+                    for ( auto& arrow : arrows )
+                    {
+                        addItem( arrow );
+                        arrow->updatePosition();
+                    }
+                };
+                item->setPos( mouseEvent->scenePos() );
+            }
+            setMode( MoveItem );
+            // emit itemSelected( item );
+            break;
+        case InsertArrow:
+            line_for_arrow = new QGraphicsLineItem( QLineF( mouseEvent->scenePos(),
+                mouseEvent->scenePos() ) );
+            line_for_arrow->setPen( QPen( Qt::black, 2 ) );
+            line_for_arrow->setZValue( 1000 );
+            addItem( line_for_arrow );
+            break;
+        case MoveItem:
+            break;
+        default:;
         }
-        setMode( MoveItem );
-        // emit itemSelected( item );
-        break;
-    case InsertArrow:
+    }
+    else if ( mouseEvent->button() == Qt::RightButton )
+    {
         line_for_arrow = new QGraphicsLineItem( QLineF( mouseEvent->scenePos(),
             mouseEvent->scenePos() ) );
         line_for_arrow->setPen( QPen( Qt::black, 2 ) );
         line_for_arrow->setZValue( 1000 );
         addItem( line_for_arrow );
-        break;
-    case MoveItem:
-        break;
-    default:;
+        setMode( InsertArrow );
     }
-
     /*
         foreach ( QGraphicsItem* temp, this->selectedItems() )
         {
@@ -210,15 +218,22 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
             end = getParentItem( end );
 
             if ( DiagramItem::CheckItemOnDiagramItem( start->type() )
-                && DiagramItem::CheckItemOnDiagramItem( end->type() )
-                && start != end )
+                && DiagramItem::CheckItemOnDiagramItem( end->type() ) )
             {
-                createArrow( static_cast<DiagramItem*>( start ),
-                    static_cast<DiagramItem*>( end ) );
+                if ( start == end && nullptr != start )
+                {
+                    static_cast<DiagramItem*>( start )->contextMenuShow( mouseEvent );
+                }
+                else
+                {
+                    createArrow( static_cast<DiagramItem*>( start ),
+                        static_cast<DiagramItem*>( end ) );
+                }
             }
         }
     }
     line_for_arrow = 0;
+    setMode( MoveItem );
     QGraphicsScene::mouseReleaseEvent( mouseEvent );
 }
 

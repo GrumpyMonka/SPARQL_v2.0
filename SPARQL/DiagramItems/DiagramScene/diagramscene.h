@@ -14,6 +14,7 @@ class DiagramScene : public QGraphicsScene
 public:
     enum SceneMode
     {
+        None,
         InsertItem,
         InsertArrow,
         MoveItem

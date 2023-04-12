@@ -24,6 +24,7 @@ public:
         QVector<AtomBlockSettings*> blocks;
         QVector<LineSaver> lines;
         AtomBlockSettings* settings;
+        QString filter;
     };
 
     int limit;
@@ -32,6 +33,7 @@ public:
 
     QVector<AreaSaver> areas;
     int start_area;
+    QString query;
 
     void setSettingFromJson( const QJsonObject& object ) override;
     QJsonObject getJsonFromSetting() override;

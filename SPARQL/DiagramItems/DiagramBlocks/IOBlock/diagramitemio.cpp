@@ -30,7 +30,7 @@ DiagramItemIO::DiagramItemIO( QMenu* context_menu, QGraphicsItem* parent, IOBloc
 
     if ( IOBlockSettings::Input == type_block )
     {
-        setBrush( Qt::yellow );
+        setBrush( Qt::green );
     }
     else
     {

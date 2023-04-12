@@ -1,6 +1,8 @@
 #ifndef SPARQLBLOCKWINDOW_H
 #define SPARQLBLOCKWINDOW_H
 
+#include <QTextEdit>
+
 #include <diagramitematom.h>
 #include <sgraphicsview.h>
 #include <sparqlblocksettings.h>
@@ -21,6 +23,7 @@ public slots:
     void slotOnCreateButtonClicked() override;
     void slotOnSaveButtonClicked() override;
     void slotOnOpenButtonClicked() override;
+    void slotCustom() override;
 
 private:
     QWidget* addCustomWidget() override;
@@ -30,6 +33,7 @@ private:
     void createDefaultcScene();
     void clearScene();
     bool CheckCollisionArea( DiagramItemAtom* item, DiagramItemAtom* area );
+    QTextEdit* text_edit = nullptr;
 };
 
 #endif // SPARQLBLOCKWINDOW_H
