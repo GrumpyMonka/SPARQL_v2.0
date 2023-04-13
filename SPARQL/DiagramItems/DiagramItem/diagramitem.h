@@ -51,6 +51,7 @@
 #ifndef DIAGRAMITEM_H
 #define DIAGRAMITEM_H
 
+#include <QApplication>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsProxyWidget>
 #include <QLabel>
@@ -101,6 +102,8 @@ public:
     bool getSupportAddItem();
     void setAllowLineToChild( bool );
     bool getAllowLineToChild();
+    void setAllowResize( bool );
+    bool getAllowResize();
 
     QVector<QPair<DiagramItem*, DiagramItem*>> getDependecies();
     void setDependecies( QVector<QPair<DiagramItem*, DiagramItem*>> );
@@ -117,6 +120,7 @@ public:
 
 public slots:
     void setOutputText( const QString& output_text );
+    void mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent ) override;
 
 protected:
     QVariant itemChange( GraphicsItemChange change, const QVariant& value ) override;
@@ -127,6 +131,7 @@ protected:
     QPolygonF my_polygon;
     bool support_add_item;
     bool allow_line_to_child;
+    bool allow_resize = false;
     QVector<QPair<DiagramItem*, DiagramItem*>> dependencies;
 };
 

@@ -96,6 +96,10 @@ void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
             addItem( line_for_arrow );
             break;
         case MoveItem:
+            if ( resize_item != nullptr )
+            {
+                setMode( Resize );
+            }
             break;
         default:;
         }
@@ -124,17 +128,39 @@ void DiagramScene::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
 
 void DiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
+
     if ( InsertArrow == scene_mode && 0 != line_for_arrow )
     {
         QLineF new_line( line_for_arrow->line().p1(), mouseEvent->scenePos() );
         line_for_arrow->setLine( new_line );
     }
-    else if ( MoveItem == scene_mode && !this->selectedItems().empty() )
+    else if ( MoveItem == scene_mode )
     {
-        QGraphicsScene::mouseMoveEvent( mouseEvent );
-    }
-    else
-    {
+        QApplication::restoreOverrideCursor();
+        resize_item = nullptr;
+        auto selected_items = items();
+        for ( auto item : selected_items )
+        {
+            if ( DiagramItem::CheckItemOnDiagramItem( item->type() ) )
+            {
+
+                auto diagram_item = static_cast<DiagramItem*>( item );
+                if ( diagram_item->getAllowResize() )
+                {
+                    auto right_diff = mouseEvent->scenePos().x() - ( diagram_item->pos().x() + diagram_item->getEndPos().x() * diagram_item->scale() );
+                    auto bottom_diff = mouseEvent->scenePos().y() - ( diagram_item->pos().y() + diagram_item->getEndPos().y() * diagram_item->scale() );
+                    auto offset = 5;
+                    if ( qAbs( right_diff ) <= offset )
+                    {
+                        if ( qAbs( bottom_diff ) <= offset )
+                        {
+                            QApplication::setOverrideCursor( Qt::SizeFDiagCursor );
+                            resize_item = diagram_item;
+                        }
+                    }
+                }
+            }
+        }
         auto blocks = items();
         for ( auto block : blocks )
         {
@@ -161,17 +187,14 @@ void DiagramScene::mouseMoveEvent( QGraphicsSceneMouseEvent* mouseEvent )
                 }
             }
         }
-    }
 
-    /*
-    foreach ( QGraphicsItem* temp, this->selectedItems() )
+        QGraphicsScene::mouseMoveEvent( mouseEvent );
+    }
+    else if ( scene_mode == Resize )
     {
-        if ( DiagramItem::CheckItemOnDiagramItem( temp->type() ) )
-        {
-            emit itemSelected( static_cast<DiagramItem*>( temp ) );
-            break;
-        }
-    }*/
+        double diff_x = ( mouseEvent->scenePos().x() - ( resize_item->getStartPos().x() * resize_item->scale() + resize_item->pos().x() ) ) / ( resize_item->boundingRect().width() );
+        resize_item->setScale( diff_x );
+    }
 }
 
 QGraphicsItem* DiagramScene::getParentItem( QGraphicsItem* item )
@@ -234,6 +257,7 @@ void DiagramScene::mouseReleaseEvent( QGraphicsSceneMouseEvent* mouseEvent )
     }
     line_for_arrow = 0;
     setMode( MoveItem );
+    resize_item = nullptr;
     QGraphicsScene::mouseReleaseEvent( mouseEvent );
 }
 

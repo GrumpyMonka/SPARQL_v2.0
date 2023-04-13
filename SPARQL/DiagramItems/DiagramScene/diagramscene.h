@@ -17,7 +17,8 @@ public:
         None,
         InsertItem,
         InsertArrow,
-        MoveItem
+        MoveItem,
+        Resize
     };
 
     explicit DiagramScene( QObject* parent = nullptr );
@@ -44,6 +45,7 @@ protected:
 
 private:
     SceneMode scene_mode;
+    DiagramItem* resize_item;
     DiagramItemSettings* item_for_insert;
     QMenu* my_context_menu;
     QGraphicsLineItem* line_for_arrow;

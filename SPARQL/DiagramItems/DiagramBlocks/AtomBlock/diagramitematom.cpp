@@ -25,6 +25,7 @@ DiagramItemAtom::DiagramItemAtom( QMenu* context_menu, QGraphicsItem* parent, At
     {
         setBrush( Qt::white );
     }
+    setAllowResize( settings->support_resize );
 
     if ( DEFAULT_AREA == settings->type_block )
     {

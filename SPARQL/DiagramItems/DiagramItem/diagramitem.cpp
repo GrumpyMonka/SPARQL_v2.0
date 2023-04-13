@@ -141,6 +141,31 @@ void DiagramItem::addArrow( DiagramArrow* arrow )
     arrows.append( arrow );
 }
 
+void DiagramItem::setAllowResize( bool flag )
+{
+    allow_resize = flag;
+}
+
+bool DiagramItem::getAllowResize()
+{
+    return allow_resize;
+}
+
+void DiagramItem::mousePressEvent( QGraphicsSceneMouseEvent* mouseEvent )
+{
+    if ( mouseEvent->button() == Qt::LeftButton )
+    {
+        if ( mouseEvent->pos().x() >= getEndPos().x() - 5 )
+        {
+            QApplication::setOverrideCursor( Qt::SizeFDiagCursor );
+        }
+        else
+        {
+            QApplication::restoreOverrideCursor();
+        }
+    }
+}
+
 void DiagramItem::contextMenuShow( QGraphicsSceneMouseEvent* mouseEvent )
 {
     scene()->clearSelection();
@@ -169,7 +194,7 @@ QVector<DiagramArrow*> DiagramItem::getArrows()
 
 QVector<QPair<DiagramItem*, DiagramItem*>> DiagramItem::getDependecies()
 {
-    if ( dependencies.empty() )
+    /*if ( dependencies.empty() )
     {
         QVector<QPair<DiagramItem*, DiagramItem*>> data;
         auto arrows = getEndArrows();
@@ -178,7 +203,7 @@ QVector<QPair<DiagramItem*, DiagramItem*>> DiagramItem::getDependecies()
             data.push_back( { arrow->startItem(), this } );
         }
         return data;
-    }
+    }*/
     return dependencies;
 }
 

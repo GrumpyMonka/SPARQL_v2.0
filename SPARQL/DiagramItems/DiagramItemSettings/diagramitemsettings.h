@@ -25,6 +25,7 @@ public:
     QString block_name;
     QPixmap pixmap;
     bool support_add_item = false;
+    bool support_resize = false;
     int z_value;
     QPointF pos;
 

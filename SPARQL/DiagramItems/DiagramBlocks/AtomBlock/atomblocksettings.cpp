@@ -121,6 +121,7 @@ AtomBlockSettings* AtomBlockSettings::GetAreaAtomBlock()
     settings->pixmap = settings->image();
     settings->transparent_background = false;
     settings->support_add_item = true;
+    settings->support_resize = true;
     settings->z_value = 0;
     return settings;
 }
