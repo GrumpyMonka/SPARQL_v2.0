@@ -41,6 +41,7 @@ public:
     QJsonArray getJsonArrayFromLineSaver( const QVector<LineSaver>& );
     void clear();
     QString getScript() override;
+    QString getQuery();
 
     static SparqlBlockSettings* CreateTemplateSparqlSettings();
 };

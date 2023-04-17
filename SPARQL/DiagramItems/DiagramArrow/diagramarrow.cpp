@@ -129,6 +129,7 @@ void DiagramArrow::paint( QPainter* painter, const QStyleOptionGraphicsItem*,
 void DiagramArrow::mouseDoubleClickEvent( QGraphicsSceneMouseEvent* mouseEvent )
 {
     line_edit->setVisible( true );
+    line_edit->setText( "->text<-" );
 }
 
 void DiagramArrow::setText( const QString& str )

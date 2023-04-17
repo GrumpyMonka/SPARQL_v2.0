@@ -65,12 +65,26 @@ void SparqlBlockWindow::slotCustom()
         QGridLayout* grid_widget = new QGridLayout();
         getWidgetOnGraphicsView()->setLayout( grid_widget );
         text_edit = new QTextEdit();
+        text_edit->setStyleSheet( "color: black;" );
+        auto settings = getSettings();
+        text_edit->setText( settings->getQuery() );
+        delete settings;
         getWidgetOnGraphicsView()->setGeometry( QRect( ( int )( width() / 2 - 600 ), ( int )( height() / 2 - 500 ), 1200, 1000 ) );
         grid_widget->addWidget( text_edit, 0, 0 );
     }
+    else if ( text_edit->isHidden() )
+
+    {
+        text_edit->show();
+        getWidgetOnGraphicsView()->setGeometry( QRect( ( int )( width() / 2 - 600 ), ( int )( height() / 2 - 500 ), 1200, 1000 ) );
+        auto settings = getSettings();
+        text_edit->setText( settings->getQuery() );
+        delete settings;
+    }
     else
     {
-        text_edit->setVisible( !text_edit->isVisible() );
+        getWidgetOnGraphicsView()->setGeometry( QRect( 0, 0, 0, 0 ) );
+        text_edit->hide();
     }
 }
 

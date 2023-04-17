@@ -124,15 +124,12 @@ QJsonObject SparqlBlockSettings::getJsonFromSetting()
     return json_object;
 }
 
-QString SparqlBlockSettings::getScript()
+QString SparqlBlockSettings::getQuery()
 {
-
-    QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
-                     "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
-                     "xmlHttp.open(\"POST\", \"/\");\n"
-                     "xmlHttp.setRequestHeader(\"Connection\", \"keep-alive\");\n"
-                     "xmlHttp.setRequestHeader(\"Accept\", \"application/sparql-results+json\");\n"
-                     "var answer = xmlHttp.send(";
+    if ( !query.isEmpty() )
+    {
+        return query;
+    }
 
     QString request = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                       "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
@@ -141,12 +138,6 @@ QString SparqlBlockSettings::getScript()
                       "PREFIX : <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA_project#>\n"
                       "PREFIX USEPR: <http://www.semanticweb.org/SEARCH/ontologies/2021/4/OICA/USEPR#>\n\n"
                       "SELECT *";
-
-    if ( !query.isEmpty() )
-    {
-        script = script + "\"query=" + QUrl::toPercentEncoding( query ) + "\");\ny.push(answer);";
-        return script;
-    }
 
     QString body = "";
     QMap<int, QString> stack = { { start_area, "" } };
@@ -189,8 +180,20 @@ QString SparqlBlockSettings::getScript()
                "{\n";
     request += "  " + body;
     request += "} LIMIT " + QString::number( limit );
+    return request;
+}
 
-    script = script + "\"query=" + QUrl::toPercentEncoding( request ) + "\");\ny.push(answer);";
+QString SparqlBlockSettings::getScript()
+{
+
+    QString script = "var xmlHttp = new XMLHttpRequest(network);\n"
+                     "xmlHttp.setUrl(\"http://localhost:3030/nuclear/query\");\n"
+                     "xmlHttp.open(\"POST\", \"/\");\n"
+                     "xmlHttp.setRequestHeader(\"Connection\", \"keep-alive\");\n"
+                     "xmlHttp.setRequestHeader(\"Accept\", \"application/sparql-results+json\");\n"
+                     "var answer = xmlHttp.send(";
+
+    script = script + "\"query=" + QUrl::toPercentEncoding( getQuery() ) + "\");\ny.push(answer);";
 
     return script;
 }
